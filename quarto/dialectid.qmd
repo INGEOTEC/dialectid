@@ -1,0 +1,16 @@
+--- 
+title: "Dialect Identification (dialectid)"
+format: 
+  dashboard:
+    logo: images/ingeotec.png
+    nav-buttons: [github]
+    theme: cosmo
+---
+
+# Introduction
+
+Computational models for dialect identification.
+
+# Languages
+
+# Usage
