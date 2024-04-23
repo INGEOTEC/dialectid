@@ -20,18 +20,6 @@ Computational models for dialect identification.
 # Performance
 
 ## Column {.tabset}
-
-<!-- ```{python}
-#| echo: false
-#| title: Arabic (ar)
-import pandas as pd
-import seaborn as sns
-df = pd.read_csv('data/ar-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = sns.relplot(df2, x='Country', y='Recall', hue='Training Size')
-fig.set(xticklabels=[])
-``` -->
-
 ```{python}
 #| echo: false
 #| title: Arabic (ar)

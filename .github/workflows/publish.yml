@@ -31,12 +31,11 @@ jobs:
           show-channel-urls: true
       - name: Install dependencies
         run: |
-          conda install --yes numpy scipy scikit-learn nltk evomsa jupyter wordcloud IngeoML pandas seaborn
-          python -c "import nltk; nltk.download('stopwords')"
+          conda install --yes -c plotly plotly numpy scipy scikit-learn pandas
       - name: Render and Publish
         run: |
           git config --global user.email "mgraffg@ieee.org"
           git config --global user.name "mgraffg"
-          quarto publish gh-pages .  --no-browser          
+          quarto publish gh-pages quarto  --no-browser          
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
