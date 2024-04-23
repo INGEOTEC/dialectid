@@ -38,7 +38,6 @@ fig.show()
 #| echo: false
 #| title: German (de)
 import pandas as pd
-import seaborn as sns
 df = pd.read_csv('data/de-recall.csv', index_col=0)
 df2 = df.sort_values(by=['Training Size', 'Recall'])
 fig = px.bar(df2.astype({'Training Size': str}),
