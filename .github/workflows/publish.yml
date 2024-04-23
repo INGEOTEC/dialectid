@@ -31,11 +31,12 @@ jobs:
           show-channel-urls: true
       - name: Install dependencies
         run: |
-          conda install --yes -c plotly plotly numpy scipy scikit-learn pandas
+          conda install --yes -c plotly plotly numpy scipy scikit-learn pandas jupyter
       - name: Render and Publish
         run: |
           git config --global user.email "mgraffg@ieee.org"
           git config --global user.name "mgraffg"
-          quarto publish gh-pages quarto  --no-browser          
+          cd quarto
+          quarto publish gh-pages .  --no-browser          
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
