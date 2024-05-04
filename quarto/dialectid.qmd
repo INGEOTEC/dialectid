@@ -59,3 +59,16 @@ fig = px.bar(df2.astype({'Training Size': str}),
              color='Training Size')
 fig.show()
 ```
+
+```{python}
+#| echo: false
+#| title: Spanish (es)
+import pandas as pd
+df = pd.read_csv('data/es-recall.csv', index_col=0)
+df2 = df.sort_values(by=['Training Size', 'Recall'])
+fig = px.bar(df2.astype({'Training Size': str}),
+             x='Country', y='Recall',
+             barmode='overlay', 
+             color='Training Size')
+fig.show()
+```
