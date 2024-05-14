@@ -72,3 +72,55 @@ fig = px.bar(df2.astype({'Training Size': str}),
              color='Training Size')
 fig.show()
 ```
+
+```{python}
+#| echo: false
+#| title: French (fr)
+import pandas as pd
+df = pd.read_csv('data/fr-recall.csv', index_col=0)
+df2 = df.sort_values(by=['Training Size', 'Recall'])
+fig = px.bar(df2.astype({'Training Size': str}),
+             x='Country', y='Recall',
+             barmode='overlay', 
+             color='Training Size')
+fig.show()
+```
+
+```{python}
+#| echo: false
+#| title: Hindi (hi)
+import pandas as pd
+df = pd.read_csv('data/hi-recall.csv', index_col=0)
+df2 = df.sort_values(by=['Training Size', 'Recall'])
+fig = px.bar(df2.astype({'Training Size': str}),
+             x='Country', y='Recall',
+             barmode='overlay', 
+             color='Training Size')
+fig.show()
+```
+
+```{python}
+#| echo: false
+#| title: Indonesian (in)
+import pandas as pd
+df = pd.read_csv('data/in-recall.csv', index_col=0)
+df2 = df.sort_values(by=['Training Size', 'Recall'])
+fig = px.bar(df2.astype({'Training Size': str}),
+             x='Country', y='Recall',
+             barmode='overlay', 
+             color='Training Size')
+fig.show()
+```
+
+```{python}
+#| echo: false
+#| title: Italian (it)
+import pandas as pd
+df = pd.read_csv('data/it-recall.csv', index_col=0)
+df2 = df.sort_values(by=['Training Size', 'Recall'])
+fig = px.bar(df2.astype({'Training Size': str}),
+             x='Country', y='Recall',
+             barmode='overlay', 
+             color='Training Size')
+fig.show()
+```
