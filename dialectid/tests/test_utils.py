@@ -20,4 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__version__ = '0.0.1'
+
+from dialectid import utils
+
+
+def test_countries():
+    """Test countries"""
+
+    es = utils.COUNTRIES['es']
+    assert 'es' in es and 'mx' in es

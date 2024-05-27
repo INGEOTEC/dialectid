@@ -20,4 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__version__ = '0.0.1'
+
+COUNTRIES = dict(es=['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
+                     'ar', 'co', 'pe', # Argentina (AR), Colombia (CO), Peru (PE)
+                     've', 'do', 'py', # Venezuela (VE), Dominican Republic (DO), Paraguay (PY)
+                     'ec', 'uy', 'cr', # Ecuador (EC), Uruguay (UY), Costa Rica (CR)
+                     'sv', 'pa', 'gt', # El Salvador (SV), Panama (PA), Guatemala (GT)
+                     'hn', 'ni', 'bo', # Honduras (HN), Nicaragua (NI), Bolivia (BO)
+                     'cu'] # Cuba (CU)
+                ) 
