@@ -29,3 +29,9 @@ def test_countries():
 
     es = utils.COUNTRIES['es']
     assert 'es' in es and 'mx' in es
+    en = utils.COUNTRIES['en']
+    assert 'us' in en and 'zw' in en
+    ar = utils.COUNTRIES['ar']
+    assert 'ye' in ar and 'so' in ar
+    de = utils.COUNTRIES['de']
+    assert 'de' in de and 'ch' in de

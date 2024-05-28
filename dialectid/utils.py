@@ -27,5 +27,38 @@ COUNTRIES = dict(es=['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                      'ec', 'uy', 'cr', # Ecuador (EC), Uruguay (UY), Costa Rica (CR)
                      'sv', 'pa', 'gt', # El Salvador (SV), Panama (PA), Guatemala (GT)
                      'hn', 'ni', 'bo', # Honduras (HN), Nicaragua (NI), Bolivia (BO)
-                     'cu'] # Cuba (CU)
+                     'cu' # Cuba (CU)
+                 ],
+                 en=['ai', 'ag', 'au', # Anguilla, Antigua and Barbuda, Australia
+                     'bs', 'bb', 'bz', # Bahamas, Barbados, Belize
+                     'bm', 'vg', 'cm', # Bermuda, British Virgin Islands, Cameroon
+                     'ca', 'ky', 'ck', # Canada, Cayman Islands, Cook Islands
+                     'dm', 'sz', 'fk', # Dominica, Eswatini, Falkland Islands
+                     'fj', 'gm', 'gz', # Fiji, Gambia, Ghana
+                     'gi', 'gd', 'gu', # Gibraltar, Grenada, Guam
+                     'gg', 'gy', 'in', # Guernsey, Guyana, India
+                     'ie', 'im', 'jm', # Ireland, Isle of Man, Jamaica
+                     'ke', 'ls', 'lr', # Kenya, Lesotho, Liberia
+                     'mw', 'mt', 'mu', # Malawi, Malta, Mauritius
+                     'fm', 'na', 'nz', # Micronesia, Namibia, New Zealand
+                     'ng', 'mp', 'pk', # Nigeria, Northern Mariana Islands, Pakistan
+                     'pw', 'pg', 'ph', # Palau, Papua New Guinea, Philippines
+                     'rw', 'sh', 'kn', # Rwanda, Saint Helena, Ascension, and Tristan da Cunha, Saint Kitts and Nevis
+                     'lc', 'vc', 'sl', # Saint Lucia, Saint  Vincent and the Grenadines, Sierra Leone
+                     'sg', 'sx', 'sb', # Singapore, Sint Maarten, Solomon Islands
+                     'za', 'sd', 'to', # South Africa, Sudan, Tonga
+                     'tt', 'tc', 'ug', # Trinidad y Tobago, Turks and Caicos Islands, Uganda
+                     'gb', 'us', 'vu', # United Kingdom, United States, Vanuatu
+                     'vg', 'vi', 'zm', # Virgin Islands (GB), Virgin Islands (US), Zambia
+                     'zw' # Zimbabwe
+                 ],
+                 ar=['dz', 'bh', 'td', # Algeria, Bahrain, Chad
+                     'dj', 'eg', 'iq', # Djibouti, Egypt, Iraq
+                     'jo', 'kw', 'lb', # Jordan, Kuwait, Lebanon,
+                     'ly', 'mr', 'ma', # Libya, Mauritania, Morocco
+                     'om', 'qa', 'sa', # Oman, Qatar, Saudi Arabia
+                     'so', 'sd', 'sy', # Somalia, Sudan, Syria
+                     'tn', 'ae', 'ye', # Tunisia, United Arab Emirates, Yemen
+                 ],
+                 de=['at', 'de', 'ch'], # Austria, Germany, Switzerland
                 ) 
