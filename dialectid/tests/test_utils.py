@@ -35,3 +35,18 @@ def test_countries():
     assert 'ye' in ar and 'so' in ar
     de = utils.COUNTRIES['de']
     assert 'de' in de and 'ch' in de
+    for lang in ['ca', 'hi', 'in',
+                 'it', 'ja', 'ko',
+                 'pl', 'tl']:
+        assert lang in utils.COUNTRIES
+        _ = utils.COUNTRIES[lang]
+        assert len(_) == 1
+    pt = utils.COUNTRIES['pt']
+    assert 'br' in pt and 'pt' in pt
+    ru = utils.COUNTRIES['ru']
+    assert 'ru' in ru and 'kz' in ru
+    tr = utils.COUNTRIES['tr']
+    assert 'cy' in tr
+    zh = utils.COUNTRIES['zh']
+    assert 'cn' in zh and 'tw' in zh
+
