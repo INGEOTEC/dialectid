@@ -49,4 +49,8 @@ def test_countries():
     assert 'cy' in tr
     zh = utils.COUNTRIES['zh']
     assert 'cn' in zh and 'tw' in zh
+    for k, v in utils.COUNTRIES.items():
+        assert len(k) == 2
+        for i in v:
+            assert len(i) == 2
 
