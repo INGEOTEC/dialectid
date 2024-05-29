@@ -19,6 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+# https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 
 
 COUNTRIES = dict(es=['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
@@ -58,7 +59,17 @@ COUNTRIES = dict(es=['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                      'ly', 'mr', 'ma', # Libya, Mauritania, Morocco
                      'om', 'qa', 'sa', # Oman, Qatar, Saudi Arabia
                      'so', 'sd', 'sy', # Somalia, Sudan, Syria
-                     'tn', 'ae', 'ye', # Tunisia, United Arab Emirates, Yemen
+                     'tn', 'ae', 'ye' # Tunisia, United Arab Emirates, Yemen
                  ],
                  de=['at', 'de', 'ch'], # Austria, Germany, Switzerland
+                 fr=['be', 'bj', 'bf', # Belgium, Benin, Burkina Faso
+                     'cm', 'ca', 'cf', # Cameroon, Canada, Central African Republic
+                     'td', 'km', 'cd', # Chad, Comoros, Congo (Republic)
+                     'cg', 'cl', 'dj', # Congo, Cote d'lvoire, Djibouti
+                     'fr', 'pf', 'ga', # France, French Polynesia, Gabon
+                     'gn', 'ht', 'lu', # Guinea, Haiti, Luxembourg
+                     'ml', 'mc', 'nc', # Mali, Monaco, New Caledonia
+                     'ne', 'rw', 'sn', # Niger, Rwanda, Senegal
+                     'ch', 'tg' # Switzerland, Togo
+                 ]
                 ) 
