@@ -61,6 +61,7 @@ COUNTRIES = dict(es=['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                      'so', 'sd', 'sy', # Somalia, Sudan, Syria
                      'tn', 'ae', 'ye' # Tunisia, United Arab Emirates, Yemen
                  ],
+                 ca=['es'], # Spain
                  de=['at', 'de', 'ch'], # Austria, Germany, Switzerland
                  fr=['be', 'bj', 'bf', # Belgium, Benin, Burkina Faso
                      'cm', 'ca', 'cf', # Cameroon, Canada, Central African Republic
@@ -72,4 +73,11 @@ COUNTRIES = dict(es=['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                      'ne', 'rw', 'sn', # Niger, Rwanda, Senegal
                      'ch', 'tg' # Switzerland, Togo
                  ]
+                 hi=['in'], # India
+                 in=['id'], # Indonesia
+                 it=['it'], # Italy
+                 ja=['jp'], # Japan
+                 ko=['kr'], # Korea
+                 nl=['be', 'nl'], # Belgium, Netherlands
+                 pl=['pl'] # Poland
                 ) 
