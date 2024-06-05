@@ -21,6 +21,13 @@
 # SOFTWARE.
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 
+from EvoMSA.utils import Download
+from microtc.utils import Counter
+from os.path import join, dirname, isdir, isfile
+import gzip
+import os
+
+BASEURL = 'https://github.com/INGEOTEC/dialectid/releases/download/data'
 
 COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                    'ar', 'co', 'pe', # Argentina (AR), Colombia (CO), Peru (PE)
@@ -91,5 +98,28 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
              'zh':['cn', 'sg', 'hk', # China, Singapore, Hong Kong
                    'tw' # Taiwan
              ]
-            } 
-  
+            }
+
+
+def load_bow(lang='es', d=17, func='most_common_by_type'):
+    """Load BoW model from dialectid"""
+
+    def load(filename):
+        try:
+            with gzip.open(filename, 'rb') as fpt:
+                return str(fpt.read(), encoding='utf-8')
+        except Exception:
+            os.unlink(filename)
+            raise Exception(filename)
+        
+    lang = lang.lower().strip()
+    diroutput = join(dirname(__file__), 'models')
+    if not isdir(diroutput):
+        os.mkdir(diroutput)
+    filename = f'{lang}_bow_{func}_{d}.json.gz'        
+    url = f'{BASEURL}/{filename}'
+    output = join(diroutput, filename)
+    if not isfile(output):
+        Download(url, output)
+    return Counter.fromjson(load(output))    
+
