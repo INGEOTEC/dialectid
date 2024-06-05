@@ -35,7 +35,7 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                    'bm', 'vg', 'cm', # Bermuda, British Virgin Islands, Cameroon
                    'ca', 'ky', 'ck', # Canada, Cayman Islands, Cook Islands
                    'dm', 'sz', 'fk', # Dominica, Eswatini, Falkland Islands
-                   'fj', 'gm', 'gz', # Fiji, Gambia, Ghana
+                   'fj', 'gm', 'gh', # Fiji, Gambia, Ghana
                    'gi', 'gd', 'gu', # Gibraltar, Grenada, Guam
                    'gg', 'gy', 'in', # Guernsey, Guyana, India
                    'ie', 'im', 'jm', # Ireland, Isle of Man, Jamaica
