@@ -21,3 +21,5 @@
 # SOFTWARE.
 
 __version__ = '0.0.1'
+
+from dialectid.text_repr import BoW
