@@ -38,32 +38,33 @@ class BoW(EvoMSABoW):
 
     def __init__(self, pretrain: bool=True,
                  v1: bool=False,
-                 estimator_class=LinearSVC,
-                 estimator_kwargs=dict(dual=True,
-                                       class_weight='balanced'),
+                 estimator_kwargs: dict=None,
                  **kwargs):
         assert pretrain
         assert not v1
-        super(BoW, self).__init__(pretrain=pretrain,
-                                  v1=v1, **kwargs)
+        self._bow = None
+        if estimator_kwargs is None:
+            estimator_kwargs = {'dual': True, 'class_weight': 'balanced'}
+        super().__init__(pretrain=pretrain,
+                         estimator_kwargs=estimator_kwargs,
+                         v1=v1, **kwargs)
 
     @property
     def bow(self):
         """BoW"""
 
-        try:
-            bow = self._bow
-        except AttributeError:
-            freq = load_bow(lang=self.lang,
-                            d=self.voc_size_exponent, 
-                            func=self.voc_selection)
-            params = b4msa_params(lang=self.lang,
-                                dim=self._voc_size_exponent)
-            params.update(self.b4msa_kwargs)
-            bow = TextModel(**params)
-            tfidf = TFIDF()
-            tfidf.N = freq.update_calls
-            tfidf.word2id, tfidf.wordWeight = tfidf.counter2weight(freq)
-            bow.model = tfidf
-            self._bow = bow
+        if self._bow is not None:
+            return self._bow
+        freq = load_bow(lang=self.lang,
+                        d=self.voc_size_exponent, 
+                        func=self.voc_selection)
+        params = b4msa_params(lang=self.lang,
+                            dim=self._voc_size_exponent)
+        params.update(self.b4msa_kwargs)
+        bow = TextModel(**params)
+        tfidf = TFIDF()
+        tfidf.N = freq.update_calls
+        tfidf.word2id, tfidf.wordWeight = tfidf.counter2weight(freq)
+        bow.model = tfidf
+        self._bow = bow
         return bow
