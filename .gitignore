@@ -161,3 +161,4 @@ cython_debug/
 
 /.quarto/
 /_site/
+.vscode/settings.json
