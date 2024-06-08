@@ -101,7 +101,10 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
             }
 
 
-def load_bow(lang='es', d=17, func='most_common_by_type'):
+def load_bow(lang: str='es',
+             d: int=17,
+             func: str='most_common_by_type',
+             loc: str=None):
     """Load BoW model from dialectid"""
 
     def load(filename):
@@ -111,12 +114,15 @@ def load_bow(lang='es', d=17, func='most_common_by_type'):
         except Exception:
             os.unlink(filename)
             raise Exception(filename)
-        
+
     lang = lang.lower().strip()
     diroutput = join(dirname(__file__), 'models')
     if not isdir(diroutput):
         os.mkdir(diroutput)
-    filename = f'{lang}_bow_{func}_{d}.json.gz'        
+    if loc is None:
+        filename = f'{lang}_bow_{func}_{d}.json.gz'
+    else:
+        filename = f'{lang}_{loc}_bow_{func}_{d}.json.gz'
     url = f'{BASEURL}/{filename}'
     output = join(diroutput, filename)
     if not isfile(output):

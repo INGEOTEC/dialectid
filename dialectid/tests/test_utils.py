@@ -61,3 +61,5 @@ def test_load_bow():
 
     c = utils.load_bow()
     assert isinstance(c, Counter)
+    c2 = utils.load_bow(loc='mx')
+    assert c.most_common(n=1)[0][1] != c2.most_common(n=1)[0][1]

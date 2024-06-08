@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from sklearn.svm import LinearSVC
 from EvoMSA import BoW as EvoMSABoW
 from EvoMSA.utils import b4msa_params
 from b4msa.textmodel import TextModel
@@ -39,15 +38,26 @@ class BoW(EvoMSABoW):
     def __init__(self, pretrain: bool=True,
                  v1: bool=False,
                  estimator_kwargs: dict=None,
+                 loc: str=None,
                  **kwargs):
         assert pretrain
         assert not v1
         self._bow = None
+        self.loc = loc
         if estimator_kwargs is None:
             estimator_kwargs = {'dual': True, 'class_weight': 'balanced'}
         super().__init__(pretrain=pretrain,
                          estimator_kwargs=estimator_kwargs,
                          v1=v1, **kwargs)
+
+    @property
+    def loc(self):
+        """Location/Country"""
+        return self._loc
+
+    @loc.setter
+    def loc(self, value):
+        self._loc = value
 
     @property
     def bow(self):
@@ -56,10 +66,11 @@ class BoW(EvoMSABoW):
         if self._bow is not None:
             return self._bow
         freq = load_bow(lang=self.lang,
-                        d=self.voc_size_exponent, 
-                        func=self.voc_selection)
+                        d=self.voc_size_exponent,
+                        func=self.voc_selection,
+                        loc=self._loc)
         params = b4msa_params(lang=self.lang,
-                            dim=self._voc_size_exponent)
+                              dim=self._voc_size_exponent)
         params.update(self.b4msa_kwargs)
         bow = TextModel(**params)
         tfidf = TFIDF()
