@@ -15,6 +15,125 @@ Computational models for dialect identification.
 
 # Languages
 
+# Similarity
+
+:::: {.columns}
+::: {.column width='100%'}
+
+## Column {.tabset}
+```{python} 
+#| echo: false 
+
+from dialectid import BoW
+from dialectid.utils import BASEURL, COUNTRIES
+from EvoMSA import BoW as eBoW
+from EvoMSA.utils import Download
+from microtc.utils import tweet_iterator
+from os.path import isfile, join
+import numpy as np
+import json
+
+
+def similarity(lang):
+    cache = join('data', f'{lang}-similarity.json')
+    if isfile(cache):
+        return next(tweet_iterator(cache))
+    _ = Download(f'{BASEURL}/stats-{lang}-train.json', f'stats-{lang}.json')
+    data = next(tweet_iterator(f'stats-{lang}.json'))
+    countries = [country for country in COUNTRIES[lang] + ['ALL']
+                if data[country] > 2**22]
+    tokens = [set(BoW(lang=lang, loc=loc).names)
+            for loc in countries]
+    tokens.append(set(eBoW(lang=lang).names))
+    countries.append('eBoW')
+    sim = np.ones((len(countries), len(countries)))
+    for r in range(len(countries)):
+        for c in range(r + 1, len(countries)):
+            nom = len(tokens[r].intersection(tokens[c]))
+            den = len(tokens[r].union(tokens[c]))
+            sim[r, c] = nom / den
+            sim[c, r] = sim[r, c]
+    with open(cache, 'w') as fpt:
+        print(json.dumps(dict(sim=sim.tolist(),
+                              countries=countries)),
+              file=fpt)
+    return similarity(lang)
+```
+
+```{python} 
+#| echo: false 
+#| title: Arabic (ar)
+
+import plotly.express as px
+
+data = similarity('ar')
+countries = data['countries']
+fig = px.imshow(data['sim'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+```{python} 
+#| echo: false 
+#| title: English (en)
+
+import plotly.express as px
+
+data = similarity('en')
+countries = data['countries']
+fig = px.imshow(data['sim'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+```{python} 
+#| echo: false 
+#| title: Spanish (es)
+
+import plotly.express as px
+
+data = similarity('es')
+countries = data['countries']
+fig = px.imshow(data['sim'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+:::
+::: {.column width='100%'} 
+
+The figures on the left correspond to the Jaccard similarity between the vocabularies estimated from data coming from a particular country.
+
+It also includes the *ALL* vocabulary that corresponds to taking a uniform sample from all the regions, and `eBoW`, which is the vocabulary used in [EvoMSA 2.0](evomsa.readthedocs.io)
+
+For instance, the following code computes the similarity in Spanish between Mexico and Guatemala.
+
+```{python}
+#| echo: true
+
+from dialectid import BoW
+
+mx = BoW(lang='es', loc='mx')
+gt = BoW(lang='es', loc='gt')
+mx_voc = set(mx.names)
+gt_voc = set(gt.names)
+num = len(mx_voc.intersection(gt_voc))
+den = len(mx_voc.union(gt_voc))
+num / den
+```
+
+:::
+::::
+
 # Usage
 
 # Performance
