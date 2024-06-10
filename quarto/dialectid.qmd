@@ -3,29 +3,20 @@ title: "Dialect Identification (dialectid)"
 format: 
   dashboard:
     logo: images/ingeotec.png
+    orientation: columns
     nav-buttons: [github]
     theme: cosmo
 execute:
   freeze: auto    
 ---
 
-# Introduction
-
-Computational models for dialect identification.
-
-# Languages
-
-# Similarity
-
-:::: {.columns}
-::: {.column width='100%'}
-
-## Column {.tabset}
 ```{python} 
 #| echo: false 
+#| include: false
+#| label: setup
 
 from dialectid import BoW
-from dialectid.utils import BASEURL, COUNTRIES
+from dialectid.utils import BASEURL, COUNTRIES, load_bow
 from EvoMSA import BoW as eBoW
 from EvoMSA.utils import Download
 from microtc.utils import tweet_iterator
@@ -42,10 +33,13 @@ def similarity(lang):
     data = next(tweet_iterator(f'stats-{lang}.json'))
     countries = [country for country in COUNTRIES[lang] + ['ALL']
                 if data[country] > 2**22]
-    tokens = [set(BoW(lang=lang, loc=loc).names)
-            for loc in countries]
-    tokens.append(set(eBoW(lang=lang).names))
-    countries.append('eBoW')
+    bows = [BoW(lang=lang, loc=loc) for loc in countries]
+    tokens = [set(bow.names) for bow in bows]
+    vocs = []
+    for country in countries:
+        freq = load_bow(lang=lang, d=17, loc=country)
+        c = np.linalg.norm(list(freq.values()))
+        vocs.append({k: v / c for k, v in freq.items()})
     sim = np.ones((len(countries), len(countries)))
     for r in range(len(countries)):
         for c in range(r + 1, len(countries)):
@@ -53,12 +47,32 @@ def similarity(lang):
             den = len(tokens[r].union(tokens[c]))
             sim[r, c] = nom / den
             sim[c, r] = sim[r, c]
+    cos = np.ones((len(countries), len(countries)))
+    for r in range(len(countries)):
+        for c in range(r + 1, len(countries)):
+            _ = sum([vocs[r][k] * vocs[c][k]
+                     for k in tokens[r].intersection(tokens[c])])
+            cos[r, c] = _
+            cos[c, r] = _
     with open(cache, 'w') as fpt:
         print(json.dumps(dict(sim=sim.tolist(),
+                              cos=cos.tolist(),
                               countries=countries)),
               file=fpt)
     return similarity(lang)
 ```
+
+# Introduction
+
+Computational models for dialect identification.
+
+# Languages
+
+# Similarity
+
+## Column {width="40%"}
+
+### Tabset {.tabset height="50%"} 
 
 ```{python} 
 #| echo: false 
@@ -108,18 +122,67 @@ fig = px.imshow(data['sim'],
 fig.show()
 ```
 
-:::
-::: {.column width='100%'} 
+### Tabset {.tabset height="50%"}
 
-The figures on the left correspond to the Jaccard similarity between the vocabularies estimated from data coming from a particular country.
+```{python} 
+#| echo: false 
+#| title: Arabic (ar)
 
-It also includes the *ALL* vocabulary that corresponds to taking a uniform sample from all the regions, and `eBoW`, which is the vocabulary used in [EvoMSA 2.0](evomsa.readthedocs.io)
+import plotly.express as px
+
+data = similarity('ar')
+countries = data['countries']
+fig = px.imshow(data['cos'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+```{python} 
+#| echo: false 
+#| title: English (en)
+
+import plotly.express as px
+
+data = similarity('en')
+countries = data['countries']
+fig = px.imshow(data['cos'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+```{python} 
+#| echo: false 
+#| title: Spanish (es)
+
+import plotly.express as px
+
+data = similarity('es')
+countries = data['countries']
+fig = px.imshow(data['cos'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+
+## Column {width="60%"} 
+
+The figures on the left correspond to the Jaccard index (top) and Cosine similarity (bottom) between the vocabularies estimated from data coming from a particular country.
 
 For instance, the following code computes the similarity in Spanish between Mexico and Guatemala.
 
 ```{python}
 #| echo: true
 #| eval: false
+#| label: jaccard
 
 from dialectid import BoW
 
@@ -132,8 +195,26 @@ den = len(mx_voc.union(gt_voc))
 num / den
 ```
 
-:::
-::::
+The following code exemplifies the Cosine similarity between Mexico and Guatemala.
+
+```{python} 
+#| echo: true
+#| eval: false
+#| label: cosine
+
+import numpy as np
+from dialectid.utils import load_bow
+
+mx_freq = load_bow(lang='es', d=17, loc='mx')
+_ = np.linalg.norm(list(mx_freq.values()))
+mx_freq = {k: v / _ for k, v in mx_freq.items()}
+gt_freq = load_bow(lang='es', d=17, loc='gt')
+_ = np.linalg.norm(list(gt_freq.values()))
+gt_freq = {k: v / _ for k, v in gt_freq.items()}
+tokens = [token for token in mx_freq if token in gt_freq]
+sum([mx_freq[token] * gt_freq[token]
+     for token in tokens])
+```
 
 # Usage
 
