@@ -119,6 +119,7 @@ For instance, the following code computes the similarity in Spanish between Mexi
 
 ```{python}
 #| echo: true
+#| eval: false
 
 from dialectid import BoW
 
