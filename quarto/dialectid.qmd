@@ -31,15 +31,17 @@ def similarity(lang):
         return next(tweet_iterator(cache))
     _ = Download(f'{BASEURL}/stats-{lang}-train.json', f'stats-{lang}.json')
     data = next(tweet_iterator(f'stats-{lang}.json'))
-    countries = [country for country in COUNTRIES[lang] + ['ALL']
-                if data[country] > 2**22]
+    countries = [country for country in COUNTRIES[lang]
+                 if data[country] > 2**22]
     bows = [BoW(lang=lang, loc=loc) for loc in countries]
+    bows.append(BoW(lang=lang))
     tokens = [set(bow.names) for bow in bows]
     vocs = []
-    for country in countries:
+    for country in countries + [None]:
         freq = load_bow(lang=lang, d=17, loc=country)
         c = np.linalg.norm(list(freq.values()))
         vocs.append({k: v / c for k, v in freq.items()})
+    countries.append('Uniform')        
     sim = np.ones((len(countries), len(countries)))
     for r in range(len(countries)):
         for c in range(r + 1, len(countries)):
@@ -175,7 +177,7 @@ fig.show()
 
 ## Column {width="60%"} 
 
-The figures on the left correspond to the Jaccard index (top) and Cosine similarity (bottom) between the vocabularies estimated from data coming from a particular country. It also includes the *ALL* vocabulary that corresponds to taking a uniform sample from all the regions.
+The figures on the left correspond to the Jaccard index (top) and Cosine similarity (bottom) between the vocabularies estimated from data coming from a particular country. It also includes the *Uniform* (e.g., `BoW(lang='es')`) vocabulary that corresponds to taking a uniform sample from all the regions.
 
 For instance, the following code computes the similarity in Spanish between Mexico and Guatemala.
 
