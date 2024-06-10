@@ -175,7 +175,7 @@ fig.show()
 
 ## Column {width="60%"} 
 
-The figures on the left correspond to the Jaccard index (top) and Cosine similarity (bottom) between the vocabularies estimated from data coming from a particular country.
+The figures on the left correspond to the Jaccard index (top) and Cosine similarity (bottom) between the vocabularies estimated from data coming from a particular country. It also includes the *ALL* vocabulary that corresponds to taking a uniform sample from all the regions.
 
 For instance, the following code computes the similarity in Spanish between Mexico and Guatemala.
 
