@@ -363,6 +363,7 @@ The recall of the different countries can be seen in the figures on the left. Th
 #| caption: Performance in terms of macro-recall
 #| label: tab-macro-recall
 
+from IPython.display import Markdown
 perf = {}
 for lang in ['ar', 'en', 'es']:
     df = pd.read_csv(f'data/{lang}-recall.csv', index_col=0)
@@ -374,5 +375,5 @@ for lang in ['ar', 'en', 'es']:
     df2.loc[mask, 'Country'] = df2.Uniform.loc[mask]
     perf[lang] = df2.mean(axis=0)
 _ = pd.DataFrame(perf).reindex(['EvoMSA', 'Uniform', 'Country'])
-_
+Markdown(_.to_markdown())
 ```
