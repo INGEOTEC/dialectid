@@ -356,7 +356,7 @@ fig.show()
 
 ## Column 
 
-The figures on the left show the recall of the different countries, using three different vocabularies. [EvoMSA](http://evomsa.readthedocs.io) corresponds to the vocabulary estimated in our previous development; Uniform (e.g., `BoW(lang='es')`) is obtained by taking a uniform sample from all the regions; and Country (e.g., `BoW(lang='es', loc='mx')`) is the vocabulary of a particular location. In all the cases, the vocabulary is estimated with  $2^{22}$ Tweets. Of course, there is not enough information for all the cases, so the vocabulary cannot be estimated in that scenario. 
+The figures on the left show the recall of the different countries, using three different vocabularies. [EvoMSA](http://evomsa.readthedocs.io) corresponds to the vocabulary estimated in our previous development; Uniform (e.g., `BoW(lang='es')`) is obtained by taking a uniform sample from all the regions; and Country (e.g., `BoW(lang='es', loc='mx')`) is the vocabulary of a particular location. In all the cases, the vocabulary is estimated with  $2^{22}$ Tweets. Of course, there is not enough information for all the cases. Consequently, the vocabulary is not present for that configuration.
 
 The table below presents the macro-recall for the different languages and models. Since the Country model is not available for all countries, the missing values were filled with the corresponding Uniform's recall to compute the macro-recall for all the countries. 
 
