@@ -356,9 +356,12 @@ fig.show()
 
 ## Column 
 
+The recall of the different countries can be seen in the figures on the left. The table below presents the macro-recall for the Arabic, English, and Spanish languages. 
+
 ```{python} 
 #| echo: false
-#| label: macro-recall
+#| caption: Performance in terms of macro-recall
+#| label: tab-macro-recall
 
 perf = {}
 for lang in ['ar', 'en', 'es']:
