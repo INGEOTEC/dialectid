@@ -229,11 +229,11 @@ sum([mx_freq[token] * gt_freq[token]
 import pandas as pd
 import plotly.express as px
 df = pd.read_csv('data/ar-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -255,11 +255,11 @@ fig.show()
 #| title: English (en)
 import pandas as pd
 df = pd.read_csv('data/en-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -268,11 +268,11 @@ fig.show()
 #| title: Spanish (es)
 import pandas as pd
 df = pd.read_csv('data/es-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -352,4 +352,24 @@ fig = px.bar(df2.astype({'Training Size': str}),
              barmode='overlay', 
              color='Training Size')
 fig.show()
+```
+
+## Column 
+
+```{python} 
+#| echo: false
+#| label: macro-recall
+
+perf = {}
+for lang in ['ar', 'en', 'es']:
+    df = pd.read_csv(f'data/{lang}-recall.csv', index_col=0)
+    df.set_index(['Country', 'System'], inplace=True)
+    df.sort_index(level='Country', inplace=True)
+    df2 = df.unstack()
+    df2.columns = df2.columns.get_level_values(1)
+    mask = df2.Country.isna()
+    df2.loc[mask, 'Country'] = df2.Uniform.loc[mask]
+    perf[lang] = df2.mean(axis=0)
+_ = pd.DataFrame(perf)
+_.reindex(['EvoMSA', 'Uniform', 'Country'])
 ```
