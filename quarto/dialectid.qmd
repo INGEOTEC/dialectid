@@ -242,11 +242,11 @@ fig.show()
 #| title: German (de)
 import pandas as pd
 df = pd.read_csv('data/de-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -281,11 +281,11 @@ fig.show()
 #| title: French (fr)
 import pandas as pd
 df = pd.read_csv('data/fr-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -294,11 +294,11 @@ fig.show()
 #| title: Dutch (nl)
 import pandas as pd
 df = pd.read_csv('data/nl-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -307,11 +307,11 @@ fig.show()
 #| title: Portuguese (pt)
 import pandas as pd
 df = pd.read_csv('data/pt-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -320,11 +320,11 @@ fig.show()
 #| title: Russian (ru)
 import pandas as pd
 df = pd.read_csv('data/ru-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -333,11 +333,11 @@ fig.show()
 #| title: Turkish (tr)
 import pandas as pd
 df = pd.read_csv('data/tr-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -346,17 +346,19 @@ fig.show()
 #| title: Chinese (zh)
 import pandas as pd
 df = pd.read_csv('data/zh-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
 ## Column 
 
-The recall of the different countries can be seen in the figures on the left. The table below presents the macro-recall for the Arabic, English, and Spanish languages. 
+The figures on the left show the recall of the different countries, using three different vocabularies. [EvoMSA](http://evomsa.readthedocs.io) corresponds to the vocabulary estimated in our previous development; Uniform (e.g., `BoW(lang='es')`) is obtained by taking a uniform sample from all the regions; and Country (e.g., `BoW(lang='es', loc='mx')`) is the vocabulary of a particular location. In all the cases, the vocabulary is estimated with  $2^{22}$ Tweets. Of course, there is not enough information for all the cases, so the vocabulary cannot be estimated in that scenario. 
+
+The table below presents the macro-recall for the different languages and models. Since the Country model is not available for all countries, the missing values were filled with the corresponding Uniform's recall to compute the macro-recall for all the countries. 
 
 ```{python} 
 #| echo: false
@@ -364,16 +366,20 @@ The recall of the different countries can be seen in the figures on the left. Th
 #| label: tab-macro-recall
 
 from IPython.display import Markdown
+import pandas as pd
 perf = {}
-for lang in ['ar', 'en', 'es']:
+for lang in ['ar', 'de', 'en',
+             'es', 'fr', 'nl',
+             'pt', 'ru', 'tr', 'zh']:
     df = pd.read_csv(f'data/{lang}-recall.csv', index_col=0)
     df.set_index(['Country', 'System'], inplace=True)
     df.sort_index(level='Country', inplace=True)
     df2 = df.unstack()
     df2.columns = df2.columns.get_level_values(1)
-    mask = df2.Country.isna()
-    df2.loc[mask, 'Country'] = df2.Uniform.loc[mask]
+    if 'Country' in df2.columns:
+        mask = df2.Country.isna()
+        df2.loc[mask, 'Country'] = df2.Uniform.loc[mask]
     perf[lang] = df2.mean(axis=0)
-_ = pd.DataFrame(perf).reindex(['EvoMSA', 'Uniform', 'Country'])
+_ = pd.DataFrame(perf).reindex(['EvoMSA', 'Uniform', 'Country']).T
 Markdown(_.to_markdown())
 ```
