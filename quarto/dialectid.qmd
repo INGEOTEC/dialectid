@@ -373,6 +373,6 @@ for lang in ['ar', 'en', 'es']:
     mask = df2.Country.isna()
     df2.loc[mask, 'Country'] = df2.Uniform.loc[mask]
     perf[lang] = df2.mean(axis=0)
-_ = pd.DataFrame(perf)
-_.reindex(['EvoMSA', 'Uniform', 'Country'])
+_ = pd.DataFrame(perf).reindex(['EvoMSA', 'Uniform', 'Country'])
+_
 ```
