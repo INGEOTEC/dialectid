@@ -20,7 +20,7 @@ jobs:
           tinytex: true
           # version: "pre-release"
       - name: Set up Python
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: test
           auto-update-conda: true
@@ -31,7 +31,7 @@ jobs:
           show-channel-urls: true
       - name: Install dependencies
         run: |
-          conda install --yes -c plotly plotly numpy scipy scikit-learn pandas jupyter
+          conda install --yes -c plotly plotly numpy scipy scikit-learn pandas jupyter evomsa dialectid tabulate
       - name: Render and Publish
         run: |
           git config --global user.email "mgraffg@ieee.org"

@@ -23,6 +23,7 @@
 
 
 from dialectid.text_repr import BoW
+import numpy as np
 
 
 def test_bow():
@@ -32,3 +33,6 @@ def test_bow():
     bow = BoW(lang='es')
     assert isinstance(bow.bow, TextModel)
     X = bow.transform(['Buenos dias'])
+    bow2 = BoW(lang='es', loc='mx')
+    X2 = bow2.transform(['Buenos dias'])
+    assert (X - X2).sum() != 0

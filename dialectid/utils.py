@@ -100,26 +100,48 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
              ]
             }
 
+BOW = {'es': 'dialectid.text_repr.BoW',
+       'en': 'dialectid.text_repr.BoW',
+       'ar': 'dialectid.text_repr.BoW',
+       'de': 'EvoMSA.text_repr.BoW',
+       'fr': 'dialectid.text_repr.BoW',
+       'nl': 'EvoMSA.text_repr.BoW',
+       'pt': 'dialectid.text_repr.BoW',
+       'ru': 'dialectid.text_repr.BoW',
+       'tr': 'EvoMSA.text_repr.BoW',
+       'zh': 'EvoMSA.text_repr.BoW'
+      }
 
-def load_bow(lang='es', d=17, func='most_common_by_type'):
+
+def load_bow(lang: str='es',
+             d: int=17,
+             func: str='most_common_by_type',
+             loc: str=None):
     """Load BoW model from dialectid"""
 
     def load(filename):
+        from microtc.utils import tweet_iterator
+
         try:
-            with gzip.open(filename, 'rb') as fpt:
-                return str(fpt.read(), encoding='utf-8')
+            return next(tweet_iterator(filename))
         except Exception:
             os.unlink(filename)
             raise Exception(filename)
-        
+
     lang = lang.lower().strip()
     diroutput = join(dirname(__file__), 'models')
     if not isdir(diroutput):
         os.mkdir(diroutput)
-    filename = f'{lang}_bow_{func}_{d}.json.gz'        
+    if loc is None:
+        filename = f'{lang}_bow_{func}_{d}.json.gz'
+    else:
+        filename = f'{lang}_{loc}_bow_{func}_{d}.json.gz'
     url = f'{BASEURL}/{filename}'
     output = join(diroutput, filename)
     if not isfile(output):
         Download(url, output)
-    return Counter.fromjson(load(output))    
+    data = load(output)
+    _ = data['counter']
+    data['counter'] = Counter(_["dict"], _["update_calls"])
+    return data
 

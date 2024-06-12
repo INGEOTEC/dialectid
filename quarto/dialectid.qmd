@@ -3,17 +3,220 @@ title: "Dialect Identification (dialectid)"
 format: 
   dashboard:
     logo: images/ingeotec.png
+    orientation: columns
     nav-buttons: [github]
     theme: cosmo
 execute:
   freeze: auto    
 ---
 
+```{python} 
+#| echo: false 
+#| include: false
+#| label: setup
+
+from dialectid import BoW
+from dialectid.utils import BASEURL, COUNTRIES, load_bow
+from EvoMSA import BoW as eBoW
+from EvoMSA.utils import Download
+from microtc.utils import tweet_iterator
+from os.path import isfile, join
+import numpy as np
+import json
+
+
+def similarity(lang):
+    cache = join('data', f'{lang}-similarity.json')
+    if isfile(cache):
+        return next(tweet_iterator(cache))
+    _ = Download(f'{BASEURL}/stats-{lang}-train.json', f'stats-{lang}.json')
+    data = next(tweet_iterator(f'stats-{lang}.json'))
+    countries = [country for country in COUNTRIES[lang]
+                 if data[country] > 2**22]
+    bows = [BoW(lang=lang, loc=loc) for loc in countries]
+    bows.append(BoW(lang=lang))
+    tokens = [set(bow.names) for bow in bows]
+    vocs = []
+    for country in countries + [None]:
+        freq = load_bow(lang=lang, d=17, loc=country)
+        c = np.linalg.norm(list(freq.values()))
+        vocs.append({k: v / c for k, v in freq.items()})
+    countries.append('Uniform')        
+    sim = np.ones((len(countries), len(countries)))
+    for r in range(len(countries)):
+        for c in range(r + 1, len(countries)):
+            nom = len(tokens[r].intersection(tokens[c]))
+            den = len(tokens[r].union(tokens[c]))
+            sim[r, c] = nom / den
+            sim[c, r] = sim[r, c]
+    cos = np.ones((len(countries), len(countries)))
+    for r in range(len(countries)):
+        for c in range(r + 1, len(countries)):
+            _ = sum([vocs[r][k] * vocs[c][k]
+                     for k in tokens[r].intersection(tokens[c])])
+            cos[r, c] = _
+            cos[c, r] = _
+    with open(cache, 'w') as fpt:
+        print(json.dumps(dict(sim=sim.tolist(),
+                              cos=cos.tolist(),
+                              countries=countries)),
+              file=fpt)
+    return similarity(lang)
+```
+
 # Introduction
 
 Computational models for dialect identification.
 
 # Languages
+
+# Similarity
+
+## Column {width="40%"}
+
+### Tabset {.tabset height="50%"} 
+
+```{python} 
+#| echo: false 
+#| title: Arabic (ar)
+
+import plotly.express as px
+
+data = similarity('ar')
+countries = data['countries']
+fig = px.imshow(data['sim'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+```{python} 
+#| echo: false 
+#| title: English (en)
+
+import plotly.express as px
+
+data = similarity('en')
+countries = data['countries']
+fig = px.imshow(data['sim'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+```{python} 
+#| echo: false 
+#| title: Spanish (es)
+
+import plotly.express as px
+
+data = similarity('es')
+countries = data['countries']
+fig = px.imshow(data['sim'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+### Tabset {.tabset height="50%"}
+
+```{python} 
+#| echo: false 
+#| title: Arabic (ar)
+
+import plotly.express as px
+
+data = similarity('ar')
+countries = data['countries']
+fig = px.imshow(data['cos'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+```{python} 
+#| echo: false 
+#| title: English (en)
+
+import plotly.express as px
+
+data = similarity('en')
+countries = data['countries']
+fig = px.imshow(data['cos'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+```{python} 
+#| echo: false 
+#| title: Spanish (es)
+
+import plotly.express as px
+
+data = similarity('es')
+countries = data['countries']
+fig = px.imshow(data['cos'],
+                labels=dict(x="Country", y="Country", color="Similarity"),
+                x=countries,
+                y=countries)
+# fig.update_xaxes(side="top")
+fig.show()
+```
+
+
+## Column {width="60%"} 
+
+The figures on the left correspond to the Jaccard index (top) and Cosine similarity (bottom) between the vocabularies estimated from data coming from a particular country. It also includes the *Uniform* (e.g., `BoW(lang='es')`) vocabulary that corresponds to taking a uniform sample from all the regions.
+
+For instance, the following code computes the similarity in Spanish between Mexico and Guatemala.
+
+```{python}
+#| echo: true
+#| eval: false
+#| label: jaccard
+
+from dialectid import BoW
+
+mx = BoW(lang='es', loc='mx')
+gt = BoW(lang='es', loc='gt')
+mx_voc = set(mx.names)
+gt_voc = set(gt.names)
+num = len(mx_voc.intersection(gt_voc))
+den = len(mx_voc.union(gt_voc))
+num / den
+```
+
+The following code exemplifies the Cosine similarity between Mexico and Guatemala.
+
+```{python} 
+#| echo: true
+#| eval: false
+#| label: cosine
+
+import numpy as np
+from dialectid.utils import load_bow
+
+mx_freq = load_bow(lang='es', d=17, loc='mx')
+_ = np.linalg.norm(list(mx_freq.values()))
+mx_freq = {k: v / _ for k, v in mx_freq.items()}
+gt_freq = load_bow(lang='es', d=17, loc='gt')
+_ = np.linalg.norm(list(gt_freq.values()))
+gt_freq = {k: v / _ for k, v in gt_freq.items()}
+tokens = [token for token in mx_freq if token in gt_freq]
+sum([mx_freq[token] * gt_freq[token]
+     for token in tokens])
+```
 
 # Usage
 
@@ -26,11 +229,11 @@ Computational models for dialect identification.
 import pandas as pd
 import plotly.express as px
 df = pd.read_csv('data/ar-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -39,11 +242,11 @@ fig.show()
 #| title: German (de)
 import pandas as pd
 df = pd.read_csv('data/de-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -52,11 +255,11 @@ fig.show()
 #| title: English (en)
 import pandas as pd
 df = pd.read_csv('data/en-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -65,11 +268,11 @@ fig.show()
 #| title: Spanish (es)
 import pandas as pd
 df = pd.read_csv('data/es-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -78,11 +281,11 @@ fig.show()
 #| title: French (fr)
 import pandas as pd
 df = pd.read_csv('data/fr-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -91,11 +294,11 @@ fig.show()
 #| title: Dutch (nl)
 import pandas as pd
 df = pd.read_csv('data/nl-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -104,11 +307,11 @@ fig.show()
 #| title: Portuguese (pt)
 import pandas as pd
 df = pd.read_csv('data/pt-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -117,11 +320,11 @@ fig.show()
 #| title: Russian (ru)
 import pandas as pd
 df = pd.read_csv('data/ru-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -130,11 +333,11 @@ fig.show()
 #| title: Turkish (tr)
 import pandas as pd
 df = pd.read_csv('data/tr-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
 ```
 
@@ -143,10 +346,40 @@ fig.show()
 #| title: Chinese (zh)
 import pandas as pd
 df = pd.read_csv('data/zh-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Training Size', 'Recall'])
-fig = px.bar(df2.astype({'Training Size': str}),
+df2 = df.sort_values(by=['Recall', 'System'])
+fig = px.bar(df2.astype({'System': str}),
              x='Country', y='Recall',
              barmode='overlay', 
-             color='Training Size')
+             color='System')
 fig.show()
+```
+
+## Column 
+
+The figures on the left show the recall of the different countries, using three different vocabularies. [EvoMSA](http://evomsa.readthedocs.io) corresponds to the vocabulary estimated in our previous development; Uniform (e.g., `BoW(lang='es')`) is obtained by taking a uniform sample from all the regions; and Country (e.g., `BoW(lang='es', loc='mx')`) is the vocabulary of a particular location. In all the cases, the vocabulary is estimated with  $2^{22}$ Tweets. Of course, there is not enough information for all the cases. Consequently, the vocabulary is not present for that configuration.
+
+The table below presents the macro-recall for the different languages and models. Since the Country model is not available for all countries, the missing values were filled with the corresponding Uniform's recall to compute the macro-recall for all the countries. 
+
+```{python} 
+#| echo: false
+#| caption: Performance in terms of macro-recall
+#| label: tab-macro-recall
+
+from IPython.display import Markdown
+import pandas as pd
+perf = {}
+for lang in ['ar', 'de', 'en',
+             'es', 'fr', 'nl',
+             'pt', 'ru', 'tr', 'zh']:
+    df = pd.read_csv(f'data/{lang}-recall.csv', index_col=0)
+    df.set_index(['Country', 'System'], inplace=True)
+    df.sort_index(level='Country', inplace=True)
+    df2 = df.unstack()
+    df2.columns = df2.columns.get_level_values(1)
+    if 'Country' in df2.columns:
+        mask = df2.Country.isna()
+        df2.loc[mask, 'Country'] = df2.Uniform.loc[mask]
+    perf[lang] = df2.mean(axis=0)
+_ = pd.DataFrame(perf).reindex(['EvoMSA', 'Uniform', 'Country']).T
+Markdown(_.to_markdown())
 ```

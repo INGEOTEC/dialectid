@@ -60,4 +60,21 @@ def test_load_bow():
     from microtc.utils import Counter
 
     c = utils.load_bow()
-    assert isinstance(c, Counter)
+    assert isinstance(c['counter'], Counter)
+    c2 = utils.load_bow(loc='mx')
+    assert c['counter'].most_common(n=1)[0][1] != c2['counter'].most_common(n=1)[0][1]
+
+
+def test_BOW():
+    """Test BOW"""
+    import importlib
+
+    BOW = utils.BOW
+    for lang in ['ar', 'de', 'en',
+                 'es', 'fr', 'nl',
+                 'pt', 'ru', 'tr', 'zh']:
+        assert lang in BOW
+        path = BOW[lang].split('.')
+        module = '.'.join(path[:-1])
+        text_repr = importlib.import_module(module)
+        instance = getattr(text_repr, path[-1])
