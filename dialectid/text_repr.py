@@ -65,17 +65,17 @@ class BoW(EvoMSABoW):
 
         if self._bow is not None:
             return self._bow
-        freq = load_bow(lang=self.lang,
+        data = load_bow(lang=self.lang,
                         d=self.voc_size_exponent,
                         func=self.voc_selection,
                         loc=self._loc)
-        params = b4msa_params(lang=self.lang,
-                              dim=self._voc_size_exponent)
+        params = data['params']
+        counter = data['counter']
         params.update(self.b4msa_kwargs)
         bow = TextModel(**params)
         tfidf = TFIDF()
-        tfidf.N = freq.update_calls
-        tfidf.word2id, tfidf.wordWeight = tfidf.counter2weight(freq)
+        tfidf.N = counter.update_calls
+        tfidf.word2id, tfidf.wordWeight = tfidf.counter2weight(counter)
         bow.model = tfidf
         self._bow = bow
         return bow

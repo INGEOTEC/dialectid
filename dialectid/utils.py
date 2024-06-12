@@ -100,6 +100,18 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
              ]
             }
 
+BOW = {'es': 'dialectid.text_repr.BoW',
+       'en': 'dialectid.text_repr.BoW',
+       'ar': 'dialectid.text_repr.BoW',
+       'de': 'EvoMSA.text_repr.BoW',
+       'fr': 'dialectid.text_repr.BoW',
+       'nl': 'EvoMSA.text_repr.BoW',
+       'pt': 'dialectid.text_repr.BoW',
+       'ru': 'dialectid.text_repr.BoW',
+       'tr': 'EvoMSA.text_repr.BoW',
+       'zh': 'EvoMSA.text_repr.BoW'
+      }
+
 
 def load_bow(lang: str='es',
              d: int=17,
@@ -108,9 +120,10 @@ def load_bow(lang: str='es',
     """Load BoW model from dialectid"""
 
     def load(filename):
+        from microtc.utils import tweet_iterator
+
         try:
-            with gzip.open(filename, 'rb') as fpt:
-                return str(fpt.read(), encoding='utf-8')
+            return next(tweet_iterator(filename))
         except Exception:
             os.unlink(filename)
             raise Exception(filename)
@@ -127,5 +140,8 @@ def load_bow(lang: str='es',
     output = join(diroutput, filename)
     if not isfile(output):
         Download(url, output)
-    return Counter.fromjson(load(output))    
+    data = load(output)
+    _ = data['counter']
+    data['counter'] = Counter(_["dict"], _["update_calls"])
+    return data
 
