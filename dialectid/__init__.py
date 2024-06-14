@@ -23,3 +23,4 @@
 __version__ = '0.0.2'
 
 from dialectid.text_repr import BoW
+from dialectid.model import DialectId
