@@ -21,8 +21,8 @@
 # SOFTWARE.
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 
-from EvoMSA.utils import Download
-from microtc.utils import Counter
+from EvoMSA.utils import Download, Linear
+from microtc.utils import Counter, tweet_iterator
 from os.path import join, dirname, isdir, isfile
 import gzip
 import os
@@ -145,3 +145,16 @@ def load_bow(lang: str='es',
     data['counter'] = Counter(_["dict"], _["update_calls"])
     return data
 
+
+def load_dialectid(lang, dim):
+    """Load url"""
+
+    diroutput = join(dirname(__file__), 'models')
+    if not isdir(diroutput):
+        os.mkdir(diroutput)
+    filename = f'dialectid_{lang}_{dim}.json.gz'
+    output = join(diroutput, filename)
+    if not isfile(output):
+        Download(f'{BASEURL}/{filename}', output)
+    _ = [Linear(**params) for params in tweet_iterator(output)]
+    return _

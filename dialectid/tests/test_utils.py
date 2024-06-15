@@ -78,3 +78,17 @@ def test_BOW():
         module = '.'.join(path[:-1])
         text_repr = importlib.import_module(module)
         instance = getattr(text_repr, path[-1])
+
+
+def test_load_dialectid():
+    """Test dialectid"""
+
+    from EvoMSA.utils import Linear
+    from dialectid.utils import COUNTRIES
+    models = utils.load_dialectid('es', 15)
+    assert len(models) == 20
+    assert isinstance(models[0], Linear)
+    for model, cntry in zip(models, COUNTRIES['es']):
+        assert model.labels[-1] == cntry
+
+
