@@ -23,6 +23,7 @@ from microtc.utils import tweet_iterator
 from os.path import isfile, join
 import numpy as np
 import json
+from IPython.display import Markdown
 
 
 def similarity(lang):
@@ -122,8 +123,119 @@ index = df.argsort()[::-1]
  if df[i] > 0]
 ```
 
+# Corpus  
 
-# Languages
+```{python} 
+#| echo: false
+#| output: false
+
+from EvoMSA.utils import Download
+from os.path import isfile
+from microtc.utils import tweet_iterator
+import pandas as pd
+from dialectid.utils import COUNTRIES, BASEURL
+
+
+def corpus_size(lang):
+    train = next(tweet_iterator(f'stats-{lang}-train.json'))
+    test = next(tweet_iterator(f'stats-{lang}-test.json'))
+    df = pd.DataFrame([train, test], index=['Train', 'Test'])
+    df.columns.name = 'Countries'
+    columns = COUNTRIES[lang]
+    _ = df[columns].T.sort_values('Train', ascending=False)
+    return Markdown(_.to_markdown())
+
+
+for lang in COUNTRIES:
+    if isfile(f'stats-{lang}-train.json'):
+        continue
+    Download(f'{BASEURL}/stats-{lang}-train.json', f'stats-{lang}-train.json')
+    Download(f'{BASEURL}/stats-{lang}-test.json', f'stats-{lang}-test.json')    
+```
+
+## Column {.tabset} 
+
+::: {.card title='Arabic (ar)'}
+
+```{python}
+#| echo: false
+
+corpus_size('ar')
+```
+
+:::
+
+::: {.card title='German (de)'}
+```{python}
+#| echo: false
+
+corpus_size('de')
+```
+:::
+
+::: {.card title='English (en)'}
+```{python}
+#| echo: false
+
+corpus_size('en')
+```
+:::
+
+::: {.card title='Spanish (es)'}
+```{python}
+#| echo: false
+
+corpus_size('es')
+```
+:::
+
+::: {.card title='French (fr)'}
+```{python}
+#| echo: false
+
+corpus_size('fr')
+```
+:::
+
+::: {.card title='Dutch (nl)'}
+```{python}
+#| echo: false
+
+corpus_size('nl')
+```
+:::
+
+::: {.card title='Portuguese (pt)'}
+```{python}
+#| echo: false
+
+corpus_size('pt')
+```
+:::
+
+::: {.card title='Russian (ru)'}
+```{python}
+#| echo: false
+
+corpus_size('ru')
+```
+:::
+
+::: {.card title='Turkish (tr)'}
+```{python}
+#| echo: false
+
+corpus_size('tr')
+```
+:::
+
+::: {.card title='Chinese (zh)'}
+```{python}
+#| echo: false
+
+corpus_size('zh')
+```
+:::
 
 # Similarity
 
@@ -273,7 +385,6 @@ sum([mx_freq[token] * gt_freq[token]
      for token in tokens])
 ```
 
-# Usage
 
 # Performance
 
@@ -413,7 +524,7 @@ fig.show()
 
 The figures on the left show the recall of the different countries, using three different vocabularies. [EvoMSA](http://evomsa.readthedocs.io) corresponds to the vocabulary estimated in our previous development; Uniform (e.g., `BoW(lang='es')`) is obtained by taking a uniform sample from all the regions; and Country (e.g., `BoW(lang='es', loc='mx')`) is the vocabulary of a particular location. In all the cases, the vocabulary is estimated with  $2^{22}$ Tweets. Of course, there is not enough information for all the cases. Consequently, the vocabulary is not present for that configuration.
 
-The table below presents the macro-recall for the different languages and models. Since the Country model is not available for all countries, the missing values were filled with the corresponding Uniform's recall to compute the macro-recall for all the countries. 
+The table below presents the average recall for the different languages and models. Since the Country model is not available for all countries, the missing values were filled with the corresponding Uniform's recall to compute the macro-recall for all the countries. 
 
 ```{python} 
 #| echo: false
