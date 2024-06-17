@@ -66,7 +66,62 @@ def similarity(lang):
 
 # Introduction
 
-Computational models for dialect identification.
+## Column 
+
+::: {.card title='Introduction'}  
+`dialectid` aims to develop a set of algorithms to detect the dialect of a given text. For example, given a text written in Spanish, `dialectid` predicts the Spanish-speaking country where the text comes from. 
+
+`dialectid` is available for Arabic (ar), German (de), English (en), Spanish (es), French (fr), Dutch (nl), Portuguese (pt), Russian (ru), Turkish (tr), and Chinese (zh).
+:::
+
+::: {.card title='Installing using conda'}
+
+`dialectid` can be install using the conda package manager with the following instruction.
+
+```{sh} 
+conda install --channel conda-forge dialectid
+``` 
+::: 
+
+::: {.card title='Installing using pip'} 
+A more general approach to installing `dialectid` is through the use of the command pip, as illustrated in the following instruction.
+
+```{sh} 
+pip install dialectid
+```
+::: 
+
+## Column 
+
+```{python}
+#| echo: false
+#| output: false
+
+from dialectid import DialectId
+detect = DialectId(lang='es', voc_size_exponent=15)
+detect.countries
+```
+
+```{python} 
+#| echo: true
+#| title: Dialect Identification
+
+from dialectid import DialectId
+detect = DialectId(lang='es', voc_size_exponent=15)
+detect.predict(['comiendo unos tacos',
+                'tomando vino en la comida'])
+```
+
+```{python} 
+#| echo: true
+#| title: Decision Function
+
+df = detect.decision_function('tomando vino en la comida')[0]
+index = df.argsort()[::-1]
+[(detect.countries[i], df[i]) for i in index
+ if df[i] > 0]
+```
+
 
 # Languages
 
