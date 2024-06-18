@@ -137,20 +137,31 @@ from dialectid.utils import COUNTRIES, BASEURL
 
 
 def corpus_size(lang):
+    data = []
+    index = []
+    for day, d in tweet_iterator(f'stats-{lang}.json.gz'):
+        day = pd.to_datetime(day)
+        data.append(d)
+        index.append(day)
+    df2 = pd.DataFrame(data, index=index)
+
     train = next(tweet_iterator(f'stats-{lang}-train.json'))
     test = next(tweet_iterator(f'stats-{lang}-test.json'))
     df = pd.DataFrame([train, test], index=['Train', 'Test'])
     df.columns.name = 'Countries'
+    df.loc['All'] = df2.sum(axis=0)
     columns = COUNTRIES[lang]
+    df = df.reindex(['All', 'Train', 'Test'])
     _ = df[columns].T.sort_values('Train', ascending=False)
     return Markdown(_.to_markdown())
 
 
 for lang in COUNTRIES:
-    if isfile(f'stats-{lang}-train.json'):
+    if isfile(f'stats-{lang}.json.gz'):
         continue
     Download(f'{BASEURL}/stats-{lang}-train.json', f'stats-{lang}-train.json')
-    Download(f'{BASEURL}/stats-{lang}-test.json', f'stats-{lang}-test.json')    
+    Download(f'{BASEURL}/stats-{lang}-test.json', f'stats-{lang}-test.json')
+    Download(f'{BASEURL}/stats-{lang}.json.gz', f'stats-{lang}.json.gz')
 ```
 
 ## Column {.tabset} 
