@@ -30,9 +30,18 @@ def test_bow():
     """Test BoW"""
     from b4msa.textmodel import TextModel
 
-    bow = BoW(lang='es')
+    bow = BoW(lang='es', voc_size_exponent=13)
     assert isinstance(bow.bow, TextModel)
     X = bow.transform(['Buenos dias'])
-    bow2 = BoW(lang='es', loc='mx')
+    bow2 = BoW(lang='es', loc='mx', voc_size_exponent=13)
     X2 = bow2.transform(['Buenos dias'])
     assert (X - X2).sum() != 0
+
+
+def test_subwords():
+    """Test subwords"""
+
+    bow = BoW(lang='es', voc_size_exponent=13,
+              subwords=True)
+    bow.transform(['Hola'])
+    
