@@ -73,7 +73,7 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
              'fr':['be', 'bj', 'bf', # Belgium, Benin, Burkina Faso
                    'cm', 'ca', 'cf', # Cameroon, Canada, Central African Republic
                    'td', 'km', 'cd', # Chad, Comoros, Congo (Republic)
-                   'cg', 'cl', 'dj', # Congo, Cote d'lvoire, Djibouti
+                   'cg', 'ci', 'dj', # Congo, Cote d'lvoire, Djibouti
                    'fr', 'pf', 'ga', # France, French Polynesia, Gabon
                    'gn', 'ht', 'lu', # Guinea, Haiti, Luxembourg
                    'ml', 'mc', 'nc', # Mali, Monaco, New Caledonia
