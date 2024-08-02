@@ -39,10 +39,14 @@ class BoW(EvoMSABoW):
                  v1: bool=False,
                  estimator_kwargs: dict=None,
                  loc: str=None,
+                 subwords: bool=False,
                  **kwargs):
         assert pretrain
         assert not v1
         self._bow = None
+        if subwords:
+            assert loc is None
+            loc = 'qgrams'
         self.loc = loc
         if estimator_kwargs is None:
             estimator_kwargs = {'dual': True, 'class_weight': 'balanced'}
