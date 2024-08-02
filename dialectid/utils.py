@@ -146,7 +146,7 @@ def load_bow(lang: str='es',
     return data
 
 
-def load_dialectid(lang, dim, subwords):
+def load_dialectid(lang, dim, subwords=False):
     """Load url"""
 
     diroutput = join(dirname(__file__), 'models')
