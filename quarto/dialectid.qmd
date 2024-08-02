@@ -63,7 +63,7 @@ def similarity(lang):
                               countries=countries)),
               file=fpt)
     return similarity(lang)
-```
+``` 
 
 # Introduction
 
@@ -616,6 +616,6 @@ for lang in ['ar', 'de', 'en',
         df2.loc[mask, 'Country'] = df2.Uniform.loc[mask]
     perf[lang] = df2.mean(axis=0)
 _ = pd.DataFrame(perf).reindex(['EvoMSA', 'Uniform',
-                                'q-grams','Country']).T
-Markdown(_.to_markdown())
+                                'q-grams', 'Country']).T
+Markdown(_.to_markdown(floatfmt='.3f'))
 ```
