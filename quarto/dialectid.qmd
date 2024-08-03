@@ -110,14 +110,16 @@ detect.countries
 from dialectid import DialectId
 detect = DialectId(lang='es', voc_size_exponent=15)
 detect.predict(['comiendo unos tacos',
-                'tomando vino en la comida'])
+                'tomando vino en el asado'])
 ```
 
 ```{python} 
 #| echo: true
 #| title: Decision Function
 
-df = detect.decision_function('tomando vino en la comida')[0]
+from dialectid import DialectId
+detect = DialectId(lang='es', voc_size_exponent=15)
+df = detect.decision_function('tomando vino en el asado')[0]
 index = df.argsort()[::-1]
 [(detect.countries[i], df[i]) for i in index
  if df[i] > 0]
