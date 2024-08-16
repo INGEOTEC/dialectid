@@ -32,6 +32,7 @@ class DialectId:
     """DialectId"""
     lang: str='es'
     voc_size_exponent: int=15
+    subwords: bool=True
 
     @property
     def bow(self):
@@ -43,8 +44,12 @@ class DialectId:
             path = BOW[self.lang].split('.')
             module = '.'.join(path[:-1])
             text_repr = importlib.import_module(module)
+            kwargs = {}
+            if module != 'EvoMSA.text_repr':
+                kwargs = dict(subwords=self.subwords)
             _ = getattr(text_repr, path[-1])(lang=self.lang,
-                                             voc_size_exponent=self.voc_size_exponent)
+                                             voc_size_exponent=self.voc_size_exponent,
+                                             **kwargs)
             self._bow = _
         return self._bow
 
@@ -55,7 +60,8 @@ class DialectId:
             return self._weights
         except AttributeError:
             self._weights = load_dialectid(self.lang,
-                                           self.voc_size_exponent)
+                                           self.voc_size_exponent,
+                                           self.subwords)
         return self._weights
     
     @property

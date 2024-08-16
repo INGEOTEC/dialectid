@@ -146,13 +146,16 @@ def load_bow(lang: str='es',
     return data
 
 
-def load_dialectid(lang, dim):
+def load_dialectid(lang, dim, subwords=False):
     """Load url"""
 
     diroutput = join(dirname(__file__), 'models')
     if not isdir(diroutput):
         os.mkdir(diroutput)
-    filename = f'dialectid_{lang}_{dim}.json.gz'
+    if subwords:
+        filename = f'dialectid_subwords_{lang}_{dim}.json.gz'
+    else:
+        filename = f'dialectid_{lang}_{dim}.json.gz'
     output = join(diroutput, filename)
     if not isfile(output):
         Download(f'{BASEURL}/{filename}', output)

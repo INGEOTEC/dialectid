@@ -28,7 +28,7 @@ def test_DialectId():
     from dialectid.model import DialectId
     from dialectid import BoW
 
-    dialectid = DialectId(voc_size_exponent=15)
+    dialectid = DialectId(voc_size_exponent=15, subwords=False)
     assert dialectid.lang == 'es' and dialectid.voc_size_exponent == 15
     assert isinstance(dialectid.bow, BoW)
 
@@ -38,7 +38,7 @@ def test_DialectId_df():
 
     from dialectid.model import DialectId
 
-    dialectid = DialectId(voc_size_exponent=15)
+    dialectid = DialectId(voc_size_exponent=15, subwords=False)
     hy = dialectid.decision_function('comiendo tacos')
     assert hy.shape == (1, 20)
     assert hy.argmax(axis=1)[0] == 0
@@ -49,7 +49,7 @@ def test_countries():
 
     from dialectid.model import DialectId
 
-    dialectid = DialectId(voc_size_exponent=15)
+    dialectid = DialectId(voc_size_exponent=15, subwords=False)
     assert len(dialectid.countries) == 20
     assert dialectid.countries[0] == 'mx'
 
@@ -59,10 +59,18 @@ def test_predict():
 
     from dialectid.model import DialectId
 
-    dialectid = DialectId(voc_size_exponent=15)
+    dialectid = DialectId(voc_size_exponent=15, subwords=False)
     countries = dialectid.predict('comiendo tacos')
     assert countries[0] == 'mx'
     countries = dialectid.predict(['comiendo tacos',
                                    'tomando vino'])
     assert countries.shape == (2, )
 
+
+def test_DialectId_subwords():
+    """Test DialectId subwords"""
+
+    from dialectid.model import DialectId
+    dialectid = DialectId(voc_size_exponent=15)
+    countries = dialectid.predict('comiendo tacos')
+    assert countries[0] == 'mx'    
