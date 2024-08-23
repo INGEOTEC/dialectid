@@ -22,7 +22,7 @@
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 
 
-from dialectid.text_repr import BoW
+from dialectid.text_repr import BoW, SeqTM
 import numpy as np
 
 
@@ -44,4 +44,16 @@ def test_subwords():
     bow = BoW(lang='es', voc_size_exponent=13,
               subwords=True)
     bow.transform(['Hola'])
-    
+
+
+def test_SeqTM():
+    """Test SeqTM class"""
+
+    seq = SeqTM(lang='es', subwords=True, voc_size_exponent=13)
+    assert seq.language == 'es'
+    assert seq.voc_size_exponent == 13
+    _ = [['q:~dia', 'q:s~', 'duro', 'q:s~']]
+    assert seq.compute_tokens('~dias~duros~') == _
+    assert seq.compute_tokens('~🤷~') == [['🤷']]
+    assert seq.compute_tokens('~🙇🏿~') == [['🙇']]
+    assert seq.tokenize('buenos dias 🙇🏿')[-1] == '🙇'
