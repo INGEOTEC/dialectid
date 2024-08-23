@@ -139,6 +139,11 @@ class SeqTM(TextModel):
             key = value
             if value[:2] == 'q:':
                 key = value[2:]
+                if key in self._map:
+                    continue
+                self._map[key] = value
+            else:
+                key = f'~{key}~'
                 self._map[key] = value
             tokens[key] = value
         _ = join(dirname(__file__), 'data', 'emojis.json.gz')
@@ -241,7 +246,7 @@ class SeqTM(TextModel):
         :rtype: list
         """
 
-        blocks = list()
+        blocks = []
         init = i = end = 0
         head = self.data_structure
         current = head
@@ -257,12 +262,12 @@ class SeqTM(TextModel):
                 current = head
                 if end > init:
                     blocks.append([init, end])
-                    if (end - init) > 2 and text[end - 1] == '~':
+                    if (end - init) >= 2 and text[end - 1] == '~':
                         init = i = end = end - 1
                     else:
                         init = i = end
                 elif i > init:
-                    if (i - init) > 2 and text[i - 1] == '~':
+                    if (i - init) >= 2 and text[i - 1] == '~':
                         init = end = i = i - 1
                     else:
                         init = end = i

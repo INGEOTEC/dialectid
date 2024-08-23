@@ -57,3 +57,12 @@ def test_SeqTM():
     assert seq.compute_tokens('~🤷~') == [['🤷']]
     assert seq.compute_tokens('~🙇🏿~') == [['🙇']]
     assert seq.tokenize('buenos dias 🙇🏿')[-1] == '🙇'
+
+
+def test_SeqTM_bug():
+    """Test SeqTM class"""
+
+    seq = SeqTM(language='es', subwords=True, voc_size_exponent=13)
+    res1 = seq.tokenize('mira pinche a')
+    res2 = seq.tokenize('a pinche a')
+    assert res1[1:] == res2[1:]
