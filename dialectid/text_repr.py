@@ -105,7 +105,9 @@ class SeqTM(TextModel):
                  voc_selection: str='most_common_by_type',
                  loc: str=None,
                  subwords: bool=True,
+                 lang=None,
                  **kwargs):
+        assert lang is None
         if subwords:
             assert loc is None
             loc = 'qgrams'

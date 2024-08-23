@@ -49,7 +49,7 @@ def test_subwords():
 def test_SeqTM():
     """Test SeqTM class"""
 
-    seq = SeqTM(lang='es', subwords=True, voc_size_exponent=13)
+    seq = SeqTM(language='es', subwords=True, voc_size_exponent=13)
     assert seq.language == 'es'
     assert seq.voc_size_exponent == 13
     _ = [['q:~dia', 'q:s~', 'duro', 'q:s~']]
