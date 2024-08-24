@@ -97,6 +97,7 @@ class BoW(EvoMSABoW):
         self._bow = bow
         return bow
 
+
 class SeqTM(TextModel):
     """TextModel where the utterance is segmented in a sequence."""
 
@@ -151,6 +152,9 @@ class SeqTM(TextModel):
         for k, v in emojis.items():
             self._map[k] = v
             tokens[k] = v
+            for x in [f'~{k}~', f'~{k}', f'{k}~']:
+                self._map[x] = v
+                tokens[x] = v
 
     @property
     def language(self):
