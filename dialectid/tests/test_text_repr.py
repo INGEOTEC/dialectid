@@ -52,7 +52,7 @@ def test_SeqTM():
     seq = SeqTM(language='es', subwords=True, voc_size_exponent=13)
     assert seq.language == 'es'
     assert seq.voc_size_exponent == 13
-    _ = [['q:~dia', 'q:s~', 'duro', 'q:s~']]
+    _ = [['dias', 'q:~dur', 'q:os~']]
     assert seq.compute_tokens('~dias~duros~') == _
     assert seq.compute_tokens('~🤷~') == [['🤷']]
     assert seq.compute_tokens('~🙇🏿~') == [['🙇']]
