@@ -106,10 +106,13 @@ class SeqTM(TextModel):
                  voc_selection: str='most_common_by_type',
                  loc: str=None,
                  subwords: bool=True,
+                 sequence: bool=True,
                  lang=None,
                  **kwargs):
         assert lang is None
-        if subwords:
+        if sequence and subwords:
+            loc = 'seq'
+        elif subwords:
             assert loc is None
             loc = 'qgrams'
         self._map = {}
