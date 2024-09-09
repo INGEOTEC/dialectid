@@ -83,3 +83,26 @@ def test_SeqTM_seq():
     res1 = seq.tokenize('mira pinche a')
     res2 = seq.tokenize('a pinche a')
     assert res1[1:] == res2[1:]
+
+
+def test_SeqTM_seq_bug():
+    """Test SeqTM seq option"""
+
+    seq = SeqTM(language='es', sequence=True,
+                voc_selection='most_common',
+                voc_size_exponent=13)
+    assert seq.del_dup == False
+
+
+def test_SeqTM_names():
+    seq = SeqTM(language='es', sequence=True,
+                voc_selection='most_common',
+                voc_size_exponent=13)
+    assert len(seq.names) == len(seq.model.word2id)
+
+
+def test_SeqTM_weights():
+    seq = SeqTM(language='es', sequence=True,
+                voc_selection='most_common',
+                voc_size_exponent=13)
+    assert len(seq.weights) == len(seq.names)    

@@ -28,6 +28,7 @@ from microtc.weighting import TFIDF
 from microtc import emoticons
 from microtc.utils import tweet_iterator
 from dialectid.utils import load_bow
+import numpy as np
 
 
 class BoW(EvoMSABoW):
@@ -103,12 +104,9 @@ class SeqTM(TextModel):
 
     def __init__(self, language='es',
                  voc_size_exponent: int=17,
-                 voc_selection: str='most_common_by_type',
-                 loc: str=None,
-                 subwords: bool=True,
-                 sequence: bool=True,
-                 lang=None,
-                 **kwargs):
+                 voc_selection: str='most_common',
+                 loc: str=None, subwords: bool=True,
+                 sequence: bool=True, lang=None, **kwargs):
         assert lang is None
         if sequence and subwords:
             loc = 'seq'
@@ -129,6 +127,7 @@ class SeqTM(TextModel):
         self.voc_selection = voc_selection
         self.loc = loc
         self.subwords = subwords
+        self.sequence = sequence
         self.__vocabulary(counter)
 
     def __vocabulary(self, counter):
@@ -182,6 +181,7 @@ class SeqTM(TextModel):
     @property
     def voc_size_exponent(self):
         """Vocabulary size :math:`2^v`; where :math:`v` is :py:attr:`voc_size_exponent` """
+
         return self._voc_size_exponent
 
     @voc_size_exponent.setter
@@ -207,6 +207,42 @@ class SeqTM(TextModel):
     @subwords.setter
     def subwords(self, value):
         self._subwords = value
+
+    @property
+    def sequence(self):
+        """Vocabulary compute on sequence text-transformation"""
+
+        return self._sequence
+    
+    @sequence.setter
+    def sequence(self, value):
+        self._sequence = value
+
+    @property
+    def names(self):
+        """Vector space components"""
+
+        try:
+            return self._names
+        except AttributeError:
+            _names = [None] * len(self.id2token)
+            for k, v in self.id2token.items():
+                _names[k] = v
+            self._names = np.array(_names)
+            return self._names
+        
+    @property
+    def weights(self):
+        """Vector space weights"""
+
+        try:
+            return self._weights
+        except AttributeError:
+            w = [None] * len(self.token_weight)
+            for k, v in self.token_weight.items():
+                w[k] = v
+            self._weights = np.array(w)
+            return self._weights
 
     @property
     def tokens(self):

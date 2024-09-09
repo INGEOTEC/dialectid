@@ -74,3 +74,21 @@ def test_DialectId_subwords():
     dialectid = DialectId(voc_size_exponent=15)
     countries = dialectid.predict('comiendo tacos')
     assert countries[0] == 'mx'    
+
+
+def test_DenseBoW():
+    """Test DenseBoW based on SeqTM"""
+
+    from dialectid.model import DenseBoW
+
+    dense = DenseBoW(precision=16)
+    assert dense.weights.shape[0] == dense.names.shape[0]
+    dense.weights[0, 0] > 25
+
+
+def test_DenseBoW_encode():
+    """Test DenseBoW sentence repr"""
+
+    from dialectid.model import DenseBoW
+    dense = DenseBoW(precision=16)
+    assert dense.encode('buenos días').shape[1] == 2

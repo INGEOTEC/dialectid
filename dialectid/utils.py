@@ -161,3 +161,14 @@ def load_dialectid(lang, dim, subwords=False):
         Download(f'{BASEURL}/{filename}', output)
     _ = [Linear(**params) for params in tweet_iterator(output)]
     return _
+
+
+def load_seqtm(lang, dim, precision):
+    diroutput = join(dirname(__file__), 'models')
+    if not isdir(diroutput):
+        os.mkdir(diroutput)
+    filename = f'seqtm_{lang}_{precision}_{dim}.json.gz'
+    output = join(diroutput, filename)
+    if not isfile(output):
+        Download(f'{BASEURL}/{filename}', output)
+    return tweet_iterator(output)

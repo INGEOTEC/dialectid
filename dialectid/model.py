@@ -25,7 +25,7 @@ from typing import Union, List
 from dataclasses import dataclass
 import importlib
 import numpy as np
-from dialectid.utils import BOW, load_dialectid
+from dialectid.utils import BOW, load_dialectid, load_seqtm
 
 @dataclass
 class DialectId:
@@ -87,3 +87,69 @@ class DialectId:
 
         hy = self.decision_function(D)
         return self.countries[hy.argmax(axis=1)]
+
+
+@dataclass
+class DenseBoW:
+    """DenseBoW"""
+
+    lang: str='es'
+    voc_size_exponent: int=13
+    precision: int=32
+
+    def estimator(self, **kwargs):
+        """Estimator"""
+
+        from sklearn.svm import LinearSVC
+        return LinearSVC(class_weight='balanced')
+
+    @property
+    def bow(self):
+        """BoW"""
+
+        try:
+            return self._bow
+        except AttributeError:
+            from dialectid.text_repr import SeqTM
+            self._bow = SeqTM(language=self.lang,
+                              voc_size_exponent=self.voc_size_exponent)
+        return self._bow
+
+    @property
+    def weights(self):
+        """Weights"""
+        try:
+            return self._weights
+        except AttributeError:
+            iterator = load_seqtm(self.lang,
+                                  self.voc_size_exponent,
+                                  self.precision)
+            precision = getattr(np, f'float{self.precision}')            
+            weights = []
+            names = []
+            for data in iterator:
+                _ = np.frombuffer(bytes.fromhex(data['coef']), dtype=precision)
+                weights.append(_)
+                names.append(data['labels'][-1])
+            self._weights = np.vstack(weights)
+            self._names = np.array(names)
+        return self._weights
+
+    @property
+    def names(self):
+        """Vector space components"""
+
+        return self._names    
+
+    def encode(self, text):
+        """Encode utterace into a matrix"""
+
+        token2id = self.bow.token2id
+        seq = []
+        for token in self.bow.tokenize(text):
+            try:
+                seq.append(token2id[token])
+            except KeyError:
+                continue
+        W = self.weights
+        return np.vstack([W[:, x] for x in seq]).T
