@@ -37,6 +37,6 @@ jobs:
           git config --global user.email "mgraffg@ieee.org"
           git config --global user.name "mgraffg"
           cd quarto
-          quarto publish gh-pages .  --no-browser          
+          quarto publish gh-pages dialectid.qmd --no-browser         
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

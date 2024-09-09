@@ -22,7 +22,7 @@
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 
 
-from dialectid.text_repr import BoW
+from dialectid.text_repr import BoW, SeqTM
 import numpy as np
 
 
@@ -44,4 +44,65 @@ def test_subwords():
     bow = BoW(lang='es', voc_size_exponent=13,
               subwords=True)
     bow.transform(['Hola'])
-    
+
+
+def test_SeqTM():
+    """Test SeqTM class"""
+
+    seq = SeqTM(language='es', subwords=True,
+                sequence=False,
+                voc_selection='most_common_by_type',
+                voc_size_exponent=13)
+    assert seq.language == 'es'
+    assert seq.voc_size_exponent == 13
+    _ = [['dias', 'q:~dur', 'q:os~']]
+    assert seq.compute_tokens('~dias~duros~') == _
+    assert seq.compute_tokens('~🤷~') == [['🤷']]
+    assert seq.compute_tokens('~🙇🏿~') == [['🙇']]
+    assert seq.tokenize('buenos dias 🙇🏿')[-1] == '🙇'
+
+
+def test_SeqTM_bug():
+    """Test SeqTM class"""
+
+    seq = SeqTM(language='es', subwords=True,
+                sequence=False,
+                voc_selection='most_common_by_type',
+                voc_size_exponent=13)
+    res1 = seq.tokenize('mira pinche a')
+    res2 = seq.tokenize('a pinche a')
+    assert res1[1:] == res2[1:]
+
+
+def test_SeqTM_seq():
+    """Test SeqTM seq option"""
+
+    seq = SeqTM(language='es', sequence=True,
+                voc_selection='most_common',
+                voc_size_exponent=13)
+    res1 = seq.tokenize('mira pinche a')
+    res2 = seq.tokenize('a pinche a')
+    assert res1[1:] == res2[1:]
+
+
+def test_SeqTM_seq_bug():
+    """Test SeqTM seq option"""
+
+    seq = SeqTM(language='es', sequence=True,
+                voc_selection='most_common',
+                voc_size_exponent=13)
+    assert seq.del_dup == False
+
+
+def test_SeqTM_names():
+    seq = SeqTM(language='es', sequence=True,
+                voc_selection='most_common',
+                voc_size_exponent=13)
+    assert len(seq.names) == len(seq.model.word2id)
+
+
+def test_SeqTM_weights():
+    seq = SeqTM(language='es', sequence=True,
+                voc_selection='most_common',
+                voc_size_exponent=13)
+    assert len(seq.weights) == len(seq.names)    
