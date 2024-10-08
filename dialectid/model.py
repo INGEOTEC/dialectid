@@ -152,4 +152,7 @@ class DenseBoW:
             except KeyError:
                 continue
         W = self.weights
+        if len(seq) == 0:
+            dtype = getattr(np, f'float{self.precision}') 
+            return np.ones((W.shape[0], 1), dtype=dtype)
         return np.vstack([W[:, x] for x in seq]).T

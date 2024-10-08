@@ -92,3 +92,15 @@ def test_DenseBoW_encode():
     from dialectid.model import DenseBoW
     dense = DenseBoW(precision=16)
     assert dense.encode('buenos días').shape[1] == 2
+
+
+def test_DenseBoW_encode_empty():
+    """Test DenseBoW for empty"""
+
+    # 'ᗩᒪᒪ ᒪIᐯEᔕ ᗰᗩTTEᖇ!!!!!'
+
+    from dialectid.model import DenseBoW
+    dense = DenseBoW(precision=16)
+    X = dense.encode('')
+    assert X.shape[1] == 1
+    assert X.sum() == len(dense.names)
