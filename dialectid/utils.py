@@ -57,8 +57,7 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                    'za', 'sd', 'to', # South Africa, Sudan, Tonga
                    'tt', 'tc', 'ug', # Trinidad y Tobago, Turks and Caicos Islands, Uganda
                    'gb', 'us', 'vu', # United Kingdom, United States, Vanuatu
-                   'vg', 'vi', 'zm', # Virgin Islands (GB), Virgin Islands (US), Zambia
-                   'zw' # Zimbabwe
+                   'vi', 'zm', 'zw'  # Virgin Islands (US), Zambia, Zimbabwe
              ],
              'ar':['dz', 'bh', 'td', # Algeria, Bahrain, Chad
                    'dj', 'eg', 'iq', # Djibouti, Egypt, Iraq
