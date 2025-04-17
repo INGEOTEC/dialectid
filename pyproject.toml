@@ -7,7 +7,8 @@ dependencies = [
     'scikit-learn>=1.3.0',
     'microtc',
     'b4msa',
-    'EvoMSA'
+    'EvoMSA',
+    'EncExp'
 ]
 dynamic = ['version']
 classifiers = [

@@ -35,7 +35,7 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                    'ec', 'uy', 'cr', # Ecuador (EC), Uruguay (UY), Costa Rica (CR)
                    'sv', 'pa', 'gt', # El Salvador (SV), Panama (PA), Guatemala (GT)
                    'hn', 'ni', 'bo', # Honduras (HN), Nicaragua (NI), Bolivia (BO)
-                   'cu', 'gq', # Cuba (CU), Equatorial Guinea
+                   'cu', 'gq', 'pr'  # Cuba (CU), Equatorial Guinea, Puerto Rico (PR)
              ],
              'en':['ai', 'ag', 'au', # Anguilla, Antigua and Barbuda, Australia
                    'bs', 'bb', 'bz', # Bahamas, Barbados, Belize
@@ -57,7 +57,8 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                    'za', 'sd', 'to', # South Africa, Sudan, Tonga
                    'tt', 'tc', 'ug', # Trinidad y Tobago, Turks and Caicos Islands, Uganda
                    'gb', 'us', 'vu', # United Kingdom, United States, Vanuatu
-                   'vi', 'zm', 'zw'  # Virgin Islands (US), Zambia, Zimbabwe
+                   'vi', 'zm', 'zw',  # Virgin Islands (US), Zambia, Zimbabwe
+                   'pr'              # Puerto Rico (PR)
              ],
              'ar':['dz', 'bh', 'td', # Algeria, Bahrain, Chad
                    'dj', 'eg', 'iq', # Djibouti, Egypt, Iraq
