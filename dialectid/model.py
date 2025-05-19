@@ -25,6 +25,8 @@ from typing import Union, List
 from dataclasses import dataclass
 import numpy as np
 from encexp import EncExpT, TextModel
+from encexp.download import download
+from dialectid.utils import BASEURL
 
 
 @dataclass
@@ -52,7 +54,14 @@ class DialectId(EncExpT):
 
     def predict(self, texts: list):
         """predict"""
-        return self.names[self.transform(texts).argmax(axis=1)]
+        X = self.transform(texts)
+        return self.names[X.argmax(axis=1)]
+    
+    def download(self, first: bool=True):
+        """download"""
+        return download(self.identifier, first=first,
+                        base_url=BASEURL)
+        
 
 
 

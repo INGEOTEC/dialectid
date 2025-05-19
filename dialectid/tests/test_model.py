@@ -39,9 +39,18 @@ def test_DialectId_predict():
     enc = DialectId(lang='es', pretrained=False)
     enc.tailored(D, tsv_filename='tailored.tsv',
                  min_pos=32,
-                 filename='tailored_intercept.json.gz')
+                 filename='tailored_intercept.json.gz',
+                 self_supervised=False)
     hy = enc.predict(['comiendo unos tacos'])
     assert hy[0] == 'mx'
+
+
+def test_DialectId_download():
+    """Test DialectId download"""
+    dialectid = DialectId(lang='es', token_max_filter=2**17)
+    dialectid.weights
+    assert len(dialectid.names) == 21
+
 
 # def test_DialectId():
 #     """Test DialectId"""
