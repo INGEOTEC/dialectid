@@ -21,11 +21,6 @@
 # SOFTWARE.
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 
-from os.path import join, dirname, isdir, isfile
-import os
-from microtc.utils import Counter, tweet_iterator
-from EvoMSA.utils import Download, Linear
-
 
 BASEURL = 'https://github.com/INGEOTEC/dialectid/releases/download/data'
 
