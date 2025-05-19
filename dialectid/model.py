@@ -32,7 +32,7 @@ from dialectid.utils import BASEURL
 @dataclass
 class DialectId(EncExpT):
     """DialectId"""
-    token_max_filter: int=int(2**17)
+    token_max_filter: int=int(2**19)
     del_diac: bool=True
     with_intercept: bool=True
 
