@@ -31,6 +31,7 @@ from encexp import EncExpT, TextModel
 class DialectId(EncExpT):
     """DialectId"""
     token_max_filter: int=int(2**17)
+    del_diac: bool=True
     with_intercept: bool=True
 
     @property
@@ -40,6 +41,7 @@ class DialectId(EncExpT):
             return self._seqTM
         except AttributeError:
             _ = TextModel(lang=self.lang,
+                          del_diac=self.del_diac,
                           token_max_filter=self.token_max_filter)
             self.seqTM = _
         return self._seqTM

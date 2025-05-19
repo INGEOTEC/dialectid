@@ -28,6 +28,8 @@ def test_DialectId_identifier():
     """Test DialectId identifier"""
     dialectid = DialectId(lang='es')
     assert dialectid.identifier == 'DialectId_c69aaba0f1b0783f273f85de6f599132'
+    dialectid = DialectId(lang='es', distance=True)
+    assert dialectid.identifier == 'DialectId_c69aaba0f1b0783f273f85de6f599132'
 
 
 def test_DialectId_predict():
