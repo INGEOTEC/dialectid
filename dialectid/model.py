@@ -30,6 +30,7 @@ import gzip
 import json
 import numpy as np
 from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import Normalizer
 from sklearn.utils.extmath import softmax
 from encexp import EncExpT, TextModel
 from encexp.download import download
@@ -64,6 +65,8 @@ class DialectId(EncExpT):
         """Predict proba"""
         assert self.probability
         X = self.transform(texts)
+        norm = Normalizer()
+        X = norm.transform(X)
         coef, intercept = self.proba_coefs
         res = X @ coef + intercept
         return softmax(res)
@@ -136,6 +139,8 @@ class DialectId(EncExpT):
         for value in data.values():
             D.extend(value[:proba_instances])
         X = self.transform(D)
+        norm = Normalizer()
+        X = norm.transform(X)        
         y = [x['klass'] for x in D]
         lr = LogisticRegression().fit(X, y)
         self._lr = lr
