@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
+from numpy.testing import assert_almost_equal
+from microtc.utils import tweet_iterator
 from dialectid.model import DialectId
 from encexp.utils import load_dataset
 
@@ -52,85 +54,25 @@ def test_DialectId_download():
     assert len(dialectid.names) == 21
 
 
-# def test_DialectId():
-#     """Test DialectId"""
-
-#     from dialectid.model import DialectId
-#     from dialectid import BoW
-
-#     dialectid = DialectId(voc_size_exponent=15, subwords=False)
-#     assert dialectid.lang == 'es' and dialectid.voc_size_exponent == 15
-#     assert isinstance(dialectid.bow, BoW)
-
-
-# def test_DialectId_df():
-#     """Test DialectId"""
-
-#     from dialectid.model import DialectId
-
-#     dialectid = DialectId(voc_size_exponent=15, subwords=False)
-#     hy = dialectid.decision_function('comiendo tacos')
-#     assert hy.shape == (1, 20)
-#     assert hy.argmax(axis=1)[0] == 0
-
-
-# def test_countries():
-#     """Test countries"""
-
-#     from dialectid.model import DialectId
-
-#     dialectid = DialectId(voc_size_exponent=15, subwords=False)
-#     assert len(dialectid.countries) == 20
-#     assert dialectid.countries[0] == 'mx'
-
-
-# def test_predict():
-#     """Test predict"""
-
-#     from dialectid.model import DialectId
-
-#     dialectid = DialectId(voc_size_exponent=15, subwords=False)
-#     countries = dialectid.predict('comiendo tacos')
-#     assert countries[0] == 'mx'
-#     countries = dialectid.predict(['comiendo tacos',
-#                                    'tomando vino'])
-#     assert countries.shape == (2, )
-
-
-# def test_DialectId_subwords():
-#     """Test DialectId subwords"""
-
-#     from dialectid.model import DialectId
-#     dialectid = DialectId(voc_size_exponent=15)
-#     countries = dialectid.predict('comiendo tacos')
-#     assert countries[0] == 'mx'    
-
-
-# def test_DenseBoW():
-#     """Test DenseBoW based on SeqTM"""
-
-#     from dialectid.model import DenseBoW
-
-#     dense = DenseBoW(precision=16)
-#     assert dense.weights.shape[0] == dense.names.shape[0]
-#     dense.weights[0, 0] > 25
-
-
-# def test_DenseBoW_encode():
-#     """Test DenseBoW sentence repr"""
-
-#     from dialectid.model import DenseBoW
-#     dense = DenseBoW(precision=16)
-#     assert dense.encode('buenos días').shape[1] == 2
-
-
-# def test_DenseBoW_encode_empty():
-#     """Test DenseBoW for empty"""
-
-#     # 'ᗩᒪᒪ ᒪIᐯEᔕ ᗰᗩTTEᖇ!!!!!'
-
-#     from dialectid.model import DenseBoW
-#     dense = DenseBoW(precision=16)
-#     X = dense.encode('')
-#     assert X.shape[1] == 1
-#     assert X.sum() == len(dense.names)
+def test_DialectId_probability():
+    """Test DialectId predict"""
+    X, y = load_dataset(['mx', 'ar', 'es'], return_X_y=True)
+    D = [dict(text=text, klass=klass) for text, klass in zip(X, y)]
+    enc = DialectId(lang='es',
+                    pretrained=False,
+                    probability=True)
+    enc.tailored(D,
+                 tsv_filename='tailored.tsv',
+                 min_pos=32,
+                 filename='tailored_intercept.json.gz',
+                 self_supervised=False)
+    hy = enc.predict_proba(['comiendo unos tacos'])
+    assert_almost_equal(hy[0].sum(), 1)
+    enc2 = DialectId(lang='es',
+                    pretrained=False,
+                    probability=True)
+    enc2.set_weights(tweet_iterator('tailored_intercept.json.gz'))
+    assert_almost_equal(enc._lr.coef_.T, enc2.proba_coefs[0])
+    assert_almost_equal(enc._lr.intercept_, enc2.proba_coefs[1])
+    hy2 = enc2.predict_proba(['comiendo unos tacos'])
+    assert_almost_equal(hy, hy2)

@@ -21,9 +21,16 @@
 # SOFTWARE.
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 
-from typing import Union, List
+from typing import Iterable
 from dataclasses import dataclass
+from collections import defaultdict
+from random import shuffle
+from os.path import isfile
+import gzip
+import json
 import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.utils.extmath import softmax
 from encexp import EncExpT, TextModel
 from encexp.download import download
 from dialectid.utils import BASEURL
@@ -35,6 +42,7 @@ class DialectId(EncExpT):
     token_max_filter: int=int(2**19)
     del_diac: bool=True
     with_intercept: bool=True
+    probability: bool=False
 
     @property
     def seqTM(self):
@@ -52,17 +60,92 @@ class DialectId(EncExpT):
     def seqTM(self, value):
         self._seqTM = value
 
+    def predict_proba(self, texts: list):
+        """Predict proba"""
+        assert self.probability
+        X = self.transform(texts)
+        coef, intercept = self.proba_coefs
+        res = X @ coef + intercept
+        return softmax(res)
+
     def predict(self, texts: list):
         """predict"""
-        X = self.transform(texts)
+        if self.probability:
+            X = self.predict_proba(texts)
+        else:
+            X = self.transform(texts)
         return self.names[X.argmax(axis=1)]
-    
+
     def download(self, first: bool=True):
         """download"""
         return download(self.identifier, first=first,
                         base_url=BASEURL)
-        
+    
+    @property
+    def proba_coefs(self):
+        """Probability coefs"""
+        return self._proba_coefs
 
+    @proba_coefs.setter
+    def proba_coefs(self, value):
+        self._proba_coefs = value
+
+    def set_weights(self, data: Iterable):
+        if not self.probability:
+            return super().set_weights(data)
+        data = list(data)
+        super().set_weights([x for x in data if 'coef' in x])
+        proba = [x for x in data if 'proba_coef' in x]
+        if len(proba) == 0:
+            return
+        proba = proba[0]
+        coef = np.frombuffer(bytearray.fromhex(proba['proba_coef']),
+                             dtype=np.float32)
+        inter = np.frombuffer(bytearray.fromhex(proba['proba_intercept']),
+                              dtype=np.float32)
+        coef.shape = (inter.shape[0], inter.shape[0])
+        self.proba_coefs = (np.asanyarray(coef, dtype=self.precision),
+                            np.asanyarray(inter, dtype=self.precision))
+    
+    def tailored(self, D: Iterable=None, filename: str=None,
+                 tsv_filename: str=None, min_pos: int=32,
+                 max_pos: int=int(2**15), n_jobs: int=-1,
+                 self_supervised: bool=False, ds: object=None,
+                 train: object=None, proba_instances: int=64):
+        kwargs = dict(filename=filename, tsv_filename=tsv_filename,
+                      min_pos=min_pos, max_pos=max_pos, n_jobs=n_jobs,
+                      self_supervised=self_supervised, ds=ds, train=train)
+        if not self.probability:
+            return super().tailored(D=D, **kwargs)
+        if filename is not None:
+            filename = filename.split('.json.gz')[0]
+        else:
+            filename = self.identifier
+        if isfile(f'{filename}.json.gz'):
+            return super().tailored(D=D, **kwargs)
+        data = defaultdict(list)
+        for text in D:
+            data[text['klass']].append(text)
+        for value in data.values():
+            shuffle(value)
+        D = []
+        for value in data.values():
+            D.extend(value[proba_instances:])
+        super().tailored(D=D, **kwargs)
+        D = []
+        for value in data.values():
+            D.extend(value[:proba_instances])
+        X = self.transform(D)
+        y = [x['klass'] for x in D]
+        lr = LogisticRegression().fit(X, y)
+        self._lr = lr
+        self.proba_coefs = (lr.coef_.T, lr.intercept_)
+        with gzip.open(f'{filename}.json.gz', 'ab') as fpt:
+            coef, intercept = self.proba_coefs
+            data = dict(proba_coef=coef.astype(np.float32).tobytes().hex(),
+                        proba_intercept=intercept.astype(np.float32).tobytes().hex())
+            fpt.write(bytes(json.dumps(data) + '\n',
+                      encoding='utf-8'))
 
 
 
