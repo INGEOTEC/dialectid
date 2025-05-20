@@ -24,6 +24,7 @@ from numpy.testing import assert_almost_equal
 from microtc.utils import tweet_iterator
 from dialectid.model import DialectId
 from encexp.utils import load_dataset
+import os
 
 
 def test_DialectId_identifier():
@@ -45,6 +46,7 @@ def test_DialectId_predict():
                  self_supervised=False)
     hy = enc.predict(['comiendo unos tacos'])
     assert hy[0] in ('mx', 'ar', 'es')
+    os.unlink('tailored_intercept.json.gz')
 
 
 def test_DialectId_download():
@@ -64,15 +66,16 @@ def test_DialectId_probability():
     enc.tailored(D,
                  tsv_filename='tailored.tsv',
                  min_pos=32,
-                 filename='tailored_intercept.json.gz',
+                 filename='tailored_intercept2.json.gz',
                  self_supervised=False)
     hy = enc.predict_proba(['comiendo unos tacos'])
     assert_almost_equal(hy[0].sum(), 1)
     enc2 = DialectId(lang='es',
                     pretrained=False,
                     probability=True)
-    enc2.set_weights(tweet_iterator('tailored_intercept.json.gz'))
+    enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
     assert_almost_equal(enc._lr.coef_.T, enc2.proba_coefs[0])
     assert_almost_equal(enc._lr.intercept_, enc2.proba_coefs[1])
     hy2 = enc2.predict_proba(['comiendo unos tacos'])
     assert_almost_equal(hy, hy2)
+    os.unlink('tailored_intercept2.json.gz')
