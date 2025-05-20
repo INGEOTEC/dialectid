@@ -21,6 +21,7 @@
 # SOFTWARE.
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 from numpy.testing import assert_almost_equal
+from sklearn.preprocessing import Normalizer
 from microtc.utils import tweet_iterator
 from dialectid.model import DialectId
 from encexp.utils import load_dataset
@@ -47,6 +48,7 @@ def test_DialectId_predict():
     hy = enc.predict(['comiendo unos tacos'])
     assert hy[0] in ('mx', 'ar', 'es')
     os.unlink('tailored_intercept.json.gz')
+    os.unlink('tailored.tsv')
 
 
 def test_DialectId_download():
@@ -68,7 +70,11 @@ def test_DialectId_probability():
                  min_pos=32,
                  filename='tailored_intercept2.json.gz',
                  self_supervised=False)
+    norm = Normalizer()
+    X = enc.transform(['comiendo unos tacos'])
     hy = enc.predict_proba(['comiendo unos tacos'])
+    _ = enc._lr.predict_proba(norm.transform(X))
+    assert_almost_equal(_, hy)
     assert_almost_equal(hy[0].sum(), 1)
     enc2 = DialectId(lang='es',
                     pretrained=False,
@@ -79,3 +85,34 @@ def test_DialectId_probability():
     hy2 = enc2.predict_proba(['comiendo unos tacos'])
     assert_almost_equal(hy, hy2)
     os.unlink('tailored_intercept2.json.gz')
+    os.unlink('tailored.tsv')
+
+
+def test_DialectId_probability_2cl():
+    """Test DialectId predict"""
+    X, y = load_dataset(['mx', 'ar'], return_X_y=True)
+    D = [dict(text=text, klass=klass) for text, klass in zip(X, y)]
+    enc = DialectId(lang='es',
+                    pretrained=False,
+                    probability=True)
+    enc.tailored(D,
+                 tsv_filename='tailored.tsv',
+                 min_pos=32,
+                 filename='tailored_intercept2.json.gz',
+                 self_supervised=False)
+    norm = Normalizer()
+    X = enc.transform(['comiendo unos tacos'])
+    hy = enc.predict_proba(['comiendo unos tacos'])
+    _ = enc._lr.predict_proba(norm.transform(X))
+    assert_almost_equal(_, hy)    
+    assert_almost_equal(hy[0].sum(), 1)
+    enc2 = DialectId(lang='es',
+                    pretrained=False,
+                    probability=True)
+    enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
+    assert_almost_equal(enc._lr.coef_[0], enc2.proba_coefs[0])
+    assert_almost_equal(enc._lr.intercept_, enc2.proba_coefs[1])
+    hy2 = enc2.predict_proba(['comiendo unos tacos'])
+    assert_almost_equal(hy, hy2)
+    os.unlink('tailored_intercept2.json.gz')
+    os.unlink('tailored.tsv')

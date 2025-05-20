@@ -29,6 +29,7 @@ from os.path import isfile
 import gzip
 import json
 import numpy as np
+from scipy.special import expit
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import Normalizer
 from sklearn.utils.extmath import softmax
@@ -69,6 +70,10 @@ class DialectId(EncExpT):
         X = norm.transform(X)
         coef, intercept = self.proba_coefs
         res = X @ coef + intercept
+        if res.ndim == 1:
+            expit(res, out=res)
+            return np.c_[1 - res, res]
+
         return softmax(res)
 
     def predict(self, texts: list):
@@ -106,7 +111,8 @@ class DialectId(EncExpT):
                              dtype=np.float32)
         inter = np.frombuffer(bytearray.fromhex(proba['proba_intercept']),
                               dtype=np.float32)
-        coef.shape = (inter.shape[0], inter.shape[0])
+        if inter.shape[0] > 1:
+            coef.shape = (inter.shape[0], inter.shape[0])
         self.proba_coefs = (np.asanyarray(coef, dtype=self.precision),
                             np.asanyarray(inter, dtype=self.precision))
     
@@ -114,7 +120,7 @@ class DialectId(EncExpT):
                  tsv_filename: str=None, min_pos: int=32,
                  max_pos: int=int(2**15), n_jobs: int=-1,
                  self_supervised: bool=False, ds: object=None,
-                 train: object=None, proba_instances: int=64):
+                 train: object=None, proba_instances: int=256):
         kwargs = dict(filename=filename, tsv_filename=tsv_filename,
                       min_pos=min_pos, max_pos=max_pos, n_jobs=n_jobs,
                       self_supervised=self_supervised, ds=ds, train=train)
@@ -144,7 +150,10 @@ class DialectId(EncExpT):
         y = [x['klass'] for x in D]
         lr = LogisticRegression().fit(X, y)
         self._lr = lr
-        self.proba_coefs = (lr.coef_.T, lr.intercept_)
+        if lr.coef_.shape[0] == 1:
+            self.proba_coefs = (lr.coef_[0], lr.intercept_)
+        else:
+            self.proba_coefs = (lr.coef_.T, lr.intercept_)
         with gzip.open(f'{filename}.json.gz', 'ab') as fpt:
             coef, intercept = self.proba_coefs
             data = dict(proba_coef=coef.astype(np.float32).tobytes().hex(),
