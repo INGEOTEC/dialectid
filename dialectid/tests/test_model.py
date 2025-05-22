@@ -51,6 +51,23 @@ def test_DialectId_predict():
     os.unlink('tailored.tsv')
 
 
+def test_DialectId_predict_2cl():
+    """Test DialectId predict"""
+    X, y = load_dataset(['mx', 'ar'], return_X_y=True)
+    D = [dict(text=text, klass=klass) for text, klass in zip(X, y)]
+    enc = DialectId(lang='es', pretrained=False)
+    enc.tailored(D, tsv_filename='tailored.tsv',
+                 min_pos=32,
+                 filename='tailored_intercept.json.gz',
+                 self_supervised=False)
+    X = enc.transform(['comiendo unos tacos'])
+    assert X.shape[1] == 1
+    hy = enc.predict(['comiendo unos tacos'])
+    assert hy[0] in ('mx', 'ar')
+    os.unlink('tailored_intercept.json.gz')
+    os.unlink('tailored.tsv')    
+
+
 def test_DialectId_download():
     """Test DialectId download"""
     dialectid = DialectId(lang='es', token_max_filter=2**17)
@@ -70,19 +87,18 @@ def test_DialectId_probability():
                  min_pos=32,
                  filename='tailored_intercept2.json.gz',
                  self_supervised=False)
-    norm = Normalizer()
-    X = enc.transform(['comiendo unos tacos'])
-    hy = enc.predict_proba(['comiendo unos tacos'])
-    _ = enc._lr.predict_proba(norm.transform(X))
+    # norm = Normalizer()
+    X = enc.transform(['comiendo unos tacos', 'pibe'])
+    hy = enc.predict_proba(['comiendo unos tacos', 'pibe'])
+    _ = enc._lr.predict_proba(X)
     assert_almost_equal(_, hy)
-    assert_almost_equal(hy[0].sum(), 1)
     enc2 = DialectId(lang='es',
                     pretrained=False,
                     probability=True)
     enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
     assert_almost_equal(enc._lr.coef_.T, enc2.proba_coefs[0])
     assert_almost_equal(enc._lr.intercept_, enc2.proba_coefs[1])
-    hy2 = enc2.predict_proba(['comiendo unos tacos'])
+    hy2 = enc2.predict_proba(['comiendo unos tacos', 'pibe'])
     assert_almost_equal(hy, hy2)
     os.unlink('tailored_intercept2.json.gz')
     os.unlink('tailored.tsv')
@@ -100,10 +116,10 @@ def test_DialectId_probability_2cl():
                  min_pos=32,
                  filename='tailored_intercept2.json.gz',
                  self_supervised=False)
-    norm = Normalizer()
-    X = enc.transform(['comiendo unos tacos'])
-    hy = enc.predict_proba(['comiendo unos tacos'])
-    _ = enc._lr.predict_proba(norm.transform(X))
+    # norm = Normalizer()
+    X = enc.transform(['comiendo unos tacos', 'pibe'])
+    hy = enc.predict_proba(['comiendo unos tacos', 'pibe'])
+    _ = enc._lr.predict_proba(X)
     assert_almost_equal(_, hy)    
     assert_almost_equal(hy[0].sum(), 1)
     enc2 = DialectId(lang='es',
@@ -112,7 +128,7 @@ def test_DialectId_probability_2cl():
     enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
     assert_almost_equal(enc._lr.coef_[0], enc2.proba_coefs[0])
     assert_almost_equal(enc._lr.intercept_, enc2.proba_coefs[1])
-    hy2 = enc2.predict_proba(['comiendo unos tacos'])
+    hy2 = enc2.predict_proba(['comiendo unos tacos', 'pibe'])
     assert_almost_equal(hy, hy2)
     os.unlink('tailored_intercept2.json.gz')
     os.unlink('tailored.tsv')

@@ -66,8 +66,8 @@ class DialectId(EncExpT):
         """Predict proba"""
         assert self.probability
         X = self.transform(texts)
-        norm = Normalizer()
-        X = norm.transform(X)
+        # norm = Normalizer()
+        # X = norm.transform(X)
         coef, intercept = self.proba_coefs
         res = X @ coef + intercept
         if res.ndim == 1:
@@ -82,6 +82,8 @@ class DialectId(EncExpT):
             X = self.predict_proba(texts)
         else:
             X = self.transform(texts)
+            if X.shape[1] == 1:
+                X = np.c_[X[:, 0], -X[:, 0]]
         return self.names[X.argmax(axis=1)]
 
     def download(self, first: bool=True):
@@ -145,8 +147,8 @@ class DialectId(EncExpT):
         for value in data.values():
             D.extend(value[:proba_instances])
         X = self.transform(D)
-        norm = Normalizer()
-        X = norm.transform(X)        
+        # norm = Normalizer()
+        # X = norm.transform(X)        
         y = [x['klass'] for x in D]
         lr = LogisticRegression().fit(X, y)
         self._lr = lr
@@ -161,136 +163,3 @@ class DialectId(EncExpT):
             fpt.write(bytes(json.dumps(data) + '\n',
                       encoding='utf-8'))
 
-
-
-# from dialectid.utils import BOW, load_dialectid, load_seqtm
-
-# @dataclass
-# class DialectId:
-#     """DialectId"""
-#     lang: str='es'
-#     voc_size_exponent: int=15
-#     subwords: bool=True
-
-#     @property
-#     def bow(self):
-#         """BoW"""
-
-#         try:
-#             return self._bow
-#         except AttributeError:
-#             path = BOW[self.lang].split('.')
-#             module = '.'.join(path[:-1])
-#             text_repr = importlib.import_module(module)
-#             kwargs = {}
-#             if module != 'EvoMSA.text_repr':
-#                 kwargs = dict(subwords=self.subwords)
-#             _ = getattr(text_repr, path[-1])(lang=self.lang,
-#                                              voc_size_exponent=self.voc_size_exponent,
-#                                              **kwargs)
-#             self._bow = _
-#         return self._bow
-
-#     @property
-#     def weights(self):
-#         """Weights"""
-#         try:
-#             return self._weights
-#         except AttributeError:
-#             self._weights = load_dialectid(self.lang,
-#                                            self.voc_size_exponent,
-#                                            self.subwords)
-#         return self._weights
-    
-#     @property
-#     def countries(self):
-#         """Countries"""
-#         try:
-#             return self._countries
-#         except AttributeError:
-#             _ = [x.labels[-1] for x in self.weights]
-#             self._countries = np.array(_)
-#         return self._countries
-
-#     def decision_function(self, D: List[Union[dict, list, str]]) -> np.ndarray:
-#         """Decision function"""
-#         if isinstance(D, str):
-#             D = [D]
-#         X = self.bow.transform(D)
-#         hy = [w.decision_function(X) for w in self.weights]
-#         return np.array(hy).T
-
-#     def predict(self, D: List[Union[dict, list, str]]) -> np.ndarray:
-#         """Prediction"""
-
-#         hy = self.decision_function(D)
-#         return self.countries[hy.argmax(axis=1)]
-
-
-# @dataclass
-# class DenseBoW:
-#     """DenseBoW"""
-
-#     lang: str='es'
-#     voc_size_exponent: int=13
-#     precision: int=32
-
-#     def estimator(self, **kwargs):
-#         """Estimator"""
-
-#         from sklearn.svm import LinearSVC
-#         return LinearSVC(class_weight='balanced')
-
-#     @property
-#     def bow(self):
-#         """BoW"""
-
-#         try:
-#             return self._bow
-#         except AttributeError:
-#             from dialectid.text_repr import SeqTM
-#             self._bow = SeqTM(language=self.lang,
-#                               voc_size_exponent=self.voc_size_exponent)
-#         return self._bow
-
-#     @property
-#     def weights(self):
-#         """Weights"""
-#         try:
-#             return self._weights
-#         except AttributeError:
-#             iterator = load_seqtm(self.lang,
-#                                   self.voc_size_exponent,
-#                                   self.precision)
-#             precision = getattr(np, f'float{self.precision}')            
-#             weights = []
-#             names = []
-#             for data in iterator:
-#                 _ = np.frombuffer(bytes.fromhex(data['coef']), dtype=precision)
-#                 weights.append(_)
-#                 names.append(data['labels'][-1])
-#             self._weights = np.vstack(weights)
-#             self._names = np.array(names)
-#         return self._weights
-
-#     @property
-#     def names(self):
-#         """Vector space components"""
-
-#         return self._names    
-
-#     def encode(self, text):
-#         """Encode utterace into a matrix"""
-
-#         token2id = self.bow.token2id
-#         seq = []
-#         for token in self.bow.tokenize(text):
-#             try:
-#                 seq.append(token2id[token])
-#             except KeyError:
-#                 continue
-#         W = self.weights
-#         if len(seq) == 0:
-#             dtype = getattr(np, f'float{self.precision}') 
-#             return np.ones((W.shape[0], 1), dtype=dtype)
-#         return np.vstack([W[:, x] for x in seq]).T
