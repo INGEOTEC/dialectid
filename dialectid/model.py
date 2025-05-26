@@ -83,14 +83,14 @@ class DialectId(EncExpT):
         else:
             X = self.transform(texts)
             if X.shape[1] == 1:
-                X = np.c_[X[:, 0], -X[:, 0]]
+                X = np.c_[-X[:, 0], X[:, 0]]
         return self.names[X.argmax(axis=1)]
 
     def download(self, first: bool=True):
         """download"""
         return download(self.identifier, first=first,
                         base_url=BASEURL)
-    
+
     @property
     def proba_coefs(self):
         """Probability coefs"""
