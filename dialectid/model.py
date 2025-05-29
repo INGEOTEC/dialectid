@@ -30,8 +30,11 @@ import gzip
 import json
 import numpy as np
 from scipy.special import expit
+from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import Normalizer
+from sklearn.model_selection import StratifiedKFold
+from sklearn.pipeline import make_pipeline
 from sklearn.utils.extmath import softmax
 from encexp import EncExpT, TextModel
 from encexp.download import download
@@ -45,6 +48,12 @@ class DialectId(EncExpT):
     del_diac: bool=True
     with_intercept: bool=True
     probability: bool=False
+
+    def identifier_filter(self, key, value):
+        """Test default parameters"""
+        if key == 'probability':
+            return True
+        return super().identifier_filter(key, value)
 
     @property
     def seqTM(self):
@@ -66,14 +75,13 @@ class DialectId(EncExpT):
         """Predict proba"""
         assert self.probability
         X = self.transform(texts)
-        # norm = Normalizer()
-        # X = norm.transform(X)
+        norm = Normalizer()
+        X = norm.transform(X)
         coef, intercept = self.proba_coefs
         res = X @ coef + intercept
         if res.ndim == 1:
             expit(res, out=res)
             return np.c_[1 - res, res]
-
         return softmax(res)
 
     def predict(self, texts: list):
@@ -117,49 +125,43 @@ class DialectId(EncExpT):
             coef.shape = (inter.shape[0], inter.shape[0])
         self.proba_coefs = (np.asanyarray(coef, dtype=self.precision),
                             np.asanyarray(inter, dtype=self.precision))
-    
+
     def tailored(self, D: Iterable=None, filename: str=None,
                  tsv_filename: str=None, min_pos: int=32,
-                 max_pos: int=int(2**15), n_jobs: int=-1,
+                 max_pos: int=int(2**21), n_jobs: int=-1,
                  self_supervised: bool=False, ds: object=None,
-                 train: object=None, proba_instances: int=256):
+                 train: object=None):
         kwargs = dict(filename=filename, tsv_filename=tsv_filename,
                       min_pos=min_pos, max_pos=max_pos, n_jobs=n_jobs,
                       self_supervised=self_supervised, ds=ds, train=train)
-        if not self.probability:
-            return super().tailored(D=D, **kwargs)
         if filename is not None:
             filename = filename.split('.json.gz')[0]
         else:
             filename = self.identifier
         if isfile(f'{filename}.json.gz'):
             return super().tailored(D=D, **kwargs)
-        data = defaultdict(list)
-        for text in D:
-            data[text['klass']].append(text)
-        for value in data.values():
-            shuffle(value)
-        D = []
-        for value in data.values():
-            D.extend(value[proba_instances:])
         super().tailored(D=D, **kwargs)
-        D = []
-        for value in data.values():
-            D.extend(value[:proba_instances])
-        X = self.transform(D)
-        # norm = Normalizer()
-        # X = norm.transform(X)        
-        y = [x['klass'] for x in D]
-        lr = LogisticRegression().fit(X, y)
-        self._lr = lr
+        _, nrows = self.weights.shape
+        df = np.empty((len(D), nrows))
+        X = self.seqTM.transform(D)
+        y = np.array([x['klass'] for x in D])
+        for tr, vs in StratifiedKFold(n_splits=3).split(D, y):
+            m = LinearSVC(class_weight='balanced').fit(X[tr], y[tr])
+            _ = m.decision_function(X[vs])
+            if _.ndim == 1:
+                _ = np.c_[_]
+            df[vs] = _
+        model = make_pipeline(Normalizer(),
+                              LogisticRegression(class_weight='balanced')).fit(df, y)
+        lr = model[1]
         if lr.coef_.shape[0] == 1:
             self.proba_coefs = (lr.coef_[0], lr.intercept_)
         else:
             self.proba_coefs = (lr.coef_.T, lr.intercept_)
+
         with gzip.open(f'{filename}.json.gz', 'ab') as fpt:
             coef, intercept = self.proba_coefs
             data = dict(proba_coef=coef.astype(np.float32).tobytes().hex(),
                         proba_intercept=intercept.astype(np.float32).tobytes().hex())
             fpt.write(bytes(json.dumps(data) + '\n',
                       encoding='utf-8'))
-
