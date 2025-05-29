@@ -87,7 +87,6 @@ def test_DialectId_probability():
                  min_pos=32,
                  filename='tailored_intercept2.json.gz',
                  self_supervised=False)
-    # norm = Normalizer()
     X = enc.transform(['comiendo unos tacos', 'pibe'])
     hy = enc.predict_proba(['comiendo unos tacos', 'pibe'])
     _ = enc._lr.predict_proba(X)
@@ -96,8 +95,8 @@ def test_DialectId_probability():
                     pretrained=False,
                     probability=True)
     enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
-    assert_almost_equal(enc._lr.coef_.T, enc2.proba_coefs[0])
-    assert_almost_equal(enc._lr.intercept_, enc2.proba_coefs[1])
+    assert_almost_equal(enc._lr[1].coef_.T, enc2.proba_coefs[0])
+    assert_almost_equal(enc._lr[1].intercept_, enc2.proba_coefs[1])
     hy2 = enc2.predict_proba(['comiendo unos tacos', 'pibe'])
     assert_almost_equal(hy, hy2)
     os.unlink('tailored_intercept2.json.gz')
@@ -116,7 +115,6 @@ def test_DialectId_probability_2cl():
                  min_pos=32,
                  filename='tailored_intercept2.json.gz',
                  self_supervised=False)
-    # norm = Normalizer()
     X = enc.transform(['comiendo unos tacos', 'pibe'])
     hy = enc.predict_proba(['comiendo unos tacos', 'pibe'])
     _ = enc._lr.predict_proba(X)
@@ -126,8 +124,8 @@ def test_DialectId_probability_2cl():
                     pretrained=False,
                     probability=True)
     enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
-    assert_almost_equal(enc._lr.coef_[0], enc2.proba_coefs[0])
-    assert_almost_equal(enc._lr.intercept_, enc2.proba_coefs[1])
+    assert_almost_equal(enc._lr[1].coef_[0], enc2.proba_coefs[0])
+    assert_almost_equal(enc._lr[1].intercept_, enc2.proba_coefs[1])
     hy2 = enc2.predict_proba(['comiendo unos tacos', 'pibe'])
     assert_almost_equal(hy, hy2)
     os.unlink('tailored_intercept2.json.gz')

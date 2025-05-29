@@ -154,6 +154,7 @@ class DialectId(EncExpT):
         model = make_pipeline(Normalizer(),
                               LogisticRegression(class_weight='balanced')).fit(df, y)
         lr = model[1]
+        self._lr = model
         if lr.coef_.shape[0] == 1:
             self.proba_coefs = (lr.coef_[0], lr.intercept_)
         else:
