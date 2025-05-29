@@ -130,3 +130,10 @@ def test_DialectId_probability_2cl():
     assert_almost_equal(hy, hy2)
     os.unlink('tailored_intercept2.json.gz')
     os.unlink('tailored.tsv')
+
+
+def test_DialectId_model():
+    """Test DialectID"""
+
+    dial = DialectId(lang='es')
+    dial.predict(['comiendo unos tacos'])

@@ -109,8 +109,8 @@ class DialectId(EncExpT):
         self._proba_coefs = value
 
     def set_weights(self, data: Iterable):
-        if not self.probability:
-            return super().set_weights(data)
+        # if not self.probability:
+        #     return super().set_weights(data)
         data = list(data)
         super().set_weights([x for x in data if 'coef' in x])
         proba = [x for x in data if 'proba_coef' in x]
