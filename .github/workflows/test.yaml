@@ -32,7 +32,8 @@ jobs:
         conda install --yes pip
         pip install coverage
         pip install coveralls
-        conda install --yes numpy scipy scikit-learn nose evomsa
+        pip install encexp
+        conda install --yes numpy scipy scikit-learn nose
         python setup.py build_ext --inplace
     - name: Tests on Linux
       if: ${{ runner.os == 'Linux' }}

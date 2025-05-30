@@ -21,135 +21,148 @@
 # SOFTWARE.
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 
-from typing import Union, List
+from typing import Iterable
 from dataclasses import dataclass
-import importlib
+from collections import defaultdict
+from random import shuffle
+from os.path import isfile
+import gzip
+import json
 import numpy as np
-from dialectid.utils import BOW, load_dialectid, load_seqtm
+from scipy.special import expit
+from sklearn.svm import LinearSVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import Normalizer
+from sklearn.model_selection import StratifiedKFold
+from sklearn.pipeline import make_pipeline
+from sklearn.utils.extmath import softmax
+from encexp import EncExpT, TextModel
+from encexp.download import download
+from dialectid.utils import BASEURL
+
 
 @dataclass
-class DialectId:
+class DialectId(EncExpT):
     """DialectId"""
-    lang: str='es'
-    voc_size_exponent: int=15
-    subwords: bool=True
+    token_max_filter: int=int(2**19)
+    del_diac: bool=True
+    with_intercept: bool=True
+    probability: bool=False
+
+    def identifier_filter(self, key, value):
+        """Test default parameters"""
+        if key == 'probability':
+            return True
+        return super().identifier_filter(key, value)
 
     @property
-    def bow(self):
-        """BoW"""
-
+    def seqTM(self):
+        """SeqTM"""
         try:
-            return self._bow
+            return self._seqTM
         except AttributeError:
-            path = BOW[self.lang].split('.')
-            module = '.'.join(path[:-1])
-            text_repr = importlib.import_module(module)
-            kwargs = {}
-            if module != 'EvoMSA.text_repr':
-                kwargs = dict(subwords=self.subwords)
-            _ = getattr(text_repr, path[-1])(lang=self.lang,
-                                             voc_size_exponent=self.voc_size_exponent,
-                                             **kwargs)
-            self._bow = _
-        return self._bow
+            _ = TextModel(lang=self.lang,
+                          del_diac=self.del_diac,
+                          token_max_filter=self.token_max_filter)
+            self.seqTM = _
+        return self._seqTM
+
+    @seqTM.setter
+    def seqTM(self, value):
+        self._seqTM = value
+
+    def predict_proba(self, texts: list):
+        """Predict proba"""
+        assert self.probability
+        X = self.transform(texts)
+        norm = Normalizer()
+        X = norm.transform(X)
+        coef, intercept = self.proba_coefs
+        res = X @ coef + intercept
+        if res.ndim == 1:
+            expit(res, out=res)
+            return np.c_[1 - res, res]
+        return softmax(res)
+
+    def predict(self, texts: list):
+        """predict"""
+        if self.probability:
+            X = self.predict_proba(texts)
+        else:
+            X = self.transform(texts)
+            if X.shape[1] == 1:
+                X = np.c_[-X[:, 0], X[:, 0]]
+        return self.names[X.argmax(axis=1)]
+
+    def download(self, first: bool=True):
+        """download"""
+        return download(self.identifier, first=first,
+                        base_url=BASEURL)
 
     @property
-    def weights(self):
-        """Weights"""
-        try:
-            return self._weights
-        except AttributeError:
-            self._weights = load_dialectid(self.lang,
-                                           self.voc_size_exponent,
-                                           self.subwords)
-        return self._weights
-    
-    @property
-    def countries(self):
-        """Countries"""
-        try:
-            return self._countries
-        except AttributeError:
-            _ = [x.labels[-1] for x in self.weights]
-            self._countries = np.array(_)
-        return self._countries
+    def proba_coefs(self):
+        """Probability coefs"""
+        return self._proba_coefs
 
-    def decision_function(self, D: List[Union[dict, list, str]]) -> np.ndarray:
-        """Decision function"""
-        if isinstance(D, str):
-            D = [D]
-        X = self.bow.transform(D)
-        hy = [w.decision_function(X) for w in self.weights]
-        return np.array(hy).T
+    @proba_coefs.setter
+    def proba_coefs(self, value):
+        self._proba_coefs = value
 
-    def predict(self, D: List[Union[dict, list, str]]) -> np.ndarray:
-        """Prediction"""
+    def set_weights(self, data: Iterable):
+        # if not self.probability:
+        #     return super().set_weights(data)
+        data = list(data)
+        super().set_weights([x for x in data if 'coef' in x])
+        proba = [x for x in data if 'proba_coef' in x]
+        if len(proba) == 0:
+            return
+        proba = proba[0]
+        coef = np.frombuffer(bytearray.fromhex(proba['proba_coef']),
+                             dtype=np.float32)
+        inter = np.frombuffer(bytearray.fromhex(proba['proba_intercept']),
+                              dtype=np.float32)
+        if inter.shape[0] > 1:
+            coef.shape = (inter.shape[0], inter.shape[0])
+        self.proba_coefs = (np.asanyarray(coef, dtype=self.precision),
+                            np.asanyarray(inter, dtype=self.precision))
 
-        hy = self.decision_function(D)
-        return self.countries[hy.argmax(axis=1)]
+    def tailored(self, D: Iterable=None, filename: str=None,
+                 tsv_filename: str=None, min_pos: int=32,
+                 max_pos: int=int(2**21), n_jobs: int=-1,
+                 self_supervised: bool=False, ds: object=None,
+                 train: object=None):
+        kwargs = dict(filename=filename, tsv_filename=tsv_filename,
+                      min_pos=min_pos, max_pos=max_pos, n_jobs=n_jobs,
+                      self_supervised=self_supervised, ds=ds, train=train)
+        if filename is not None:
+            filename = filename.split('.json.gz')[0]
+        else:
+            filename = self.identifier
+        if isfile(f'{filename}.json.gz'):
+            return super().tailored(D=D, **kwargs)
+        super().tailored(D=D, **kwargs)
+        _, nrows = self.weights.shape
+        df = np.empty((len(D), nrows))
+        X = self.seqTM.transform(D)
+        y = np.array([x['klass'] for x in D])
+        for tr, vs in StratifiedKFold(n_splits=3).split(D, y):
+            m = LinearSVC(class_weight='balanced').fit(X[tr], y[tr])
+            _ = m.decision_function(X[vs])
+            if _.ndim == 1:
+                _ = np.c_[_]
+            df[vs] = _
+        model = make_pipeline(Normalizer(),
+                              LogisticRegression(class_weight='balanced')).fit(df, y)
+        lr = model[1]
+        self._lr = model
+        if lr.coef_.shape[0] == 1:
+            self.proba_coefs = (lr.coef_[0], lr.intercept_)
+        else:
+            self.proba_coefs = (lr.coef_.T, lr.intercept_)
 
-
-@dataclass
-class DenseBoW:
-    """DenseBoW"""
-
-    lang: str='es'
-    voc_size_exponent: int=13
-    precision: int=32
-
-    def estimator(self, **kwargs):
-        """Estimator"""
-
-        from sklearn.svm import LinearSVC
-        return LinearSVC(class_weight='balanced')
-
-    @property
-    def bow(self):
-        """BoW"""
-
-        try:
-            return self._bow
-        except AttributeError:
-            from dialectid.text_repr import SeqTM
-            self._bow = SeqTM(language=self.lang,
-                              voc_size_exponent=self.voc_size_exponent)
-        return self._bow
-
-    @property
-    def weights(self):
-        """Weights"""
-        try:
-            return self._weights
-        except AttributeError:
-            iterator = load_seqtm(self.lang,
-                                  self.voc_size_exponent,
-                                  self.precision)
-            precision = getattr(np, f'float{self.precision}')            
-            weights = []
-            names = []
-            for data in iterator:
-                _ = np.frombuffer(bytes.fromhex(data['coef']), dtype=precision)
-                weights.append(_)
-                names.append(data['labels'][-1])
-            self._weights = np.vstack(weights)
-            self._names = np.array(names)
-        return self._weights
-
-    @property
-    def names(self):
-        """Vector space components"""
-
-        return self._names    
-
-    def encode(self, text):
-        """Encode utterace into a matrix"""
-
-        token2id = self.bow.token2id
-        seq = []
-        for token in self.bow.tokenize(text):
-            try:
-                seq.append(token2id[token])
-            except KeyError:
-                continue
-        W = self.weights
-        return np.vstack([W[:, x] for x in seq]).T
+        with gzip.open(f'{filename}.json.gz', 'ab') as fpt:
+            coef, intercept = self.proba_coefs
+            data = dict(proba_coef=coef.astype(np.float32).tobytes().hex(),
+                        proba_intercept=intercept.astype(np.float32).tobytes().hex())
+            fpt.write(bytes(json.dumps(data) + '\n',
+                      encoding='utf-8'))

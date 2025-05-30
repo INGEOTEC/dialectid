@@ -21,11 +21,6 @@
 # SOFTWARE.
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
 
-from EvoMSA.utils import Download, Linear
-from microtc.utils import Counter, tweet_iterator
-from os.path import join, dirname, isdir, isfile
-import gzip
-import os
 
 BASEURL = 'https://github.com/INGEOTEC/dialectid/releases/download/data'
 
@@ -35,7 +30,7 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                    'ec', 'uy', 'cr', # Ecuador (EC), Uruguay (UY), Costa Rica (CR)
                    'sv', 'pa', 'gt', # El Salvador (SV), Panama (PA), Guatemala (GT)
                    'hn', 'ni', 'bo', # Honduras (HN), Nicaragua (NI), Bolivia (BO)
-                   'cu', 'gq', # Cuba (CU), Equatorial Guinea
+                   'cu', 'gq', 'pr'  # Cuba (CU), Equatorial Guinea, Puerto Rico (PR)
              ],
              'en':['ai', 'ag', 'au', # Anguilla, Antigua and Barbuda, Australia
                    'bs', 'bb', 'bz', # Bahamas, Barbados, Belize
@@ -57,8 +52,8 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                    'za', 'sd', 'to', # South Africa, Sudan, Tonga
                    'tt', 'tc', 'ug', # Trinidad y Tobago, Turks and Caicos Islands, Uganda
                    'gb', 'us', 'vu', # United Kingdom, United States, Vanuatu
-                   'vg', 'vi', 'zm', # Virgin Islands (GB), Virgin Islands (US), Zambia
-                   'zw' # Zimbabwe
+                   'vi', 'zm', 'zw',  # Virgin Islands (US), Zambia, Zimbabwe
+                   'pr'              # Puerto Rico (PR)
              ],
              'ar':['dz', 'bh', 'td', # Algeria, Bahrain, Chad
                    'dj', 'eg', 'iq', # Djibouti, Egypt, Iraq
@@ -99,76 +94,3 @@ COUNTRIES = {'es':['mx', 'cl', 'es', # Mexico (MX), Chile (CL), Spain (ES)
                    'tw' # Taiwan
              ]
             }
-
-BOW = {'es': 'dialectid.text_repr.BoW',
-       'en': 'dialectid.text_repr.BoW',
-       'ar': 'dialectid.text_repr.BoW',
-       'de': 'EvoMSA.text_repr.BoW',
-       'fr': 'dialectid.text_repr.BoW',
-       'nl': 'EvoMSA.text_repr.BoW',
-       'pt': 'dialectid.text_repr.BoW',
-       'ru': 'dialectid.text_repr.BoW',
-       'tr': 'EvoMSA.text_repr.BoW',
-       'zh': 'EvoMSA.text_repr.BoW'
-      }
-
-
-def load_bow(lang: str='es',
-             d: int=17,
-             func: str='most_common_by_type',
-             loc: str=None):
-    """Load BoW model from dialectid"""
-
-    def load(filename):
-        from microtc.utils import tweet_iterator
-
-        try:
-            return next(tweet_iterator(filename))
-        except Exception:
-            os.unlink(filename)
-            raise Exception(filename)
-
-    lang = lang.lower().strip()
-    diroutput = join(dirname(__file__), 'models')
-    if not isdir(diroutput):
-        os.mkdir(diroutput)
-    if loc is None:
-        filename = f'{lang}_bow_{func}_{d}.json.gz'
-    else:
-        filename = f'{lang}_{loc}_bow_{func}_{d}.json.gz'
-    url = f'{BASEURL}/{filename}'
-    output = join(diroutput, filename)
-    if not isfile(output):
-        Download(url, output)
-    data = load(output)
-    _ = data['counter']
-    data['counter'] = Counter(_["dict"], _["update_calls"])
-    return data
-
-
-def load_dialectid(lang, dim, subwords=False):
-    """Load url"""
-
-    diroutput = join(dirname(__file__), 'models')
-    if not isdir(diroutput):
-        os.mkdir(diroutput)
-    if subwords:
-        filename = f'dialectid_subwords_{lang}_{dim}.json.gz'
-    else:
-        filename = f'dialectid_{lang}_{dim}.json.gz'
-    output = join(diroutput, filename)
-    if not isfile(output):
-        Download(f'{BASEURL}/{filename}', output)
-    _ = [Linear(**params) for params in tweet_iterator(output)]
-    return _
-
-
-def load_seqtm(lang, dim, precision):
-    diroutput = join(dirname(__file__), 'models')
-    if not isdir(diroutput):
-        os.mkdir(diroutput)
-    filename = f'seqtm_{lang}_{precision}_{dim}.json.gz'
-    output = join(diroutput, filename)
-    if not isfile(output):
-        Download(f'{BASEURL}/{filename}', output)
-    return tweet_iterator(output)

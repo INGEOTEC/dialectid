@@ -20,75 +20,120 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # https://www.cia.gov/the-world-factbook/about/archives/2021/field/languages/
+from numpy.testing import assert_almost_equal
+from sklearn.preprocessing import Normalizer
+from microtc.utils import tweet_iterator
+from dialectid.model import DialectId
+from encexp.utils import load_dataset
+import os
 
 
-def test_DialectId():
-    """Test DialectId"""
-
-    from dialectid.model import DialectId
-    from dialectid import BoW
-
-    dialectid = DialectId(voc_size_exponent=15, subwords=False)
-    assert dialectid.lang == 'es' and dialectid.voc_size_exponent == 15
-    assert isinstance(dialectid.bow, BoW)
+def test_DialectId_identifier():
+    """Test DialectId identifier"""
+    dialectid = DialectId(lang='es')
+    assert dialectid.identifier == 'DialectId_c69aaba0f1b0783f273f85de6f599132'
+    dialectid = DialectId(lang='es', distance=True)
+    assert dialectid.identifier == 'DialectId_c69aaba0f1b0783f273f85de6f599132'
 
 
-def test_DialectId_df():
-    """Test DialectId"""
-
-    from dialectid.model import DialectId
-
-    dialectid = DialectId(voc_size_exponent=15, subwords=False)
-    hy = dialectid.decision_function('comiendo tacos')
-    assert hy.shape == (1, 20)
-    assert hy.argmax(axis=1)[0] == 0
-
-
-def test_countries():
-    """Test countries"""
-
-    from dialectid.model import DialectId
-
-    dialectid = DialectId(voc_size_exponent=15, subwords=False)
-    assert len(dialectid.countries) == 20
-    assert dialectid.countries[0] == 'mx'
+def test_DialectId_predict():
+    """Test DialectId predict"""
+    X, y = load_dataset(['mx', 'ar', 'es'], return_X_y=True)
+    D = [dict(text=text, klass=klass) for text, klass in zip(X, y)]
+    enc = DialectId(lang='es', pretrained=False)
+    enc.tailored(D, tsv_filename='tailored.tsv',
+                 min_pos=32,
+                 filename='tailored_intercept.json.gz',
+                 self_supervised=False)
+    hy = enc.predict(['comiendo unos tacos'])
+    assert hy[0] in ('mx', 'ar', 'es')
+    os.unlink('tailored_intercept.json.gz')
+    os.unlink('tailored.tsv')
 
 
-def test_predict():
-    """Test predict"""
-
-    from dialectid.model import DialectId
-
-    dialectid = DialectId(voc_size_exponent=15, subwords=False)
-    countries = dialectid.predict('comiendo tacos')
-    assert countries[0] == 'mx'
-    countries = dialectid.predict(['comiendo tacos',
-                                   'tomando vino'])
-    assert countries.shape == (2, )
-
-
-def test_DialectId_subwords():
-    """Test DialectId subwords"""
-
-    from dialectid.model import DialectId
-    dialectid = DialectId(voc_size_exponent=15)
-    countries = dialectid.predict('comiendo tacos')
-    assert countries[0] == 'mx'    
+def test_DialectId_predict_2cl():
+    """Test DialectId predict"""
+    X, y = load_dataset(['mx', 'ar'], return_X_y=True)
+    D = [dict(text=text, klass=klass) for text, klass in zip(X, y)]
+    enc = DialectId(lang='es', pretrained=False)
+    enc.tailored(D, tsv_filename='tailored.tsv',
+                 min_pos=32,
+                 filename='tailored_intercept.json.gz',
+                 self_supervised=False)
+    X = enc.transform(['comiendo unos tacos'])
+    assert X.shape[1] == 1
+    hy = enc.predict(['comiendo unos tacos'])
+    assert hy[0] in ('mx', 'ar')
+    os.unlink('tailored_intercept.json.gz')
+    os.unlink('tailored.tsv')    
 
 
-def test_DenseBoW():
-    """Test DenseBoW based on SeqTM"""
-
-    from dialectid.model import DenseBoW
-
-    dense = DenseBoW(precision=16)
-    assert dense.weights.shape[0] == dense.names.shape[0]
-    dense.weights[0, 0] > 25
+def test_DialectId_download():
+    """Test DialectId download"""
+    dialectid = DialectId(lang='es', token_max_filter=2**17)
+    dialectid.weights
+    assert len(dialectid.names) == 21
 
 
-def test_DenseBoW_encode():
-    """Test DenseBoW sentence repr"""
+def test_DialectId_probability():
+    """Test DialectId predict"""
+    X, y = load_dataset(['mx', 'ar', 'es'], return_X_y=True)
+    D = [dict(text=text, klass=klass) for text, klass in zip(X, y)]
+    enc = DialectId(lang='es',
+                    pretrained=False,
+                    probability=True)
+    enc.tailored(D,
+                 tsv_filename='tailored.tsv',
+                 min_pos=32,
+                 filename='tailored_intercept2.json.gz',
+                 self_supervised=False)
+    X = enc.transform(['comiendo unos tacos', 'pibe'])
+    hy = enc.predict_proba(['comiendo unos tacos', 'pibe'])
+    _ = enc._lr.predict_proba(X)
+    assert_almost_equal(_, hy)
+    enc2 = DialectId(lang='es',
+                    pretrained=False,
+                    probability=True)
+    enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
+    assert_almost_equal(enc._lr[1].coef_.T, enc2.proba_coefs[0])
+    assert_almost_equal(enc._lr[1].intercept_, enc2.proba_coefs[1])
+    hy2 = enc2.predict_proba(['comiendo unos tacos', 'pibe'])
+    assert_almost_equal(hy, hy2)
+    os.unlink('tailored_intercept2.json.gz')
+    os.unlink('tailored.tsv')
 
-    from dialectid.model import DenseBoW
-    dense = DenseBoW(precision=16)
-    assert dense.encode('buenos días').shape[1] == 2
+
+def test_DialectId_probability_2cl():
+    """Test DialectId predict"""
+    X, y = load_dataset(['mx', 'ar'], return_X_y=True)
+    D = [dict(text=text, klass=klass) for text, klass in zip(X, y)]
+    enc = DialectId(lang='es',
+                    pretrained=False,
+                    probability=True)
+    enc.tailored(D,
+                 tsv_filename='tailored.tsv',
+                 min_pos=32,
+                 filename='tailored_intercept2.json.gz',
+                 self_supervised=False)
+    X = enc.transform(['comiendo unos tacos', 'pibe'])
+    hy = enc.predict_proba(['comiendo unos tacos', 'pibe'])
+    _ = enc._lr.predict_proba(X)
+    assert_almost_equal(_, hy)    
+    assert_almost_equal(hy[0].sum(), 1)
+    enc2 = DialectId(lang='es',
+                    pretrained=False,
+                    probability=True)
+    enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
+    assert_almost_equal(enc._lr[1].coef_[0], enc2.proba_coefs[0])
+    assert_almost_equal(enc._lr[1].intercept_, enc2.proba_coefs[1])
+    hy2 = enc2.predict_proba(['comiendo unos tacos', 'pibe'])
+    assert_almost_equal(hy, hy2)
+    os.unlink('tailored_intercept2.json.gz')
+    os.unlink('tailored.tsv')
+
+
+def test_DialectId_model():
+    """Test DialectID"""
+
+    dial = DialectId(lang='es')
+    dial.predict(['comiendo unos tacos'])
