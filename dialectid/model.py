@@ -130,7 +130,7 @@ class DialectId(EncExpT):
                  tsv_filename: str=None, min_pos: int=32,
                  max_pos: int=int(2**21), n_jobs: int=-1,
                  self_supervised: bool=False, ds: object=None,
-                 train: object=None):
+                 train: object=None, Dprob: list=None):
         kwargs = dict(filename=filename, tsv_filename=tsv_filename,
                       min_pos=min_pos, max_pos=max_pos, n_jobs=n_jobs,
                       self_supervised=self_supervised, ds=ds, train=train)
@@ -142,10 +142,12 @@ class DialectId(EncExpT):
             return super().tailored(D=D, **kwargs)
         super().tailored(D=D, **kwargs)
         _, nrows = self.weights.shape
-        df = np.empty((len(D), nrows))
-        X = self.seqTM.transform(D)
-        y = np.array([x['klass'] for x in D])
-        for tr, vs in StratifiedKFold(n_splits=3).split(D, y):
+        if Dprob is None:
+            Dprob = D
+        X = self.seqTM.transform(Dprob)
+        df = np.empty((X.shape[0], nrows))        
+        y = np.array([x['klass'] for x in Dprob])
+        for tr, vs in StratifiedKFold(n_splits=3).split(X, y):
             m = LinearSVC(class_weight='balanced').fit(X[tr], y[tr])
             _ = m.decision_function(X[vs])
             if _.ndim == 1:
