@@ -83,15 +83,20 @@ class DialectId(EncExpT):
             expit(res, out=res)
             return np.c_[1 - res, res]
         return softmax(res)
+    
+    def decision_function(self, texts: list):
+        """Decision function"""
+        X = self.transform(texts)
+        if X.shape[1] == 1:
+            X = np.c_[-X[:, 0], X[:, 0]]
+        return X
 
     def predict(self, texts: list):
         """predict"""
         if self.probability:
             X = self.predict_proba(texts)
         else:
-            X = self.transform(texts)
-            if X.shape[1] == 1:
-                X = np.c_[-X[:, 0], X[:, 0]]
+            X = self.decision_function(texts)
         return self.names[X.argmax(axis=1)]
 
     def download(self, first: bool=True):
@@ -107,6 +112,15 @@ class DialectId(EncExpT):
     @proba_coefs.setter
     def proba_coefs(self, value):
         self._proba_coefs = value
+
+    @property
+    def countries(self):
+        """Countries"""
+        try:
+            return self.names
+        except AttributeError:
+            self.weights
+        return self.names
 
     def set_weights(self, data: Iterable):
         # if not self.probability:
@@ -130,7 +144,7 @@ class DialectId(EncExpT):
                  tsv_filename: str=None, min_pos: int=32,
                  max_pos: int=int(2**21), n_jobs: int=-1,
                  self_supervised: bool=False, ds: object=None,
-                 train: object=None):
+                 train: object=None, Dprob: list=None):
         kwargs = dict(filename=filename, tsv_filename=tsv_filename,
                       min_pos=min_pos, max_pos=max_pos, n_jobs=n_jobs,
                       self_supervised=self_supervised, ds=ds, train=train)
@@ -142,10 +156,12 @@ class DialectId(EncExpT):
             return super().tailored(D=D, **kwargs)
         super().tailored(D=D, **kwargs)
         _, nrows = self.weights.shape
-        df = np.empty((len(D), nrows))
-        X = self.seqTM.transform(D)
-        y = np.array([x['klass'] for x in D])
-        for tr, vs in StratifiedKFold(n_splits=3).split(D, y):
+        if Dprob is None:
+            Dprob = D
+        X = self.seqTM.transform(Dprob)
+        df = np.empty((X.shape[0], nrows))        
+        y = np.array([x['klass'] for x in Dprob])
+        for tr, vs in StratifiedKFold(n_splits=3).split(X, y):
             m = LinearSVC(class_weight='balanced').fit(X[tr], y[tr])
             _ = m.decision_function(X[vs])
             if _.ndim == 1:

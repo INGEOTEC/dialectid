@@ -12,6 +12,7 @@ dependencies:
   - CompStats
   - microtc
   - tabulate
+  - encexp
   - pip:
     - pandas
     - seaborn

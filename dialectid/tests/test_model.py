@@ -136,4 +136,5 @@ def test_DialectId_model():
     """Test DialectID"""
 
     dial = DialectId(lang='es')
+    assert len(dial.countries) == 21
     dial.predict(['comiendo unos tacos'])
