@@ -76,6 +76,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="dialectid_files/libs/quarto-dashboard/components.js"></script>
 <link href="dialectid_files/libs/quarto-dashboard/datatables.min.css" rel="stylesheet" kdttablesentinel="true">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -97,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         
       </div>
     </div>
-<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="false" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
+<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="false" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li><li class="nav-item" role="presentation"><a id="tab-corpus" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#corpus" data-scrolling="false" href="#corpus" aria-controls="corpus" aria-selected="false"><span class="nav-link-text">Corpus</span></a></li><li class="nav-item" role="presentation"><a id="tab-performance" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#performance" data-scrolling="false" href="#performance" aria-controls="performance" aria-selected="false"><span class="nav-link-text">Performance</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
 </nav>
 </header>
 <div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill quarto-dashboard-pages">  
@@ -154,11 +156,11 @@ Installing using pip
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Countries
 </span></div></div>
-<div id="3a508956" class="cell card-body html-fill-item html-fill-container" data-execution_count="2">
+<div id="cell-countries" class="cell card-body html-fill-item html-fill-container" data-execution_count="2">
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>detect.countries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="33">
+<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="60">
 <pre><code>array(['ar', 'bo', 'cl', 'co', 'cr', 'cu', 'do', 'ec', 'es', 'gq', 'gt',
        'hn', 'mx', 'ni', 'pa', 'pe', 'pr', 'py', 'sv', 'uy', 've'],
       dtype='&lt;U2')</code></pre>
@@ -175,12 +177,12 @@ Countries
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Dialect Identification
 </span></div></div>
-<div id="c97a189f" class="cell card-body html-fill-item html-fill-container" data-execution_count="3">
+<div id="cell-Identification" class="cell card-body html-fill-item html-fill-container" data-execution_count="3">
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>detect.predict([<span class="st">'comiendo unos tacos'</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'tomando vino en el asado'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="34">
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'acompañando el asado con un buen vino'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="61">
 <pre><code>array(['mx', 'uy'], dtype='&lt;U2')</code></pre>
 </div>
 </div>
@@ -194,17 +196,17 @@ Dialect Identification
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Decision Function
 </span></div></div>
-<div id="b34ab526" class="cell card-body html-fill-item html-fill-container" data-execution_count="4">
+<div id="cell-Distance" class="cell card-body html-fill-item html-fill-container" data-execution_count="4">
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> detect.decision_function([<span class="st">'tomando vino en el asado'</span>])[<span class="dv">0</span>]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> detect.decision_function([<span class="st">'acompañando el asado con un buen vino'</span>])[<span class="dv">0</span>]</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> df.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], df[i]) <span class="cf">for</span> i <span class="kw">in</span> index</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> df[i] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="35">
-<pre><code>[(np.str_('uy'), np.float64(1.271834756187933)),
- (np.str_('py'), np.float64(1.175447661655327)),
- (np.str_('ar'), np.float64(0.7063338085280868))]</code></pre>
+<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="62">
+<pre><code>[(np.str_('uy'), np.float64(1.5739029739843873)),
+ (np.str_('py'), np.float64(1.335220140100631)),
+ (np.str_('ar'), np.float64(1.2090426761159196))]</code></pre>
 </div>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
@@ -217,18 +219,18 @@ Decision Function
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Probability
 </span></div></div>
-<div id="4ee52320" class="cell card-body html-fill-item html-fill-container" data-execution_count="5">
+<div id="cell-Probability" class="cell card-body html-fill-item html-fill-container" data-execution_count="5">
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>, probability<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>prob <span class="op">=</span> detect.predict_proba([<span class="st">'tomando vino en el asado'</span>])[<span class="dv">0</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>prob <span class="op">=</span> detect.predict_proba([<span class="st">'acompañando el asado con un buen vino'</span>])[<span class="dv">0</span>]</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> prob.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], prob[i])</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> i <span class="kw">in</span> index[:<span class="dv">4</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="36">
-<pre><code>[(np.str_('uy'), np.float64(0.453256684946454)),
- (np.str_('py'), np.float64(0.3796590135592703)),
- (np.str_('ar'), np.float64(0.16676388328398606)),
- (np.str_('hn'), np.float64(0.00010556748059331138))]</code></pre>
+<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="63">
+<pre><code>[(np.str_('uy'), np.float64(0.5022036198944176)),
+ (np.str_('ar'), np.float64(0.3237855251247186)),
+ (np.str_('py'), np.float64(0.17396090500547853)),
+ (np.str_('cl'), np.float64(2.7732739131768087e-05))]</code></pre>
 </div>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
@@ -237,10 +239,1016 @@ Probability
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+</div><div id="corpus" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-corpus">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
+
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-8"><li class="nav-item" role="presentation"><a href="#card-tabset-8-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Arabic (ar)" aria-selected="true" class="nav-link active">Arabic (ar)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-8-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="German (de)" aria-selected="false" class="nav-link">German (de)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-8-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="English (en)" aria-selected="false" class="nav-link">English (en)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-8-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spanish (es)" aria-selected="false" class="nav-link">Spanish (es)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-8-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="French (fr)" aria-selected="false" class="nav-link">French (fr)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-8-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Dutch (nl)" aria-selected="false" class="nav-link">Dutch (nl)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-8-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Portuguese (pt)" aria-selected="false" class="nav-link">Portuguese (pt)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-8-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Russian (ru)" aria-selected="false" class="nav-link">Russian (ru)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-8-9" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turkish (tr)" aria-selected="false" class="nav-link">Turkish (tr)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-8-10" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Chinese (zh)" aria-selected="false" class="nav-link">Chinese (zh)</a></li></ul></div>
+
+
+
+
+
+
+
+
+
+
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-8"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-1"><div class="card-body html-fill-item html-fill-container" data-title="Arabic (ar)">
+<div id="arabic" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="65">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ae</td>
+<td style="text-align: right;">119600</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bh</td>
+<td style="text-align: right;">119666</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dj</td>
+<td style="text-align: right;">2873</td>
+<td style="text-align: right;">309</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dz</td>
+<td style="text-align: right;">119143</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">eg</td>
+<td style="text-align: right;">119122</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">iq</td>
+<td style="text-align: right;">119655</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">jo</td>
+<td style="text-align: right;">119718</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">kw</td>
+<td style="text-align: right;">119117</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lb</td>
+<td style="text-align: right;">119370</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ly</td>
+<td style="text-align: right;">119659</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ma</td>
+<td style="text-align: right;">119556</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mr</td>
+<td style="text-align: right;">41017</td>
+<td style="text-align: right;">1809</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">om</td>
+<td style="text-align: right;">119771</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">qa</td>
+<td style="text-align: right;">119362</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sa</td>
+<td style="text-align: right;">119009</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sd</td>
+<td style="text-align: right;">120078</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">so</td>
+<td style="text-align: right;">17410</td>
+<td style="text-align: right;">561</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sy</td>
+<td style="text-align: right;">119159</td>
+<td style="text-align: right;">4093</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">td</td>
+<td style="text-align: right;">4797</td>
+<td style="text-align: right;">706</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tn</td>
+<td style="text-align: right;">119244</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ye</td>
+<td style="text-align: right;">119823</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-2"><div class="card-body html-fill-item html-fill-container" data-title="German (de)">
+<div id="german" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="66">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">at</td>
+<td style="text-align: right;">7004</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ch</td>
+<td style="text-align: right;">4573</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">de</td>
+<td style="text-align: right;">83023</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-3"><div class="card-body html-fill-item html-fill-container" data-title="English (en)">
+<div id="english" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="67">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ag</td>
+<td style="text-align: right;">37015</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ai</td>
+<td style="text-align: right;">23965</td>
+<td style="text-align: right;">1250</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">au</td>
+<td style="text-align: right;">36947</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bb</td>
+<td style="text-align: right;">36702</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bm</td>
+<td style="text-align: right;">36967</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bs</td>
+<td style="text-align: right;">37280</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bz</td>
+<td style="text-align: right;">36794</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ca</td>
+<td style="text-align: right;">36979</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ck</td>
+<td style="text-align: right;">8053</td>
+<td style="text-align: right;">274</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cm</td>
+<td style="text-align: right;">37134</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dm</td>
+<td style="text-align: right;">36623</td>
+<td style="text-align: right;">1140</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fj</td>
+<td style="text-align: right;">36909</td>
+<td style="text-align: right;">1934</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fk</td>
+<td style="text-align: right;">11917</td>
+<td style="text-align: right;">412</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fm</td>
+<td style="text-align: right;">7497</td>
+<td style="text-align: right;">266</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gb</td>
+<td style="text-align: right;">37005</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gd</td>
+<td style="text-align: right;">37060</td>
+<td style="text-align: right;">2761</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gg</td>
+<td style="text-align: right;">24068</td>
+<td style="text-align: right;">1790</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gh</td>
+<td style="text-align: right;">37213</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gi</td>
+<td style="text-align: right;">37003</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gm</td>
+<td style="text-align: right;">36999</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gu</td>
+<td style="text-align: right;">37116</td>
+<td style="text-align: right;">3008</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gy</td>
+<td style="text-align: right;">36892</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ie</td>
+<td style="text-align: right;">37158</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">im</td>
+<td style="text-align: right;">37255</td>
+<td style="text-align: right;">1495</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">in</td>
+<td style="text-align: right;">37048</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">jm</td>
+<td style="text-align: right;">37276</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ke</td>
+<td style="text-align: right;">37294</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">kn</td>
+<td style="text-align: right;">37062</td>
+<td style="text-align: right;">3652</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ky</td>
+<td style="text-align: right;">37184</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lc</td>
+<td style="text-align: right;">36919</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lr</td>
+<td style="text-align: right;">37093</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ls</td>
+<td style="text-align: right;">37153</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mp</td>
+<td style="text-align: right;">37032</td>
+<td style="text-align: right;">617</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mt</td>
+<td style="text-align: right;">37158</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mu</td>
+<td style="text-align: right;">37012</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mw</td>
+<td style="text-align: right;">37248</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">na</td>
+<td style="text-align: right;">37137</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ng</td>
+<td style="text-align: right;">37127</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nz</td>
+<td style="text-align: right;">37442</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pg</td>
+<td style="text-align: right;">37333</td>
+<td style="text-align: right;">3904</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ph</td>
+<td style="text-align: right;">37281</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pk</td>
+<td style="text-align: right;">37239</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pw</td>
+<td style="text-align: right;">6556</td>
+<td style="text-align: right;">691</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rw</td>
+<td style="text-align: right;">36569</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sb</td>
+<td style="text-align: right;">8141</td>
+<td style="text-align: right;">458</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sd</td>
+<td style="text-align: right;">37036</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sg</td>
+<td style="text-align: right;">37215</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sh</td>
+<td style="text-align: right;">2876</td>
+<td style="text-align: right;">974</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sl</td>
+<td style="text-align: right;">37008</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sx</td>
+<td style="text-align: right;">36672</td>
+<td style="text-align: right;">1745</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sz</td>
+<td style="text-align: right;">36842</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tc</td>
+<td style="text-align: right;">36996</td>
+<td style="text-align: right;">3064</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">to</td>
+<td style="text-align: right;">25728</td>
+<td style="text-align: right;">901</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tt</td>
+<td style="text-align: right;">37304</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ug</td>
+<td style="text-align: right;">37162</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">us</td>
+<td style="text-align: right;">37410</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vc</td>
+<td style="text-align: right;">36742</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vg</td>
+<td style="text-align: right;">37033</td>
+<td style="text-align: right;">1650</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vi</td>
+<td style="text-align: right;">37113</td>
+<td style="text-align: right;">219</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vu</td>
+<td style="text-align: right;">13985</td>
+<td style="text-align: right;">767</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">za</td>
+<td style="text-align: right;">36839</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">zm</td>
+<td style="text-align: right;">37079</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">zw</td>
+<td style="text-align: right;">37233</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-4"><div class="card-body html-fill-item html-fill-container" data-title="Spanish (es)">
+<div id="spanish" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="68">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ar</td>
+<td style="text-align: right;">108943</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bo</td>
+<td style="text-align: right;">108317</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cl</td>
+<td style="text-align: right;">108974</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">co</td>
+<td style="text-align: right;">109063</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cr</td>
+<td style="text-align: right;">109556</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cu</td>
+<td style="text-align: right;">109054</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">do</td>
+<td style="text-align: right;">109364</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ec</td>
+<td style="text-align: right;">108953</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">es</td>
+<td style="text-align: right;">108583</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gq</td>
+<td style="text-align: right;">13548</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gt</td>
+<td style="text-align: right;">109749</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hn</td>
+<td style="text-align: right;">108846</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mx</td>
+<td style="text-align: right;">109120</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ni</td>
+<td style="text-align: right;">109377</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pa</td>
+<td style="text-align: right;">108577</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pe</td>
+<td style="text-align: right;">108960</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pr</td>
+<td style="text-align: right;">12407</td>
+<td style="text-align: right;">1487</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">py</td>
+<td style="text-align: right;">108992</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sv</td>
+<td style="text-align: right;">108769</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">uy</td>
+<td style="text-align: right;">108672</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ve</td>
+<td style="text-align: right;">109327</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-5"><div class="card-body html-fill-item html-fill-container" data-title="French (fr)">
+<div id="french" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="69">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">be</td>
+<td style="text-align: right;">214731</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bf</td>
+<td style="text-align: right;">28514</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bj</td>
+<td style="text-align: right;">63347</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ca</td>
+<td style="text-align: right;">215745</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cd</td>
+<td style="text-align: right;">214853</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cf</td>
+<td style="text-align: right;">13445</td>
+<td style="text-align: right;">2122</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cg</td>
+<td style="text-align: right;">26441</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ch</td>
+<td style="text-align: right;">116815</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ci</td>
+<td style="text-align: right;">215555</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cm</td>
+<td style="text-align: right;">215520</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dj</td>
+<td style="text-align: right;">6331</td>
+<td style="text-align: right;">2237</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fr</td>
+<td style="text-align: right;">215940</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ga</td>
+<td style="text-align: right;">27051</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gn</td>
+<td style="text-align: right;">90619</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ht</td>
+<td style="text-align: right;">25939</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">km</td>
+<td style="text-align: right;">6025</td>
+<td style="text-align: right;">1736</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lu</td>
+<td style="text-align: right;">11358</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mc</td>
+<td style="text-align: right;">13037</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ml</td>
+<td style="text-align: right;">54495</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nc</td>
+<td style="text-align: right;">7150</td>
+<td style="text-align: right;">1715</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ne</td>
+<td style="text-align: right;">27468</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pf</td>
+<td style="text-align: right;">6408</td>
+<td style="text-align: right;">2304</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rw</td>
+<td style="text-align: right;">4695</td>
+<td style="text-align: right;">2749</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sn</td>
+<td style="text-align: right;">216403</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">td</td>
+<td style="text-align: right;">15160</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tg</td>
+<td style="text-align: right;">44077</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-6"><div class="card-body html-fill-item html-fill-container" data-title="Dutch (nl)">
+<div id="dutch" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="70">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">be</td>
+<td style="text-align: right;">16880</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nl</td>
+<td style="text-align: right;">102887</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-7"><div class="card-body html-fill-item html-fill-container" data-title="Portuguese (pt)">
+<div id="portuguese" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="71">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ao</td>
+<td style="text-align: right;">53243</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">br</td>
+<td style="text-align: right;">978254</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv</td>
+<td style="text-align: right;">8022</td>
+<td style="text-align: right;">2434</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mz</td>
+<td style="text-align: right;">78571</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pt</td>
+<td style="text-align: right;">979061</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-8"><div class="card-body html-fill-item html-fill-container" data-title="Russian (ru)">
+<div id="russian" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="72">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">by</td>
+<td style="text-align: right;">652818</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">kg</td>
+<td style="text-align: right;">145942</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kz</td>
+<td style="text-align: right;">336189</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ru</td>
+<td style="text-align: right;">962191</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-9"><div class="card-body html-fill-item html-fill-container" data-title="Turkish (tr)">
+<div id="turkish" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="73">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">cy</td>
+<td style="text-align: right;">3085</td>
+<td style="text-align: right;">924</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tr</td>
+<td style="text-align: right;">550662</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-10"><div class="card-body html-fill-item html-fill-container" data-title="Chinese (zh)">
+<div id="chinese" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="74">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">cn</td>
+<td style="text-align: right;">206312</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hk</td>
+<td style="text-align: right;">13944</td>
+<td style="text-align: right;">4096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sg</td>
+<td style="text-align: right;">4452</td>
+<td style="text-align: right;">3963</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tw</td>
+<td style="text-align: right;">115165</td>
+<td style="text-align: right;">4096</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-title="Description" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header"><div class="card-title"><span style="display: inline">
+Description
+</span></div></div>
+<div class="card-body html-fill-item html-fill-container">
+<p>The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: the retweets were removed; URL and users were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were accepted in the final collection.</p>
+<p>The Corpus is divided into two sets: the first set is used as a training set, i.e., to estimate the parameters, while the second set corresponds to the test set, which could be used to measure the model performance. The basis for this division is a specific date, with tweets published prior to October 1, 2022, forming the first set and those published on October 3, 2022, or later, being used to create the test set.</p>
+<p>The training set and test set were created with an equivalent procedure; the only difference is that the maximum size of the training set is <span class="math inline">\(2^{21}\)</span> (2M) tweets and <span class="math inline">\(2^{12}\)</span> (4096) tweets for the test set.</p>
+<p>The training and test set was meticulously crafted by uniformly selecting the maximum number of tweets (i.e., <span class="math inline">\(2^{21}\)</span> and <span class="math inline">\(2^{12}\)</span>, respectively) from each day collected. These selected tweets were then organized by day, and within each day, the tweets were randomly chosen, with near duplicates being removed. The subsequent step involved the elimination of tweets that were near duplicates of the previous three days.</p>
+<p>It is worth mentioning that the last step is to shuffle the training and test set to eliminate the ordering by date.</p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+</div><div id="performance" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-performance">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
+
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-10"><li class="nav-item" role="presentation"><a href="#card-tabset-10-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Macro-recall" aria-selected="true" class="nav-link active">Macro-recall</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Arabic (recall)" aria-selected="false" class="nav-link">Arabic (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="German (recall)" aria-selected="false" class="nav-link">German (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="English (recall)" aria-selected="false" class="nav-link">English (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spanish (recall)" aria-selected="false" class="nav-link">Spanish (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="French (recall)" aria-selected="false" class="nav-link">French (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Dutch (recall)" aria-selected="false" class="nav-link">Dutch (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Portuguese (recall)" aria-selected="false" class="nav-link">Portuguese (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-9" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Russian (recall)" aria-selected="false" class="nav-link">Russian (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-10" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turkish (recall)" aria-selected="false" class="nav-link">Turkish (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-11" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Chinese (recall)" aria-selected="false" class="nav-link">Chinese (recall)</a></li></ul></div>
+
+
+
+
+
+
+
+
+
+
+
 <div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
 
 </div>
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-10"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-1"><div class="card-body html-fill-item html-fill-container" data-title="Macro-recall">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/macro-recall-output-1.png" id="macro-recall" class="img-fluid quarto-dashboard-img-contain">
 </div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-2"><div class="card-body html-fill-item html-fill-container" data-title="Arabic (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/arabic-perf-output-1.png" id="arabic-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-3"><div class="card-body html-fill-item html-fill-container" data-title="German (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/german-perf-output-1.png" id="german-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-4"><div class="card-body html-fill-item html-fill-container" data-title="English (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/english-perf-output-1.png" id="english-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-5"><div class="card-body html-fill-item html-fill-container" data-title="Spanish (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/spanish-perf-output-1.png" id="spanish-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-6"><div class="card-body html-fill-item html-fill-container" data-title="French (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/french-perf-output-1.png" id="french-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-7"><div class="card-body html-fill-item html-fill-container" data-title="Dutch (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/dutch-perf-output-1.png" id="dutch-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-8"><div class="card-body html-fill-item html-fill-container" data-title="Portuguese (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/portuguese-perf-output-1.png" id="portuguese-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-9"><div class="card-body html-fill-item html-fill-container" data-title="Russian (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/russian-perf-output-1.png" id="russian-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-10"><div class="card-body html-fill-item html-fill-container" data-title="Turkish (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/turkish-perf-output-1.png" id="turkish-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-11"><div class="card-body html-fill-item html-fill-container" data-title="Chinese (recall)">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/chinese-perf-output-1.png" id="chinese-perf" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
 </div>
 </div>
