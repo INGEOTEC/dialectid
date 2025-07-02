@@ -99,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         
       </div>
     </div>
-<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="false" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li><li class="nav-item" role="presentation"><a id="tab-corpus" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#corpus" data-scrolling="false" href="#corpus" aria-controls="corpus" aria-selected="false"><span class="nav-link-text">Corpus</span></a></li><li class="nav-item" role="presentation"><a id="tab-performance" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#performance" data-scrolling="false" href="#performance" aria-controls="performance" aria-selected="false"><span class="nav-link-text">Performance</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
+<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="false" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li><li class="nav-item" role="presentation"><a id="tab-corpora" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#corpora" data-scrolling="false" href="#corpora" aria-controls="corpora" aria-selected="false"><span class="nav-link-text">Corpora</span></a></li><li class="nav-item" role="presentation"><a id="tab-performance" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#performance" data-scrolling="false" href="#performance" aria-controls="performance" aria-selected="false"><span class="nav-link-text">Performance</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
 </nav>
 </header>
 <div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill quarto-dashboard-pages">  
@@ -160,7 +160,7 @@ Countries
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>detect.countries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="60">
+<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="2">
 <pre><code>array(['ar', 'bo', 'cl', 'co', 'cr', 'cu', 'do', 'ec', 'es', 'gq', 'gt',
        'hn', 'mx', 'ni', 'pa', 'pe', 'pr', 'py', 'sv', 'uy', 've'],
       dtype='&lt;U2')</code></pre>
@@ -182,7 +182,7 @@ Dialect Identification
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>detect.predict([<span class="st">'comiendo unos tacos'</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'acompañando el asado con un buen vino'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="61">
+<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="3">
 <pre><code>array(['mx', 'uy'], dtype='&lt;U2')</code></pre>
 </div>
 </div>
@@ -203,7 +203,7 @@ Decision Function
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> df.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], df[i]) <span class="cf">for</span> i <span class="kw">in</span> index</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> df[i] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="62">
+<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="4">
 <pre><code>[(np.str_('uy'), np.float64(1.5739029739843873)),
  (np.str_('py'), np.float64(1.335220140100631)),
  (np.str_('ar'), np.float64(1.2090426761159196))]</code></pre>
@@ -226,7 +226,7 @@ Probability
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> prob.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], prob[i])</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> i <span class="kw">in</span> index[:<span class="dv">4</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="63">
+<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="5">
 <pre><code>[(np.str_('uy'), np.float64(0.5022036198944176)),
  (np.str_('ar'), np.float64(0.3237855251247186)),
  (np.str_('py'), np.float64(0.17396090500547853)),
@@ -241,7 +241,7 @@ Probability
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
 </div>
-</div><div id="corpus" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-corpus">
+</div><div id="corpora" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-corpora">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -259,7 +259,7 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 <div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-8"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-1"><div class="card-body html-fill-item html-fill-container" data-title="Arabic (ar)">
-<div id="arabic" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="65">
+<div id="arabic" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="7">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -378,7 +378,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </table>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-2"><div class="card-body html-fill-item html-fill-container" data-title="German (de)">
-<div id="german" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="66">
+<div id="german" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="8">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -407,7 +407,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </table>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-3"><div class="card-body html-fill-item html-fill-container" data-title="English (en)">
-<div id="english" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="67">
+<div id="english" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="9">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -736,7 +736,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </table>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-4"><div class="card-body html-fill-item html-fill-container" data-title="Spanish (es)">
-<div id="spanish" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="68">
+<div id="spanish" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="10">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -855,7 +855,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </table>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-5"><div class="card-body html-fill-item html-fill-container" data-title="French (fr)">
-<div id="french" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="69">
+<div id="french" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="11">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -999,7 +999,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </table>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-6"><div class="card-body html-fill-item html-fill-container" data-title="Dutch (nl)">
-<div id="dutch" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="70">
+<div id="dutch" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="12">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1023,7 +1023,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </table>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-7"><div class="card-body html-fill-item html-fill-container" data-title="Portuguese (pt)">
-<div id="portuguese" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="71">
+<div id="portuguese" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="13">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1062,7 +1062,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </table>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-8"><div class="card-body html-fill-item html-fill-container" data-title="Russian (ru)">
-<div id="russian" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="72">
+<div id="russian" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="14">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1096,7 +1096,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </table>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-9"><div class="card-body html-fill-item html-fill-container" data-title="Turkish (tr)">
-<div id="turkish" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="73">
+<div id="turkish" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="15">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1120,7 +1120,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </table>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-10"><div class="card-body html-fill-item html-fill-container" data-title="Chinese (zh)">
-<div id="chinese" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="74">
+<div id="chinese" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="16">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1179,7 +1179,7 @@ Description
 </div>
 </div>
 </div><div id="performance" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-performance">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
@@ -1196,12 +1196,18 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
-
-</div>
 <div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-10"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-1"><div class="card-body html-fill-item html-fill-container" data-title="Macro-recall">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/macro-recall-output-1.png" id="macro-recall" class="img-fluid quarto-dashboard-img-contain">
+<div id="fig-macro-recall" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-macro-recall-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-macro-recall-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-macro-recall-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Performance of the different algorithms and languages.
+</figcaption>
+</figure>
+</div>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-2"><div class="card-body html-fill-item html-fill-container" data-title="Arabic (recall)">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
@@ -1248,7 +1254,25 @@ grid-auto-rows: minmax(0, 1fr);">
     <span class="bslib-full-screen-enter badge rounded-pill">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-title="Performance" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header"><div class="card-title"><span style="display: inline">
+Performance
+</span></div></div>
+<div class="card-body html-fill-item html-fill-container">
+<p>The performance of different algorithms is presented in the figures on the left. <a href="#fig-macro-recall" class="quarto-xref">Figure&nbsp;1</a> presents the performance of all languages using the macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception is Turkish, where the best systems are trained with only 262k tweets.</p>
+<p>The remaining figures provide details on macro-recall by presenting the system’s recall in each country.</p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
+
+</div>
+</div>
 </div>
 </div>
 </div>
