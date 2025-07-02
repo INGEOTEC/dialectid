@@ -15,9 +15,67 @@ execute:
 #| include: false
 #| label: setup
 
-from dialectid.utils import BASEURL, COUNTRIES
-from dialectid import DialectId
+from collections import defaultdict
+from os.path import join, basename, isfile
+import pandas as pd
+import numpy as np
+from glob import glob
 from IPython.display import Markdown
+import seaborn as sns
+from CompStats import metrics
+from CompStats import measurements
+from encexp.download import download
+from encexp.utils import DialectID_URL
+from microtc.utils import tweet_iterator
+from microtc.utils import save_model, load_model
+from dialectid import DialectId
+sns.set_style('whitegrid')
+sns.set_theme(font_scale=1.2)
+ORDER = ['DialectId[19]', 'DialectId[18]', 'DialectId[17]',
+         'DialectId[19] (prob)', 'DialectId[18] (prob)',
+         'DialectId[17] (prob)',
+         'DialectId[19] (262k)', 'DialectId[18] (262k)',
+         'DialectId[17] (262k)', 'EvoMSA (BoW)']
+
+
+def performance(lang, score, prefix='',
+                value_name='macro-recall', **kwargs):
+    fname = f'perf/{prefix}{lang}.gz'
+    if isfile(fname):
+        return load_model(fname)
+    pred_dirname = f'dialectid-datasets/predictions/{lang}'
+    for alg in ORDER:
+        fname_pred = join(pred_dirname, f'{alg}.json')
+        data = next(tweet_iterator(fname_pred))
+        key = basename(fname_pred).split('.json')[0]
+        if key == 'y':
+            continue
+        score(np.array(data), name=key)
+
+    _ = score.dataframe(comparison=True,
+                        value_name=value_name, **kwargs)
+    _['Language'] = lang
+    save_model(_, fname)
+    return _
+
+
+def country_recall(lang, col_wrap=5):
+    detect = DialectId(lang=lang)
+    pred_dirname = f'dialectid-datasets/predictions/{lang}'
+    gold = next(tweet_iterator(join(pred_dirname, 'y.json')))
+    score = metrics.recall_score(np.array(gold['y']), average=None)
+
+    df = performance(lang, score, prefix='recall_', value_name='Recall',
+                     var_name='Country',
+                     perf_names=[f'{cntr}' for cntr in detect.countries])
+    df.drop(columns=['Language'], inplace=True)
+    ci = lambda x: measurements.CI(x, alpha=0.05)
+    f_grid = sns.catplot(df, x='Recall', y='Algorithm', col_wrap=col_wrap,
+                         capsize=0.2, linestyle='none', col='Country',
+                         order=ORDER,
+                         kind='point', errorbar=ci, # sharex=False,
+                         hue='Comparison')
+    return f_grid
 ``` 
 
 # Introduction
@@ -100,19 +158,13 @@ index = prob.argsort()[::-1]
 ```
 :::
 
-# Corpus 
+# Corpora 
 
 ## Column {.tabset} 
 
 ```{python}
 #| echo: false
 #| label: Corpus
-
-from collections import defaultdict
-from IPython.display import Markdown
-import pandas as pd
-from encexp.download import download
-from encexp.utils import DialectID_URL
 
 def dataset_info(lang='es'):
     dataset = download('dialectid_dataset_info',
@@ -240,47 +292,11 @@ It is worth mentioning that the last step is to shuffle the training and test se
 
 ## Column {.tabset}
 
-```{python}
-#| echo: false
-
-from dialectid import DialectId
-from microtc.utils import tweet_iterator
-from microtc.utils import save_model, load_model
-from os.path import join, basename, isfile
-from CompStats import metrics
-from CompStats import measurements
-import numpy as np
-import pandas as pd
-from glob import glob
-import seaborn as sns
-sns.set_style('whitegrid')
-sns.set_theme(font_scale=1.2)
-
-
-def performance(lang, score, prefix='',
-                value_name='macro-recall', **kwargs):
-    fname = f'perf/{prefix}{lang}.gz'
-    if isfile(fname):
-        return load_model(fname)
-    pred_dirname = f'dialectid-datasets/predictions/{lang}'
-    for fname_pred in glob(join(pred_dirname, '*.json')):
-        data = next(tweet_iterator(fname_pred))
-        key = basename(fname_pred).split('.json')[0]
-        if key == 'y':
-            continue
-        score(np.array(data), name=key)
-
-    _ = score.dataframe(comparison=True,
-                        value_name=value_name, **kwargs)
-    _['Language'] = lang
-    save_model(_, fname)
-    return _
-```
-
 ::: {.card title='Macro-recall'}
 ```{python}
 #| echo: false
-#| label: macro-recall
+#| fig-cap: Performance of the different algorithms and languages. 
+#| label: fig-macro-recall
 
 df = pd.DataFrame()
 for lang in ['es', 'en', 'ar',
@@ -298,36 +314,14 @@ for lang in ['es', 'en', 'ar',
     df = pd.concat((df, _))
 ci = lambda x: measurements.CI(x, alpha=0.05)
 f_grid = sns.catplot(df, x='macro-recall', y='Algorithm', col_wrap=3,
-                    # order=[code.get(x, x) for x in algs],
-                    capsize=0.2, linestyle='none', col='Language',
-                    kind='point', errorbar=ci, sharex=False,
-                    hue='Comparison')
+                     capsize=0.2, linestyle='none', col='Language',
+                     order=ORDER,
+                     kind='point', errorbar=ci, sharex=False,
+                     hue='Comparison')
 ```
 :::
 
 ::: {.card title='Arabic (recall)'}
-
-```{python}
-#| echo: false
-
-def country_recall(lang, col_wrap=5):
-    detect = DialectId(lang=lang)
-    pred_dirname = f'dialectid-datasets/predictions/{lang}'
-    gold = next(tweet_iterator(join(pred_dirname, 'y.json')))
-    score = metrics.recall_score(np.array(gold['y']), average=None)
-
-    df = performance(lang, score, prefix='recall_', value_name='Recall',
-                     var_name='Country',
-                     perf_names=[f'{cntr}' for cntr in detect.countries])
-    df.drop(columns=['Language'], inplace=True)
-    ci = lambda x: measurements.CI(x, alpha=0.05)
-    f_grid = sns.catplot(df, x='Recall', y='Algorithm', col_wrap=col_wrap,
-                        # order=[code.get(x, x) for x in algs],
-                        capsize=0.2, linestyle='none', col='Country',
-                        kind='point', errorbar=ci, # sharex=False,
-                        hue='Comparison')
-    return f_grid    
-```
 
 ```{python}
 #| echo: false
@@ -351,7 +345,7 @@ country_recall('de', col_wrap=None)
 #| echo: false
 #| label: English-perf
 
-country_recall('en', col_wrap=6)
+country_recall('en', col_wrap=7)
 ```
 ::: 
 
@@ -396,7 +390,7 @@ country_recall('pt', col_wrap=3)
 #| echo: false
 #| label: Russian-perf
 
-country_recall('ru', col_wrap=3)
+country_recall('ru', col_wrap=2)
 ```
 ::: 
 
@@ -414,6 +408,16 @@ country_recall('tr', col_wrap=None)
 #| echo: false
 #| label: Chinese-perf
 
-country_recall('zh', col_wrap=None)
+country_recall('zh', col_wrap=2)
 ```
+::: 
+
+
+## Column 
+
+::: {.card title='Performance'}
+
+The performance of different algorithms is presented in the figures on the left. @fig-macro-recall presents the performance of all languages using the macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception is Turkish, where the best systems are trained with only 262k tweets.
+
+The remaining figures provide details on macro-recall by presenting the system's recall in each country. 
 ::: 
