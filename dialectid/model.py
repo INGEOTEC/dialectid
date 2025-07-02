@@ -83,15 +83,20 @@ class DialectId(EncExpT):
             expit(res, out=res)
             return np.c_[1 - res, res]
         return softmax(res)
+    
+    def decision_function(self, texts: list):
+        """Decision function"""
+        X = self.transform(texts)
+        if X.shape[1] == 1:
+            X = np.c_[-X[:, 0], X[:, 0]]
+        return X
 
     def predict(self, texts: list):
         """predict"""
         if self.probability:
             X = self.predict_proba(texts)
         else:
-            X = self.transform(texts)
-            if X.shape[1] == 1:
-                X = np.c_[-X[:, 0], X[:, 0]]
+            X = self.decision_function(texts)
         return self.names[X.argmax(axis=1)]
 
     def download(self, first: bool=True):
@@ -107,6 +112,15 @@ class DialectId(EncExpT):
     @proba_coefs.setter
     def proba_coefs(self, value):
         self._proba_coefs = value
+
+    @property
+    def countries(self):
+        """Countries"""
+        try:
+            return self.names
+        except AttributeError:
+            self.weights
+        return self.names
 
     def set_weights(self, data: Iterable):
         # if not self.probability:

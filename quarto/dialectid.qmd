@@ -15,67 +15,22 @@ execute:
 #| include: false
 #| label: setup
 
-from dialectid import BoW
-from dialectid.utils import BASEURL, COUNTRIES, load_bow
-from EvoMSA import BoW as eBoW
-from EvoMSA.utils import Download
-from microtc.utils import tweet_iterator
-from os.path import isfile, join
-import numpy as np
-import json
+from dialectid.utils import BASEURL, COUNTRIES
+from dialectid import DialectId
 from IPython.display import Markdown
-
-
-def similarity(lang):
-    cache = join('data', f'{lang}-similarity.json')
-    if isfile(cache):
-        return next(tweet_iterator(cache))
-    _ = Download(f'{BASEURL}/stats-{lang}-train.json', f'stats-{lang}.json')
-    data = next(tweet_iterator(f'stats-{lang}.json'))
-    countries = [country for country in COUNTRIES[lang]
-                 if data[country] > 2**22]
-    bows = [BoW(lang=lang, loc=loc) for loc in countries]
-    bows.append(BoW(lang=lang))
-    tokens = [set(bow.names) for bow in bows]
-    vocs = []
-    for country in countries + [None]:
-        freq = load_bow(lang=lang, d=17, loc=country)
-        c = np.linalg.norm(list(freq.values()))
-        vocs.append({k: v / c for k, v in freq.items()})
-    countries.append('Uniform')        
-    sim = np.ones((len(countries), len(countries)))
-    for r in range(len(countries)):
-        for c in range(r + 1, len(countries)):
-            nom = len(tokens[r].intersection(tokens[c]))
-            den = len(tokens[r].union(tokens[c]))
-            sim[r, c] = nom / den
-            sim[c, r] = sim[r, c]
-    cos = np.ones((len(countries), len(countries)))
-    for r in range(len(countries)):
-        for c in range(r + 1, len(countries)):
-            _ = sum([vocs[r][k] * vocs[c][k]
-                     for k in tokens[r].intersection(tokens[c])])
-            cos[r, c] = _
-            cos[c, r] = _
-    with open(cache, 'w') as fpt:
-        print(json.dumps(dict(sim=sim.tolist(),
-                              cos=cos.tolist(),
-                              countries=countries)),
-              file=fpt)
-    return similarity(lang)
 ``` 
 
 # Introduction
 
 ## Column 
 
-::: {.card title='Introduction'}  
+::: {.card title='Introduction' .flow}  
 `dialectid` aims to develop a set of algorithms to detect the dialect of a given text. For example, given a text written in Spanish, `dialectid` predicts the Spanish-speaking country where the text comes from. 
 
 `dialectid` is available for Arabic (ar), German (de), English (en), Spanish (es), French (fr), Dutch (nl), Portuguese (pt), Russian (ru), Turkish (tr), and Chinese (zh).
 :::
 
-::: {.card title='Installing using conda'}
+::: {.card title='Installing using conda' .flow}
 
 `dialectid` can be install using the conda package manager with the following instruction.
 
@@ -84,7 +39,7 @@ conda install --channel conda-forge dialectid
 ``` 
 ::: 
 
-::: {.card title='Installing using pip'} 
+::: {.card title='Installing using pip' .flow} 
 A more general approach to installing `dialectid` is through the use of the command pip, as illustrated in the following instruction.
 
 ```{sh} 
@@ -92,532 +47,373 @@ pip install dialectid
 ```
 ::: 
 
-## Column 
-
+::: {.card title='Countries' .flow}
 ```{python}
-#| echo: false
-#| output: false
+#| echo: true
+#| label: countries
 
 from dialectid import DialectId
-detect = DialectId(lang='es', voc_size_exponent=15)
+detect = DialectId(lang='es')
 detect.countries
 ```
+:::
 
+## Column 
+
+::: {.card title='Dialect Identification' .flow}
 ```{python} 
 #| echo: true
-#| title: Dialect Identification
+#| label: Identification
 
 from dialectid import DialectId
-detect = DialectId(lang='es', voc_size_exponent=15)
+detect = DialectId(lang='es')
 detect.predict(['comiendo unos tacos',
-                'tomando vino en el asado'])
+                'acompañando el asado con un buen vino'])
 ```
+:::
 
+::: {.card title='Decision Function' .flow}
 ```{python} 
 #| echo: true
-#| title: Decision Function
+#| label: Distance
 
 from dialectid import DialectId
-detect = DialectId(lang='es', voc_size_exponent=15)
-df = detect.decision_function('tomando vino en el asado')[0]
+detect = DialectId(lang='es')
+df = detect.decision_function(['acompañando el asado con un buen vino'])[0]
 index = df.argsort()[::-1]
 [(detect.countries[i], df[i]) for i in index
  if df[i] > 0]
 ```
+:::
 
-# Corpus  
-
+::: {.card title='Probability' .flow}
 ```{python} 
-#| echo: false
-#| output: false
+#| echo: true
+#| label: Probability
 
-from EvoMSA.utils import Download
-from os.path import isfile
-from microtc.utils import tweet_iterator
-import pandas as pd
-from dialectid.utils import COUNTRIES, BASEURL
-
-
-def corpus_size(lang):
-    data = []
-    index = []
-    for day, d in tweet_iterator(f'stats-{lang}.json.gz'):
-        day = pd.to_datetime(day)
-        data.append(d)
-        index.append(day)
-    df2 = pd.DataFrame(data, index=index)
-
-    train = next(tweet_iterator(f'stats-{lang}-train.json'))
-    test = next(tweet_iterator(f'stats-{lang}-test.json'))
-    df = pd.DataFrame([train, test], index=['Train', 'Test'])
-    df.columns.name = 'Countries'
-    df.loc['Corpus'] = df2.sum(axis=0)
-    columns = COUNTRIES[lang]
-    df = df.reindex(['Corpus', 'Train', 'Test'])
-    _ = df[columns].T.sort_values('Corpus', ascending=False)
-    return Markdown(_.to_markdown())
-
-
-def init_date(lang):
-    date, data = next(tweet_iterator(f'stats-{lang}.json.gz'))
-    return date
-
-
-def end_date(lang):
-    for date, data in tweet_iterator(f'stats-{lang}.json.gz'):
-        pass
-    return date
-
-
-for lang in COUNTRIES:
-    if isfile(f'stats-{lang}.json.gz'):
-        continue
-    Download(f'{BASEURL}/stats-{lang}-train.json', f'stats-{lang}-train.json')
-    Download(f'{BASEURL}/stats-{lang}-test.json', f'stats-{lang}-test.json')
-    Download(f'{BASEURL}/stats-{lang}.json.gz', f'stats-{lang}.json.gz')
+from dialectid import DialectId
+detect = DialectId(lang='es', probability=True)
+prob = detect.predict_proba(['acompañando el asado con un buen vino'])[0]
+index = prob.argsort()[::-1]
+[(detect.countries[i], prob[i])
+ for i in index[:4]]
 ```
+:::
+
+# Corpus 
 
 ## Column {.tabset} 
 
-::: {.card title='Arabic (ar)'}
-
-The table shows the dataset size for Arabic (ar) tweets collected from `{python} init_date('ar')` to `{python} end_date('ar')`. 
-
 ```{python}
 #| echo: false
-#| title: Data from `{python} init_date('ar')` to 
+#| label: Corpus
 
-corpus_size('ar')
+from collections import defaultdict
+from IPython.display import Markdown
+import pandas as pd
+from encexp.download import download
+from encexp.utils import DialectID_URL
+
+def dataset_info(lang='es'):
+    dataset = download('dialectid_dataset_info',
+                       base_url=DialectID_URL)
+    # data = []
+    # for line in dataset:
+    #     if line['lang'] != lang:
+    #         continue
+    #     data = defaultdict(dict)
+
+    #     cntr = data[]
+    dataset = {data['set']: {k: v for k, v in data.items() 
+                             if k not in ('lang', 'set')}
+               for data in dataset if data['lang'] == lang}
+    dataset = pd.DataFrame(dataset).reset_index(names='Country')
+    return dataset.sort_values('Country')
 ```
 
+
+::: {.card title='Arabic (ar)'}
+```{python}
+#| echo: false
+#| label: Arabic
+
+Markdown(dataset_info('ar').to_markdown(index=False))
+```
 :::
 
 ::: {.card title='German (de)'}
-
-The table shows the dataset size for German (de) tweets collected from `{python} init_date('de')` to `{python} end_date('de')`. 
-
 ```{python}
 #| echo: false
+#| label: German
 
-corpus_size('de')
+Markdown(dataset_info('de').to_markdown(index=False))
 ```
 :::
 
 ::: {.card title='English (en)'}
-
-The table shows the dataset size for English (en) tweets collected from `{python} init_date('en')` to `{python} end_date('en')`. 
-
 ```{python}
 #| echo: false
+#| label: English
 
-corpus_size('en')
+Markdown(dataset_info('en').to_markdown(index=False))
 ```
 :::
 
 ::: {.card title='Spanish (es)'}
-
-The table shows the dataset size for Spanish (es) tweets collected from `{python} init_date('es')` to `{python} end_date('es')`. 
-
 ```{python}
 #| echo: false
+#| label: Spanish
 
-corpus_size('es')
+Markdown(dataset_info('es').to_markdown(index=False))
 ```
 :::
 
 ::: {.card title='French (fr)'}
-
-The table shows the dataset size for French (fr) tweets collected from `{python} init_date('fr')` to `{python} end_date('fr')`. 
-
 ```{python}
 #| echo: false
+#| label: French
 
-corpus_size('fr')
+Markdown(dataset_info('fr').to_markdown(index=False))
 ```
 :::
 
 ::: {.card title='Dutch (nl)'}
-
-The table shows the dataset size for Dutch (nl) tweets collected from `{python} init_date('nl')` to `{python} end_date('nl')`. 
-
 ```{python}
 #| echo: false
+#| label: Dutch
 
-corpus_size('nl')
+Markdown(dataset_info('nl').to_markdown(index=False))
 ```
 :::
 
 ::: {.card title='Portuguese (pt)'}
-
-The table shows the dataset size for Portuguese (pt) tweets collected from `{python} init_date('pt')` to `{python} end_date('pt')`. 
-
 ```{python}
 #| echo: false
+#| label: Portuguese
 
-corpus_size('pt')
+Markdown(dataset_info('pt').to_markdown(index=False))
 ```
 :::
 
 ::: {.card title='Russian (ru)'}
-
-The table shows the dataset size for Russian (ru) tweets collected from `{python} init_date('ru')` to `{python} end_date('ru')`. 
-
 ```{python}
 #| echo: false
+#| label: Russian
 
-corpus_size('ru')
+Markdown(dataset_info('ru').to_markdown(index=False))
 ```
 :::
 
 ::: {.card title='Turkish (tr)'}
-
-The table shows the dataset size for Turkish (tr) tweets collected from `{python} init_date('tr')` to `{python} end_date('tr')`. 
-
 ```{python}
 #| echo: false
+#| label: Turkish
 
-corpus_size('tr')
+Markdown(dataset_info('tr').to_markdown(index=False))
 ```
 :::
 
 ::: {.card title='Chinese (zh)'}
-
-The table shows the dataset size for Chinese (zh) tweets collected from `{python} init_date('zh')` to `{python} end_date('zh')`. 
-
 ```{python}
 #| echo: false
+#| label: Chinese
 
-corpus_size('zh')
+Markdown(dataset_info('zh').to_markdown(index=False))
 ```
 :::
-
 
 ## Column 
 
 ::: {.card title="Description"}
-Tweets have been collected from the open stream for several years, e.g., the Spanish collection started on December 11, 2015 (see the table on the left to know the starting collection date for each language). The collected Tweets were filtered with the following restrictions: the retweets were removed; URL and users were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were accepted in the final collection, namely Corpus. 
+The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: the retweets were removed; URL and users were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were accepted in the final collection. 
 
-The Corpus is divided into two distinct sets: the first set is utilized to construct the training set, while the second set corresponds to the test set. The basis for this division is a specific date, with tweets published prior to October 1, 2022, forming the first set, and those published on October 3, 2022, or later, being used to create the test set. 
+The Corpus is divided into two sets: the first set is used as a training set, i.e., to estimate the parameters, while the second set corresponds to the test set, which could be used to measure the model performance. The basis for this division is a specific date, with tweets published prior to October 1, 2022, forming the first set and those published on October 3, 2022, or later, being used to create the test set. 
 
-The training set and test set were created with an equivalent procedure; the only difference is that the maximum size of the training set is 10M tweets and $2^{12}$ (4096) tweets for the test set.
+The training set and test set were created with an equivalent procedure; the only difference is that the maximum size of the training set is $2^{21}$ (2M) tweets and $2^{12}$ (4096) tweets for the test set.
 
-The training and test set was meticulously crafted by uniformly selecting the maximum number of tweets (i.e., 10M and $2^{12}$, respectively) from each day. These selected tweets were then organized by day, and within each day, the tweets were randomly chosen, with near duplicates being removed. The subsequent step involved the elimination of tweets that were near duplicates of the previous three days.
+The training and test set was meticulously crafted by uniformly selecting the maximum number of tweets (i.e., $2^{21}$ and $2^{12}$, respectively) from each day collected. These selected tweets were then organized by day, and within each day, the tweets were randomly chosen, with near duplicates being removed. The subsequent step involved the elimination of tweets that were near duplicates of the previous three days.
 
-It is worth mentioning that the last step is to shuffle the training and test set to eliminate the ordering by date. 
+It is worth mentioning that the last step is to shuffle the training and test set to eliminate the ordering by date.
 :::
-
-
-# Similarity
-
-## Column {width="40%"}
-
-### Tabset {.tabset height="50%"} 
-
-```{python} 
-#| echo: false 
-#| title: Arabic (ar)
-
-import plotly.express as px
-
-data = similarity('ar')
-countries = data['countries']
-fig = px.imshow(data['sim'],
-                labels=dict(x="Country", y="Country", color="Similarity"),
-                x=countries,
-                y=countries)
-# fig.update_xaxes(side="top")
-fig.show()
-```
-
-```{python} 
-#| echo: false 
-#| title: English (en)
-
-import plotly.express as px
-
-data = similarity('en')
-countries = data['countries']
-fig = px.imshow(data['sim'],
-                labels=dict(x="Country", y="Country", color="Similarity"),
-                x=countries,
-                y=countries)
-# fig.update_xaxes(side="top")
-fig.show()
-```
-
-```{python} 
-#| echo: false 
-#| title: Spanish (es)
-
-import plotly.express as px
-
-data = similarity('es')
-countries = data['countries']
-fig = px.imshow(data['sim'],
-                labels=dict(x="Country", y="Country", color="Similarity"),
-                x=countries,
-                y=countries)
-# fig.update_xaxes(side="top")
-fig.show()
-```
-
-### Tabset {.tabset height="50%"}
-
-```{python} 
-#| echo: false 
-#| title: Arabic (ar)
-
-import plotly.express as px
-
-data = similarity('ar')
-countries = data['countries']
-fig = px.imshow(data['cos'],
-                labels=dict(x="Country", y="Country", color="Similarity"),
-                x=countries,
-                y=countries)
-# fig.update_xaxes(side="top")
-fig.show()
-```
-
-```{python} 
-#| echo: false 
-#| title: English (en)
-
-import plotly.express as px
-
-data = similarity('en')
-countries = data['countries']
-fig = px.imshow(data['cos'],
-                labels=dict(x="Country", y="Country", color="Similarity"),
-                x=countries,
-                y=countries)
-# fig.update_xaxes(side="top")
-fig.show()
-```
-
-```{python} 
-#| echo: false 
-#| title: Spanish (es)
-
-import plotly.express as px
-
-data = similarity('es')
-countries = data['countries']
-fig = px.imshow(data['cos'],
-                labels=dict(x="Country", y="Country", color="Similarity"),
-                x=countries,
-                y=countries)
-# fig.update_xaxes(side="top")
-fig.show()
-```
-
-
-## Column {width="60%"} 
-
-The figures on the left correspond to the Jaccard index (top) and Cosine similarity (bottom) between the vocabularies estimated from data coming from a particular country. It also includes the *Uniform* (e.g., `BoW(lang='es')`) vocabulary that corresponds to taking a uniform sample from all the regions.
-
-For instance, the following code computes the similarity in Spanish between Mexico and Guatemala.
-
-```{python}
-#| echo: true
-#| eval: false
-#| label: jaccard
-
-from dialectid import BoW
-
-mx = BoW(lang='es', loc='mx')
-gt = BoW(lang='es', loc='gt')
-mx_voc = set(mx.names)
-gt_voc = set(gt.names)
-num = len(mx_voc.intersection(gt_voc))
-den = len(mx_voc.union(gt_voc))
-num / den
-```
-
-The following code exemplifies the Cosine similarity between Mexico and Guatemala.
-
-```{python} 
-#| echo: true
-#| eval: false
-#| label: cosine
-
-import numpy as np
-from dialectid.utils import load_bow
-
-mx_freq = load_bow(lang='es', d=17, loc='mx')
-_ = np.linalg.norm(list(mx_freq.values()))
-mx_freq = {k: v / _ for k, v in mx_freq.items()}
-gt_freq = load_bow(lang='es', d=17, loc='gt')
-_ = np.linalg.norm(list(gt_freq.values()))
-gt_freq = {k: v / _ for k, v in gt_freq.items()}
-tokens = [token for token in mx_freq if token in gt_freq]
-sum([mx_freq[token] * gt_freq[token]
-     for token in tokens])
-```
-
 
 # Performance
 
 ## Column {.tabset}
-```{python}
-#| echo: false
-#| title: Arabic (ar)
-import pandas as pd
-import plotly.express as px
-df = pd.read_csv('data/ar-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
-```
 
 ```{python}
 #| echo: false
-#| title: German (de)
+
+from dialectid import DialectId
+from microtc.utils import tweet_iterator
+from microtc.utils import save_model, load_model
+from os.path import join, basename, isfile
+from CompStats import metrics
+from CompStats import measurements
+import numpy as np
 import pandas as pd
-df = pd.read_csv('data/de-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
+from glob import glob
+import seaborn as sns
+sns.set_style('whitegrid')
+sns.set_theme(font_scale=1.2)
+
+
+def performance(lang, score, prefix='',
+                value_name='macro-recall', **kwargs):
+    fname = f'perf/{prefix}{lang}.gz'
+    if isfile(fname):
+        return load_model(fname)
+    pred_dirname = f'dialectid-datasets/predictions/{lang}'
+    for fname_pred in glob(join(pred_dirname, '*.json')):
+        data = next(tweet_iterator(fname_pred))
+        key = basename(fname_pred).split('.json')[0]
+        if key == 'y':
+            continue
+        score(np.array(data), name=key)
+
+    _ = score.dataframe(comparison=True,
+                        value_name=value_name, **kwargs)
+    _['Language'] = lang
+    save_model(_, fname)
+    return _
 ```
+
+::: {.card title='Macro-recall'}
+```{python}
+#| echo: false
+#| label: macro-recall
+
+df = pd.DataFrame()
+for lang in ['es', 'en', 'ar',
+             'de', 'fr', 'nl', 
+             'pt', 'ru', 'tr',
+             'zh']:
+    pred_dirname = f'dialectid-datasets/predictions/{lang}'
+    gold = next(tweet_iterator(join(pred_dirname, 'y.json')))
+    if 'score' in gold:
+        score = gold['score']
+    else:
+        score = 'macro_recall'
+    score = getattr(metrics, score)(np.array(gold['y']))
+    _ = performance(lang, score)
+    df = pd.concat((df, _))
+ci = lambda x: measurements.CI(x, alpha=0.05)
+f_grid = sns.catplot(df, x='macro-recall', y='Algorithm', col_wrap=3,
+                    # order=[code.get(x, x) for x in algs],
+                    capsize=0.2, linestyle='none', col='Language',
+                    kind='point', errorbar=ci, sharex=False,
+                    hue='Comparison')
+```
+:::
+
+::: {.card title='Arabic (recall)'}
 
 ```{python}
 #| echo: false
-#| title: English (en)
-import pandas as pd
-df = pd.read_csv('data/en-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
-```
 
-```{python}
-#| echo: false
-#| title: Spanish (es)
-import pandas as pd
-df = pd.read_csv('data/es-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
-```
+def country_recall(lang, col_wrap=5):
+    detect = DialectId(lang=lang)
+    pred_dirname = f'dialectid-datasets/predictions/{lang}'
+    gold = next(tweet_iterator(join(pred_dirname, 'y.json')))
+    score = metrics.recall_score(np.array(gold['y']), average=None)
 
-```{python}
-#| echo: false
-#| title: French (fr)
-import pandas as pd
-df = pd.read_csv('data/fr-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
-```
-
-```{python}
-#| echo: false
-#| title: Dutch (nl)
-import pandas as pd
-df = pd.read_csv('data/nl-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
-```
-
-```{python}
-#| echo: false
-#| title: Portuguese (pt)
-import pandas as pd
-df = pd.read_csv('data/pt-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
-```
-
-```{python}
-#| echo: false
-#| title: Russian (ru)
-import pandas as pd
-df = pd.read_csv('data/ru-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
+    df = performance(lang, score, prefix='recall_', value_name='Recall',
+                     var_name='Country',
+                     perf_names=[f'{cntr}' for cntr in detect.countries])
+    df.drop(columns=['Language'], inplace=True)
+    ci = lambda x: measurements.CI(x, alpha=0.05)
+    f_grid = sns.catplot(df, x='Recall', y='Algorithm', col_wrap=col_wrap,
+                        # order=[code.get(x, x) for x in algs],
+                        capsize=0.2, linestyle='none', col='Country',
+                        kind='point', errorbar=ci, # sharex=False,
+                        hue='Comparison')
+    return f_grid    
 ```
 
 ```{python}
 #| echo: false
-#| title: Turkish (tr)
-import pandas as pd
-df = pd.read_csv('data/tr-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
-```
+#| label: Arabic-perf
 
+country_recall('ar')
+```
+::: 
+
+::: {.card title='German (recall)'}
 ```{python}
 #| echo: false
-#| title: Chinese (zh)
-import pandas as pd
-df = pd.read_csv('data/zh-recall.csv', index_col=0)
-df2 = df.sort_values(by=['Recall', 'System'])
-fig = px.bar(df2.astype({'System': str}),
-             x='Country', y='Recall',
-             barmode='overlay', 
-             color='System')
-fig.show()
+#| label: German-perf
+
+country_recall('de', col_wrap=None)
 ```
+::: 
 
-## Column 
-
-The figures on the left show the recall of the different countries, using four different vocabularies. [EvoMSA](http://evomsa.readthedocs.io) corresponds to the vocabulary estimated in our previous development; **Uniform** (e.g., `BoW(lang='es')`) is obtained by taking a uniform sample from all the regions; **q-grams** (e.g., `BoW(lang='es', loc='qgrams')`) which uses an uniform samples with the characteristic that the q-grams are only computed on the words;
-and **Country** (e.g., `BoW(lang='es', loc='mx')`) is the vocabulary of a particular location. In all the cases, the vocabulary is estimated with  $2^{22}$ Tweets. Of course, there is not enough information for all the cases. Consequently, the vocabulary is not present for that configuration. 
-
-The table below presents the average recall for the different languages and models. Since the Country model is not available for all countries, the missing values were filled with the corresponding Uniform's recall to compute the macro-recall for all the countries. 
-
-```{python} 
+::: {.card title='English (recall)'}
+```{python}
 #| echo: false
-#| caption: Performance in terms of macro-recall
-#| label: tab-macro-recall
+#| label: English-perf
 
-from IPython.display import Markdown
-import pandas as pd
-perf = {}
-for lang in ['ar', 'de', 'en',
-             'es', 'fr', 'nl',
-             'pt', 'ru', 'tr', 'zh']:
-    df = pd.read_csv(f'data/{lang}-recall.csv', index_col=0)
-    df.set_index(['Country', 'System'], inplace=True)
-    df.sort_index(level='Country', inplace=True)
-    df2 = df.unstack()
-    df2.columns = df2.columns.get_level_values(1)
-    if 'Country' in df2.columns:
-        mask = df2.Country.isna()
-        df2.loc[mask, 'Country'] = df2.Uniform.loc[mask]
-    perf[lang] = df2.mean(axis=0)
-_ = pd.DataFrame(perf).reindex(['EvoMSA', 'Uniform',
-                                'q-grams', 'Country']).T
-Markdown(_.to_markdown(floatfmt='.3f'))
+country_recall('en', col_wrap=6)
 ```
+::: 
+
+::: {.card title='Spanish (recall)'}
+```{python}
+#| echo: false
+#| label: Spanish-perf
+
+country_recall('es')
+```
+::: 
+
+::: {.card title='French (recall)'}
+```{python}
+#| echo: false
+#| label: French-perf
+
+country_recall('fr')
+```
+::: 
+
+::: {.card title='Dutch (recall)'}
+```{python}
+#| echo: false
+#| label: Dutch-perf
+
+country_recall('nl', col_wrap=None)
+```
+::: 
+
+::: {.card title='Portuguese (recall)'}
+```{python}
+#| echo: false
+#| label: Portuguese-perf
+
+country_recall('pt', col_wrap=3)
+```
+::: 
+
+::: {.card title='Russian (recall)'}
+```{python}
+#| echo: false
+#| label: Russian-perf
+
+country_recall('ru', col_wrap=3)
+```
+::: 
+
+::: {.card title='Turkish (recall)'}
+```{python}
+#| echo: false
+#| label: Turkish-perf
+
+country_recall('tr', col_wrap=None)
+```
+::: 
+
+::: {.card title='Chinese (recall)'}
+```{python}
+#| echo: false
+#| label: Chinese-perf
+
+country_recall('zh', col_wrap=None)
+```
+::: 
