@@ -160,7 +160,7 @@ Countries
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>detect.countries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="2">
+<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="17">
 <pre><code>array(['ar', 'bo', 'cl', 'co', 'cr', 'cu', 'do', 'ec', 'es', 'gq', 'gt',
        'hn', 'mx', 'ni', 'pa', 'pe', 'pr', 'py', 'sv', 'uy', 've'],
       dtype='&lt;U2')</code></pre>
@@ -182,7 +182,7 @@ Dialect Identification
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>detect.predict([<span class="st">'comiendo unos tacos'</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'acompañando el asado con un buen vino'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="3">
+<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="18">
 <pre><code>array(['mx', 'uy'], dtype='&lt;U2')</code></pre>
 </div>
 </div>
@@ -203,7 +203,7 @@ Decision Function
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> df.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], df[i]) <span class="cf">for</span> i <span class="kw">in</span> index</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> df[i] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="4">
+<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="19">
 <pre><code>[(np.str_('uy'), np.float64(1.5739029739843873)),
  (np.str_('py'), np.float64(1.335220140100631)),
  (np.str_('ar'), np.float64(1.2090426761159196))]</code></pre>
@@ -226,7 +226,7 @@ Probability
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> prob.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], prob[i])</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> i <span class="kw">in</span> index[:<span class="dv">4</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="5">
+<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="20">
 <pre><code>[(np.str_('uy'), np.float64(0.5022036198944176)),
  (np.str_('ar'), np.float64(0.3237855251247186)),
  (np.str_('py'), np.float64(0.17396090500547853)),
@@ -259,8 +259,14 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 <div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-8"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-1"><div class="card-body html-fill-item html-fill-container" data-title="Arabic (ar)">
-<div id="arabic" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="7">
-<table class="caption-top table">
+<div id="tbl-arabic" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="6">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="21">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -377,9 +383,18 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-2"><div class="card-body html-fill-item html-fill-container" data-title="German (de)">
-<div id="german" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="8">
-<table class="caption-top table">
+<div id="tbl-german" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="7">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Number of tweets in the training and test sets for the German-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="22">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -406,9 +421,18 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-3"><div class="card-body html-fill-item html-fill-container" data-title="English (en)">
-<div id="english" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="9">
-<table class="caption-top table">
+<div id="tbl-english" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="8">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Number of tweets in the training and test sets for the English-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="23">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -735,9 +759,18 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-4"><div class="card-body html-fill-item html-fill-container" data-title="Spanish (es)">
-<div id="spanish" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="10">
-<table class="caption-top table">
+<div id="tbl-spanish" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="9">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="24">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -854,9 +887,18 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-5"><div class="card-body html-fill-item html-fill-container" data-title="French (fr)">
-<div id="french" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="11">
-<table class="caption-top table">
+<div id="tbl-french" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="10">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5: Number of tweets in the training and test sets for the French-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="25">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -998,9 +1040,18 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-6"><div class="card-body html-fill-item html-fill-container" data-title="Dutch (nl)">
-<div id="dutch" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="12">
-<table class="caption-top table">
+<div id="tbl-dutch" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="11">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6: Number of tweets in the training and test sets for the Dutch-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="26">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -1022,9 +1073,18 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-7"><div class="card-body html-fill-item html-fill-container" data-title="Portuguese (pt)">
-<div id="portuguese" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="13">
-<table class="caption-top table">
+<div id="tbl-portuguese" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="12">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-portuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-portuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="27">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -1061,9 +1121,18 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-8"><div class="card-body html-fill-item html-fill-container" data-title="Russian (ru)">
-<div id="russian" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="14">
-<table class="caption-top table">
+<div id="tbl-russian" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="13">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;8: Number of tweets in the training and test sets for the Russian-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="28">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -1095,9 +1164,18 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-9"><div class="card-body html-fill-item html-fill-container" data-title="Turkish (tr)">
-<div id="turkish" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="15">
-<table class="caption-top table">
+<div id="tbl-turkish" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="14">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9: Number of tweets in the training and test sets for the Turkish-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="29">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -1119,9 +1197,18 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-10"><div class="card-body html-fill-item html-fill-container" data-title="Chinese (zh)">
-<div id="chinese" class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="16">
-<table class="caption-top table">
+<div id="tbl-chinese" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="15">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="30">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Country</th>
@@ -1153,6 +1240,9 @@ grid-auto-rows: minmax(0, 1fr);">
 </tbody>
 </table>
 </div>
+</div>
+</figure>
+</div>
 </div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
     <span class="bslib-full-screen-enter badge rounded-pill">
@@ -1164,11 +1254,11 @@ grid-auto-rows: minmax(0, 1fr);">
 Description
 </span></div></div>
 <div class="card-body html-fill-item html-fill-container">
-<p>The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: the retweets were removed; URL and users were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were accepted in the final collection.</p>
-<p>The Corpus is divided into two sets: the first set is used as a training set, i.e., to estimate the parameters, while the second set corresponds to the test set, which could be used to measure the model performance. The basis for this division is a specific date, with tweets published prior to October 1, 2022, forming the first set and those published on October 3, 2022, or later, being used to create the test set.</p>
-<p>The training set and test set were created with an equivalent procedure; the only difference is that the maximum size of the training set is <span class="math inline">\(2^{21}\)</span> (2M) tweets and <span class="math inline">\(2^{12}\)</span> (4096) tweets for the test set.</p>
-<p>The training and test set was meticulously crafted by uniformly selecting the maximum number of tweets (i.e., <span class="math inline">\(2^{21}\)</span> and <span class="math inline">\(2^{12}\)</span>, respectively) from each day collected. These selected tweets were then organized by day, and within each day, the tweets were randomly chosen, with near duplicates being removed. The subsequent step involved the elimination of tweets that were near duplicates of the previous three days.</p>
-<p>It is worth mentioning that the last step is to shuffle the training and test set to eliminate the ordering by date.</p>
+<p>The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: retweets were removed; URLs and usernames were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were included in the final collection.</p>
+<p>The corpora are divided into two sets: the first set is used as a training set, i.e., to estimate the parameters, while the second set corresponds to the test set, which could be used to measure the model’s performance. The basis for this division is a specific date, with tweets published before October 1, 2022, forming the first set. Those published on or after October 3, 2022, are being used to create the test set.</p>
+<p>The procedure has two stages. Two datasets were created for each country and language in the first stage. The first one contains <span class="math inline">\(2^{23}\)</span> (8 million) tweets, and the second has <span class="math inline">\(2^{12}\)</span> (4,096) tweets; the former will be used to create the training set, and the latter corresponds to the test set. These two sets were constructed using tweets with geographic information and filtered according to the language information provided by Twitter. Each set was meticulously crafted to follow, as closely as possible, a uniform distribution of the days. Within each day, near duplicates were removed. Then, a three-day sliding window was used to remove near duplicates within the window. The final step was to shuffle the data to remove the ordering by date.</p>
+<p>In the second stage, training sets are created for each language. Each training set contains <span class="math inline">\(2^{21}\)</span> (2 million) tweets. The procedure used to develop the training consists of drawing tweets from the sets created in the first stage, which have a size of <span class="math inline">\(2^{12}\)</span>. The sampling procedure aims to develop training sets that follow a uniform distribution by country. We also produce a smaller training set containing <span class="math inline">\(2^{18}\)</span> (262 thousand) tweets. The procedure is equivalent to the previous one; the aim is to have a uniform distribution of the countries.</p>
+<p>It is worth mentioning that we did not have enough information for all the countries and languages to follow an exactly uniform distribution. For example, it can be observed in <a href="#tbl-spanish" class="quarto-xref">Table&nbsp;4</a> (Spanish) that for Puerto Rico (pr), there are only 12,407 tweets in the training set and 1,487 tweets in the test set, which correspond to the total number of available tweets that met the imposed restrictions.</p>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -1260,7 +1350,7 @@ Figure&nbsp;1: Performance of the different algorithms and languages.
 Performance
 </span></div></div>
 <div class="card-body html-fill-item html-fill-container">
-<p>The performance of different algorithms is presented in the figures on the left. <a href="#fig-macro-recall" class="quarto-xref">Figure&nbsp;1</a> presents the performance of all languages using the macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception is Turkish, where the best systems are trained with only 262k tweets.</p>
+<p>The performance of different algorithms is presented in <a href="#fig-macro-recall" class="quarto-xref">Figure&nbsp;1</a> using macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception are Turkish and Dutch, where the best systems is StackBoW trained with only 262k tweets.</p>
 <p>The remaining figures provide details on macro-recall by presenting the system’s recall in each country.</p>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
