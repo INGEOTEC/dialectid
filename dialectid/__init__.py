@@ -23,4 +23,4 @@
 __version__ = '0.1.2'
 
 # from dialectid.text_repr import BoW, SeqTM
-from dialectid.model import DialectId
+from dialectid.model import DialectId, BoW
