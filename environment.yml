@@ -1,4 +1,4 @@
-name: EncExp
+name: dialectid
 channels:
   - conda-forge
 dependencies:

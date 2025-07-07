@@ -23,9 +23,7 @@
 
 from typing import Iterable
 from dataclasses import dataclass
-from collections import defaultdict
-from random import shuffle
-from os.path import isfile
+from os.path import isfile, dirname, join
 import gzip
 import json
 import numpy as np
@@ -39,6 +37,15 @@ from sklearn.utils.extmath import softmax
 from encexp import EncExpT, TextModel
 from encexp.download import download
 from dialectid.utils import BASEURL
+MODELS = join(dirname(__file__), 'models')
+
+
+class BoW(TextModel):
+    def download(self, first: bool=True):
+        """download"""
+        return download(self.identifier, first=first,
+                        base_url=BASEURL,
+                        outputdir=MODELS)
 
 
 @dataclass
@@ -61,9 +68,9 @@ class DialectId(EncExpT):
         try:
             return self._seqTM
         except AttributeError:
-            _ = TextModel(lang=self.lang,
-                          del_diac=self.del_diac,
-                          token_max_filter=self.token_max_filter)
+            _ = BoW(lang=self.lang,
+                    del_diac=self.del_diac,
+                    token_max_filter=self.token_max_filter)
             self.seqTM = _
         return self._seqTM
 
@@ -102,7 +109,8 @@ class DialectId(EncExpT):
     def download(self, first: bool=True):
         """download"""
         return download(self.identifier, first=first,
-                        base_url=BASEURL)
+                        base_url=BASEURL,
+                        outputdir=MODELS)
 
     @property
     def proba_coefs(self):

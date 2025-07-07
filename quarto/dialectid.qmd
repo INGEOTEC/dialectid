@@ -15,9 +15,77 @@ execute:
 #| include: false
 #| label: setup
 
-from dialectid.utils import BASEURL, COUNTRIES
-from dialectid import DialectId
+from collections import defaultdict
+from os.path import join, basename, isfile
+import pandas as pd
+import numpy as np
+from glob import glob
 from IPython.display import Markdown
+import seaborn as sns
+from CompStats import metrics
+from CompStats import measurements
+from encexp.download import download
+from encexp.utils import DialectID_URL
+from microtc.utils import tweet_iterator
+from microtc.utils import save_model, load_model
+from dialectid import DialectId
+sns.set_style('whitegrid')
+sns.set_theme(font_scale=1.2)
+ORDER = ['DialectId[19]', 'DialectId[18]', 'DialectId[17]',
+         'DialectId[19] (prob)', 'DialectId[18] (prob)',
+         'DialectId[17] (prob)',
+         'DialectId[19] (262k)', 'DialectId[18] (262k)',
+         'DialectId[17] (262k)', 'StackBoW (262k)']
+
+
+def dataset_info(lang='es'):
+    dataset = download('dialectid_dataset_info',
+                       base_url=DialectID_URL)
+    dataset = {data['set']: {k: v for k, v in data.items() 
+                             if k not in ('lang', 'set')}
+               for data in dataset if data['lang'] == lang}
+    dataset = pd.DataFrame(dataset).reset_index(names='Country')
+    return dataset.sort_values('Country')
+
+
+def performance(lang, score, prefix='',
+                value_name='macro-recall', **kwargs):
+    fname = f'perf/{prefix}{lang}.gz'
+    if isfile(fname):
+        return load_model(fname)
+    pred_dirname = f'dialectid-datasets/predictions/{lang}'
+    for alg in ORDER:
+        fname_pred = join(pred_dirname, f'{alg}.json')
+        data = next(tweet_iterator(fname_pred))
+        key = basename(fname_pred).split('.json')[0]
+        if key == 'y':
+            continue
+        score(np.array(data), name=key)
+
+    _ = score.dataframe(comparison=True,
+                        value_name=value_name, **kwargs)
+    _['Language'] = lang
+    save_model(_, fname)
+    return _
+
+
+def country_recall(lang, col_wrap=5):
+    detect = DialectId(lang=lang)
+    pred_dirname = f'dialectid-datasets/predictions/{lang}'
+    gold = next(tweet_iterator(join(pred_dirname, 'y.json')))
+    score = metrics.recall_score(np.array(gold['y']), average=None)
+
+    df = performance(lang, score, prefix='recall_', value_name='Recall',
+                     var_name='Country',
+                     perf_names=[f'{cntr}' for cntr in detect.countries])
+    df.drop(columns=['Language'], inplace=True)
+    ci = lambda x: measurements.CI(x, alpha=0.05)
+    f_grid = sns.catplot(df, x='Recall', y='Algorithm', col_wrap=col_wrap,
+                         capsize=0.2, linestyle='none', col='Country',
+                         order=ORDER,
+                         kind='point', errorbar=ci, # sharex=False,
+                         hue='Comparison')
+    return f_grid
 ``` 
 
 # Introduction
@@ -100,42 +168,16 @@ index = prob.argsort()[::-1]
 ```
 :::
 
-# Corpus 
+# Corpora 
 
 ## Column {.tabset} 
-
-```{python}
-#| echo: false
-#| label: Corpus
-
-from collections import defaultdict
-from IPython.display import Markdown
-import pandas as pd
-from encexp.download import download
-from encexp.utils import DialectID_URL
-
-def dataset_info(lang='es'):
-    dataset = download('dialectid_dataset_info',
-                       base_url=DialectID_URL)
-    # data = []
-    # for line in dataset:
-    #     if line['lang'] != lang:
-    #         continue
-    #     data = defaultdict(dict)
-
-    #     cntr = data[]
-    dataset = {data['set']: {k: v for k, v in data.items() 
-                             if k not in ('lang', 'set')}
-               for data in dataset if data['lang'] == lang}
-    dataset = pd.DataFrame(dataset).reset_index(names='Country')
-    return dataset.sort_values('Country')
-```
 
 
 ::: {.card title='Arabic (ar)'}
 ```{python}
 #| echo: false
-#| label: Arabic
+#| label: tbl-arabic
+#| tbl-cap: Number of tweets in the training and test sets for the Arabic-speaking countries. 
 
 Markdown(dataset_info('ar').to_markdown(index=False))
 ```
@@ -144,7 +186,8 @@ Markdown(dataset_info('ar').to_markdown(index=False))
 ::: {.card title='German (de)'}
 ```{python}
 #| echo: false
-#| label: German
+#| label: tbl-german
+#| tbl-cap: Number of tweets in the training and test sets for the German-speaking countries.
 
 Markdown(dataset_info('de').to_markdown(index=False))
 ```
@@ -153,7 +196,8 @@ Markdown(dataset_info('de').to_markdown(index=False))
 ::: {.card title='English (en)'}
 ```{python}
 #| echo: false
-#| label: English
+#| label: tbl-english
+#| tbl-cap: Number of tweets in the training and test sets for the English-speaking countries.
 
 Markdown(dataset_info('en').to_markdown(index=False))
 ```
@@ -162,7 +206,8 @@ Markdown(dataset_info('en').to_markdown(index=False))
 ::: {.card title='Spanish (es)'}
 ```{python}
 #| echo: false
-#| label: Spanish
+#| label: tbl-spanish
+#| tbl-cap: Number of tweets in the training and test sets for the Spanish-speaking countries.
 
 Markdown(dataset_info('es').to_markdown(index=False))
 ```
@@ -171,7 +216,8 @@ Markdown(dataset_info('es').to_markdown(index=False))
 ::: {.card title='French (fr)'}
 ```{python}
 #| echo: false
-#| label: French
+#| label: tbl-french
+#| tbl-cap: Number of tweets in the training and test sets for the French-speaking countries.
 
 Markdown(dataset_info('fr').to_markdown(index=False))
 ```
@@ -180,7 +226,8 @@ Markdown(dataset_info('fr').to_markdown(index=False))
 ::: {.card title='Dutch (nl)'}
 ```{python}
 #| echo: false
-#| label: Dutch
+#| label: tbl-dutch
+#| tbl-cap: Number of tweets in the training and test sets for the Dutch-speaking countries.
 
 Markdown(dataset_info('nl').to_markdown(index=False))
 ```
@@ -189,7 +236,8 @@ Markdown(dataset_info('nl').to_markdown(index=False))
 ::: {.card title='Portuguese (pt)'}
 ```{python}
 #| echo: false
-#| label: Portuguese
+#| label: tbl-portuguese
+#| tbl-cap: Number of tweets in the training and test sets for the Portuguese-speaking countries.
 
 Markdown(dataset_info('pt').to_markdown(index=False))
 ```
@@ -198,7 +246,8 @@ Markdown(dataset_info('pt').to_markdown(index=False))
 ::: {.card title='Russian (ru)'}
 ```{python}
 #| echo: false
-#| label: Russian
+#| label: tbl-russian
+#| tbl-cap: Number of tweets in the training and test sets for the Russian-speaking countries.
 
 Markdown(dataset_info('ru').to_markdown(index=False))
 ```
@@ -207,7 +256,8 @@ Markdown(dataset_info('ru').to_markdown(index=False))
 ::: {.card title='Turkish (tr)'}
 ```{python}
 #| echo: false
-#| label: Turkish
+#| label: tbl-turkish
+#| tbl-cap: Number of tweets in the training and test sets for the Turkish-speaking countries.
 
 Markdown(dataset_info('tr').to_markdown(index=False))
 ```
@@ -216,7 +266,8 @@ Markdown(dataset_info('tr').to_markdown(index=False))
 ::: {.card title='Chinese (zh)'}
 ```{python}
 #| echo: false
-#| label: Chinese
+#| label: tbl-chinese
+#| tbl-cap: Number of tweets in the training and test sets for the Chinese-speaking countries.
 
 Markdown(dataset_info('zh').to_markdown(index=False))
 ```
@@ -225,62 +276,26 @@ Markdown(dataset_info('zh').to_markdown(index=False))
 ## Column 
 
 ::: {.card title="Description"}
-The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: the retweets were removed; URL and users were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were accepted in the final collection. 
+The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: retweets were removed; URLs and usernames were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were included in the final collection. 
 
-The Corpus is divided into two sets: the first set is used as a training set, i.e., to estimate the parameters, while the second set corresponds to the test set, which could be used to measure the model performance. The basis for this division is a specific date, with tweets published prior to October 1, 2022, forming the first set and those published on October 3, 2022, or later, being used to create the test set. 
+The corpora are divided into two sets: the first set is used as a training set, i.e., to estimate the parameters, while the second set corresponds to the test set, which could be used to measure the model's performance. The basis for this division is a specific date, with tweets published before October 1, 2022, forming the first set. Those published on or after October 3, 2022, are being used to create the test set. 
 
-The training set and test set were created with an equivalent procedure; the only difference is that the maximum size of the training set is $2^{21}$ (2M) tweets and $2^{12}$ (4096) tweets for the test set.
+The procedure has two stages. Two datasets were created for each country and language in the first stage. The first one contains $2^{23}$ (8 million) tweets, and the second has $2^{12}$ (4,096) tweets; the former will be used to create the training set, and the latter corresponds to the test set. These two sets were constructed using tweets with geographic information and filtered according to the language information provided by Twitter. Each set was meticulously crafted to follow, as closely as possible, a uniform distribution of the days. Within each day, near duplicates were removed. Then, a three-day sliding window was used to remove near duplicates within the window. The final step was to shuffle the data to remove the ordering by date. 
 
-The training and test set was meticulously crafted by uniformly selecting the maximum number of tweets (i.e., $2^{21}$ and $2^{12}$, respectively) from each day collected. These selected tweets were then organized by day, and within each day, the tweets were randomly chosen, with near duplicates being removed. The subsequent step involved the elimination of tweets that were near duplicates of the previous three days.
+In the second stage, training sets are created for each language. Each training set contains $2^{21}$ (2 million) tweets. The procedure used to develop the training consists of drawing tweets from the sets created in the first stage, which have a size of $2^{12}$. The sampling procedure aims to develop training sets that follow a uniform distribution by country. We also produce a smaller training set containing $2^{18}$ (262 thousand) tweets. The procedure is equivalent to the previous one; the aim is to have a uniform distribution of the countries. 
 
-It is worth mentioning that the last step is to shuffle the training and test set to eliminate the ordering by date.
+It is worth mentioning that we did not have enough information for all the countries and languages to follow an exactly uniform distribution. For example, it can be observed in @tbl-spanish (Spanish) that for Puerto Rico (pr), there are only 12,407 tweets in the training set and 1,487 tweets in the test set, which correspond to the total number of available tweets that met the imposed restrictions.
 :::
 
 # Performance
 
 ## Column {.tabset}
 
-```{python}
-#| echo: false
-
-from dialectid import DialectId
-from microtc.utils import tweet_iterator
-from microtc.utils import save_model, load_model
-from os.path import join, basename, isfile
-from CompStats import metrics
-from CompStats import measurements
-import numpy as np
-import pandas as pd
-from glob import glob
-import seaborn as sns
-sns.set_style('whitegrid')
-sns.set_theme(font_scale=1.2)
-
-
-def performance(lang, score, prefix='',
-                value_name='macro-recall', **kwargs):
-    fname = f'perf/{prefix}{lang}.gz'
-    if isfile(fname):
-        return load_model(fname)
-    pred_dirname = f'dialectid-datasets/predictions/{lang}'
-    for fname_pred in glob(join(pred_dirname, '*.json')):
-        data = next(tweet_iterator(fname_pred))
-        key = basename(fname_pred).split('.json')[0]
-        if key == 'y':
-            continue
-        score(np.array(data), name=key)
-
-    _ = score.dataframe(comparison=True,
-                        value_name=value_name, **kwargs)
-    _['Language'] = lang
-    save_model(_, fname)
-    return _
-```
-
 ::: {.card title='Macro-recall'}
 ```{python}
 #| echo: false
-#| label: macro-recall
+#| fig-cap: Performance of the different algorithms and languages. 
+#| label: fig-macro-recall
 
 df = pd.DataFrame()
 for lang in ['es', 'en', 'ar',
@@ -298,36 +313,14 @@ for lang in ['es', 'en', 'ar',
     df = pd.concat((df, _))
 ci = lambda x: measurements.CI(x, alpha=0.05)
 f_grid = sns.catplot(df, x='macro-recall', y='Algorithm', col_wrap=3,
-                    # order=[code.get(x, x) for x in algs],
-                    capsize=0.2, linestyle='none', col='Language',
-                    kind='point', errorbar=ci, sharex=False,
-                    hue='Comparison')
+                     capsize=0.2, linestyle='none', col='Language',
+                     order=ORDER,
+                     kind='point', errorbar=ci, sharex=False,
+                     hue='Comparison')
 ```
 :::
 
 ::: {.card title='Arabic (recall)'}
-
-```{python}
-#| echo: false
-
-def country_recall(lang, col_wrap=5):
-    detect = DialectId(lang=lang)
-    pred_dirname = f'dialectid-datasets/predictions/{lang}'
-    gold = next(tweet_iterator(join(pred_dirname, 'y.json')))
-    score = metrics.recall_score(np.array(gold['y']), average=None)
-
-    df = performance(lang, score, prefix='recall_', value_name='Recall',
-                     var_name='Country',
-                     perf_names=[f'{cntr}' for cntr in detect.countries])
-    df.drop(columns=['Language'], inplace=True)
-    ci = lambda x: measurements.CI(x, alpha=0.05)
-    f_grid = sns.catplot(df, x='Recall', y='Algorithm', col_wrap=col_wrap,
-                        # order=[code.get(x, x) for x in algs],
-                        capsize=0.2, linestyle='none', col='Country',
-                        kind='point', errorbar=ci, # sharex=False,
-                        hue='Comparison')
-    return f_grid    
-```
 
 ```{python}
 #| echo: false
@@ -351,7 +344,7 @@ country_recall('de', col_wrap=None)
 #| echo: false
 #| label: English-perf
 
-country_recall('en', col_wrap=6)
+country_recall('en', col_wrap=7)
 ```
 ::: 
 
@@ -396,7 +389,7 @@ country_recall('pt', col_wrap=3)
 #| echo: false
 #| label: Russian-perf
 
-country_recall('ru', col_wrap=3)
+country_recall('ru', col_wrap=2)
 ```
 ::: 
 
@@ -414,6 +407,16 @@ country_recall('tr', col_wrap=None)
 #| echo: false
 #| label: Chinese-perf
 
-country_recall('zh', col_wrap=None)
+country_recall('zh', col_wrap=2)
 ```
+::: 
+
+
+## Column 
+
+::: {.card title='Performance'}
+
+The performance of different algorithms is presented in @fig-macro-recall using macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception are Turkish and Dutch, where the best systems is StackBoW trained with only 262k tweets.
+
+The remaining figures provide details on macro-recall by presenting the system's recall in each country. 
 ::: 
