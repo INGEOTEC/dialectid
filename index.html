@@ -99,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         
       </div>
     </div>
-<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="false" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li><li class="nav-item" role="presentation"><a id="tab-corpora" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#corpora" data-scrolling="false" href="#corpora" aria-controls="corpora" aria-selected="false"><span class="nav-link-text">Corpora</span></a></li><li class="nav-item" role="presentation"><a id="tab-performance" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#performance" data-scrolling="false" href="#performance" aria-controls="performance" aria-selected="false"><span class="nav-link-text">Performance</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
+<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="false" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li><li class="nav-item" role="presentation"><a id="tab-corpora" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#corpora" data-scrolling="false" href="#corpora" aria-controls="corpora" aria-selected="false"><span class="nav-link-text">Corpora</span></a></li><li class="nav-item" role="presentation"><a id="tab-performance" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#performance" data-scrolling="false" href="#performance" aria-controls="performance" aria-selected="false"><span class="nav-link-text">Performance</span></a></li><li class="nav-item" role="presentation"><a id="tab-distribution" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#distribution" data-scrolling="false" href="#distribution" aria-controls="distribution" aria-selected="false"><span class="nav-link-text">Distribution</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
 </nav>
 </header>
 <div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill quarto-dashboard-pages">  
@@ -1352,6 +1352,84 @@ Performance
 <div class="card-body html-fill-item html-fill-container">
 <p>The performance of different algorithms is presented in <a href="#fig-macro-recall" class="quarto-xref">Figure&nbsp;1</a> using macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception are Turkish and Dutch, where the best systems is StackBoW trained with only 262k tweets.</p>
 <p>The remaining figures provide details on macro-recall by presenting the system’s recall in each country.</p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+</div><div id="distribution" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-distribution">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
+
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-12"><li class="nav-item" role="presentation"><a href="#card-tabset-12-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Arabic" aria-selected="true" class="nav-link active">Arabic</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-12-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="German" aria-selected="false" class="nav-link">German</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-12-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="English" aria-selected="false" class="nav-link">English</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-12-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spanish" aria-selected="false" class="nav-link">Spanish</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-12-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="French" aria-selected="false" class="nav-link">French</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-12-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Dutch" aria-selected="false" class="nav-link">Dutch</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-12-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Portuguese" aria-selected="false" class="nav-link">Portuguese</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-12-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Russian" aria-selected="false" class="nav-link">Russian</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-12-9" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turkish" aria-selected="false" class="nav-link">Turkish</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-12-10" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Chinese" aria-selected="false" class="nav-link">Chinese</a></li></ul></div>
+
+
+
+
+
+
+
+
+
+
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-12"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-1"><div class="card-body html-fill-item html-fill-container" data-title="Arabic">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/arabic-dist-output-1.png" id="arabic-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-2"><div class="card-body html-fill-item html-fill-container" data-title="German">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/german-dist-output-1.png" id="german-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-3"><div class="card-body html-fill-item html-fill-container" data-title="English">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/english-dist-output-1.png" id="english-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-4"><div class="card-body html-fill-item html-fill-container" data-title="Spanish">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/spanish-dist-output-1.png" id="spanish-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-5"><div class="card-body html-fill-item html-fill-container" data-title="French">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/french-dist-output-1.png" id="french-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-6"><div class="card-body html-fill-item html-fill-container" data-title="Dutch">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/dutch-dist-output-1.png" id="dutch-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-7"><div class="card-body html-fill-item html-fill-container" data-title="Portuguese">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/portuguese-dist-output-1.png" id="portuguese-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-8"><div class="card-body html-fill-item html-fill-container" data-title="Russian">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/russian-dist-output-1.png" id="russian-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-9"><div class="card-body html-fill-item html-fill-container" data-title="Turkish">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/turkish-dist-output-1.png" id="turkish-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-12-10"><div class="card-body html-fill-item html-fill-container" data-title="Chinese">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/chinese-dist-output-1.png" id="chinese-dist" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-title="Description" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header"><div class="card-title"><span style="display: inline">
+Description
+</span></div></div>
+<div class="card-body html-fill-item html-fill-container flow">
+XxX
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
