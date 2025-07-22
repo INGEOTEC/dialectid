@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
-# from dialectid.text_repr import BoW, SeqTM
+# from dialectid.text_repr import BoW, SeqTM
 from dialectid.model import DialectId, BoW
