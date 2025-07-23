@@ -15,7 +15,7 @@ execute:
 #| include: false
 #| label: setup
 
-from collections import defaultdict
+from collections import defaultdict, Counter
 from os.path import join, basename, isfile
 import pandas as pd
 import numpy as np
@@ -86,6 +86,91 @@ def country_recall(lang, col_wrap=5):
                          kind='point', errorbar=ci, # sharex=False,
                          hue='Comparison')
     return f_grid
+
+
+def prior_proba(lang):
+    freq = download('freq_countries_lang')
+    data = freq[lang]['counter']
+    del data['ALL']
+    norm = sum(data.values())
+    return {k: v / norm for k, v in data.items()}
+
+
+def hprob_test(lang):
+    fname = f'dialectid-datasets/predictions/dist-{lang}/DialectId[19].json.gz'
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update(_)
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def orig_dist_hprob_test(lang):
+    fname = f'dialectid-datasets/predictions/dist-{lang}/DialectId[19] (Orig. Dist.).json.gz'
+    if not isfile(fname):
+        return None
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update(_)
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}  
+
+
+def prior_test(lang):
+    fname = f'dialectid-datasets/predictions/dist-{lang}/y.json.gz'
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update(_['y'])
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def dist_all(lang):
+    if not isfile(f'pred-all/{lang}.json.gz'):
+        return None
+    data = Counter()
+    data.update(next(tweet_iterator(f'pred-all/{lang}.json.gz')))
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def dist_all_origin_dist(lang):
+    if not isfile(f'pred-all/{lang}.json.gz'):
+        return None
+    data = Counter()
+    data.update(next(tweet_iterator(f'pred-all/{lang}-orig-dist.json.gz')))
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def dist_lang(lang):
+    """Distribution"""
+
+    test_values = hprob_test(lang)
+    prior_train = sorted([(k, v) for k, v in prior_test(lang).items()
+                          if k in test_values], key=lambda x: x[1])
+    df = pd.DataFrame(prior_train, columns=['Country', 'Prob.'])
+    df['Dataset'] = 'Test set'
+    df['Target'] = 'Measured'
+    for func, name, origin in zip([hprob_test,
+                                   orig_dist_hprob_test, dist_all,
+                                   dist_all_origin_dist],
+                                  ['Test set', 'Test set',
+                                   'w/o Geo. Inf.',
+                                   'w/o Geo. Inf.'],
+                                  ['DialectId',
+                                   'DialectId (Orig. Dist.)',
+                                   'DialectId', 'DialectId (Orig. Dist.)']):
+        _info = func(lang)
+        if _info is None:
+            continue
+        df2 = pd.DataFrame([(cntr, _info.get(cntr, 0), name)
+                            for cntr, _ in prior_train],
+                            columns=['Country', 'Prob.', 'Dataset'])
+        df2['Target'] = origin
+        df = pd.concat((df, df2))
+    return sns.lineplot(df, x='Country', y='Prob.',
+                        style='Target', hue='Target', size='Dataset')   
 ``` 
 
 # Introduction
@@ -115,6 +200,8 @@ pip install dialectid
 ```
 ::: 
 
+## Column
+
 ::: {.card title='Countries' .flow}
 ```{python}
 #| echo: true
@@ -125,6 +212,9 @@ detect = DialectId(lang='es')
 detect.countries
 ```
 :::
+
+
+# Quickstart
 
 ## Column 
 
@@ -153,6 +243,8 @@ index = df.argsort()[::-1]
  if df[i] > 0]
 ```
 :::
+
+## Column 
 
 ::: {.card title='Probability' .flow}
 ```{python} 
@@ -299,7 +391,7 @@ It is worth mentioning that we did not have enough information for all the count
 
 df = pd.DataFrame()
 for lang in ['es', 'en', 'ar',
-             'de', 'fr', 'nl', 
+             'de', 'fr', 'nl',
              'pt', 'ru', 'tr',
              'zh']:
     pred_dirname = f'dialectid-datasets/predictions/{lang}'
@@ -419,4 +511,107 @@ country_recall('zh', col_wrap=2)
 The performance of different algorithms is presented in @fig-macro-recall using macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception are Turkish and Dutch, where the best systems is StackBoW trained with only 262k tweets.
 
 The remaining figures provide details on macro-recall by presenting the system's recall in each country. 
+::: 
+
+
+# Distribution 
+
+## Column {.tabset}
+
+::: {.card title='Arabic'}
+```{python}
+#| echo: false
+#| label: Arabic-dist
+
+dist_lang('ar')
+```
+:::
+
+::: {.card title='German'}
+```{python}
+#| echo: false
+#| label: German-dist
+
+dist_lang('de')
+```
+:::
+
+::: {.card title='English'}
+```{python}
+#| echo: false
+#| label: English-dist
+
+dist_lang('en')
+```
+:::
+
+::: {.card title='Spanish'}
+```{python}
+#| echo: false
+#| label: Spanish-dist
+
+dist_lang('es')
+```
+:::
+
+::: {.card title='French'}
+```{python}
+#| echo: false
+#| label: French-dist
+
+dist_lang('fr')
+```
+:::
+
+::: {.card title='Dutch'}
+```{python}
+#| echo: false
+#| label: Dutch-dist
+
+dist_lang('nl')
+```
+:::
+
+::: {.card title='Portuguese'}
+```{python}
+#| echo: false
+#| label: Portuguese-dist
+
+dist_lang('pt')
+```
+:::
+
+::: {.card title='Russian'}
+```{python}
+#| echo: false
+#| label: Russian-dist
+
+dist_lang('ru')
+```
+:::
+
+::: {.card title='Turkish'}
+```{python}
+#| echo: false
+#| label: Turkish-dist
+
+dist_lang('tr')
+```
+:::
+
+::: {.card title='Chinese'}
+```{python}
+#| echo: false
+#| label: Chinese-dist
+
+dist_lang('zh')
+```
+:::
+
+## Column 
+
+::: {.card title='Description'}
+
+XxX
+
 ::: 
