@@ -81,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="quarto-dashboard dashboard-fill fullcontent">
+<body class="quarto-dashboard fullcontent">
 
 <header id="quarto-dashboard-header">
 <nav class="navbar navbar-expand-md slim" data-bs-theme="dark">
@@ -99,12 +99,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         
       </div>
     </div>
-<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="false" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li><li class="nav-item" role="presentation"><a id="tab-quickstart" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#quickstart" data-scrolling="false" href="#quickstart" aria-controls="quickstart" aria-selected="false"><span class="nav-link-text">Quickstart</span></a></li><li class="nav-item" role="presentation"><a id="tab-corpora" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#corpora" data-scrolling="false" href="#corpora" aria-controls="corpora" aria-selected="false"><span class="nav-link-text">Corpora</span></a></li><li class="nav-item" role="presentation"><a id="tab-performance" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#performance" data-scrolling="false" href="#performance" aria-controls="performance" aria-selected="false"><span class="nav-link-text">Performance</span></a></li><li class="nav-item" role="presentation"><a id="tab-distribution" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#distribution" data-scrolling="false" href="#distribution" aria-controls="distribution" aria-selected="false"><span class="nav-link-text">Distribution</span></a></li><li class="nav-item" role="presentation"><a id="tab-spanish" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#spanish" data-scrolling="false" href="#spanish" aria-controls="spanish" aria-selected="false"><span class="nav-link-text">Spanish</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
+<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="true" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li><li class="nav-item" role="presentation"><a id="tab-quickstart" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#quickstart" data-scrolling="true" href="#quickstart" aria-controls="quickstart" aria-selected="false"><span class="nav-link-text">Quickstart</span></a></li><li class="nav-item" role="presentation"><a id="tab-corpora" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#corpora" data-scrolling="true" href="#corpora" aria-controls="corpora" aria-selected="false"><span class="nav-link-text">Corpora</span></a></li><li class="nav-item" role="presentation"><a id="tab-performance" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#performance" data-scrolling="true" href="#performance" aria-controls="performance" aria-selected="false"><span class="nav-link-text">Performance</span></a></li><li class="nav-item" role="presentation"><a id="tab-distribution" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#distribution" data-scrolling="true" href="#distribution" aria-controls="distribution" aria-selected="false"><span class="nav-link-text">Distribution</span></a></li><li class="nav-item" role="presentation"><a id="tab-spanish" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#spanish" data-scrolling="true" href="#spanish" aria-controls="spanish" aria-selected="false"><span class="nav-link-text">Spanish</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
 </nav>
 </header>
-<div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill quarto-dashboard-pages">  
+<div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container dashboard-scrolling quarto-dashboard-pages">  
 
-<div class="bslib-grid-item html-fill-item tab-content bslib-grid" data-layout="fill" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="bslib-grid-item html-fill-item tab-content bslib-grid" data-layout="flow" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div id="introduction" class="dashboard-page tab-pane show active html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-introduction">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
@@ -161,7 +161,7 @@ Countries
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>detect.countries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="2">
+<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="52">
 <pre><code>array(['ar', 'bo', 'cl', 'co', 'cr', 'cu', 'do', 'ec', 'es', 'gq', 'gt',
        'hn', 'mx', 'ni', 'pa', 'pe', 'pr', 'py', 'sv', 'uy', 've'],
       dtype='&lt;U2')</code></pre>
@@ -188,7 +188,7 @@ Dialect Identification
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>detect.predict([<span class="st">'comiendo unos tacos'</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'acompañando el asado con un buen vino'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="3">
+<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="53">
 <pre><code>array(['mx', 'uy'], dtype='&lt;U2')</code></pre>
 </div>
 </div>
@@ -209,7 +209,7 @@ Decision Function
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> df.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], df[i]) <span class="cf">for</span> i <span class="kw">in</span> index</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> df[i] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="4">
+<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="54">
 <pre><code>[(np.str_('uy'), np.float64(1.5416804610086077)),
  (np.str_('py'), np.float64(1.3321806689071498)),
  (np.str_('ar'), np.float64(1.2182585368838774))]</code></pre>
@@ -233,7 +233,7 @@ Probability
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> prob.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], prob[i])</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> i <span class="kw">in</span> index[:<span class="dv">4</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="5">
+<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="55">
 <pre><code>[(np.str_('uy'), np.float64(0.4595517299090438)),
  (np.str_('ar'), np.float64(0.35344213246401396)),
  (np.str_('py'), np.float64(0.186954384531818)),
@@ -266,13 +266,25 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 <div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-8"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-1"><div class="card-body html-fill-item html-fill-container" data-title="Arabic (ar)">
-<div id="tbl-arabic" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="6">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-arabic" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-arabic-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Number of tweets in the collection for the Arabic-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-arabic" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="7">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="6">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="57">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -452,13 +464,25 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 </figure>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-2"><div class="card-body html-fill-item html-fill-container" data-title="German (de)">
-<div id="tbl-german" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="7">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-german" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-german-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Number of tweets in the collection for the German-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-german" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="9">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Number of tweets in the training and test sets for the German-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="7">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="59">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -512,13 +536,25 @@ Table&nbsp;2: Number of tweets in the training and test sets for the German-spea
 </figure>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-3"><div class="card-body html-fill-item html-fill-container" data-title="English (en)">
-<div id="tbl-english" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="8">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-english" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-english-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Number of tweets in the collection for the English-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-english" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="11">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3: Number of tweets in the training and test sets for the English-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="8">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="61">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -999,13 +1035,25 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 </figure>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-4"><div class="card-body html-fill-item html-fill-container" data-title="Spanish (es)">
-<div id="tbl-spanish" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="9">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-spanish" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-spanish-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Number of tweets in the collection for the Spanish-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-spanish" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="13">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="9">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="63">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1185,13 +1233,25 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 </figure>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-5"><div class="card-body html-fill-item html-fill-container" data-title="French (fr)">
-<div id="tbl-french" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="10">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-french" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-french-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Number of tweets in the collection for the French-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-french" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="15">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;5: Number of tweets in the training and test sets for the French-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="10">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="65">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1406,13 +1466,25 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 </figure>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-6"><div class="card-body html-fill-item html-fill-container" data-title="Dutch (nl)">
-<div id="tbl-dutch" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="11">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-dutch" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-dutch-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Number of tweets in the collection for the Dutch-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-dutch" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="17">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;6: Number of tweets in the training and test sets for the Dutch-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="11">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="67">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1459,13 +1531,25 @@ Table&nbsp;6: Number of tweets in the training and test sets for the Dutch-speak
 </figure>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-7"><div class="card-body html-fill-item html-fill-container" data-title="Portuguese (pt)">
-<div id="tbl-portuguese" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="12">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-protuguese" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-protuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-protuguese-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-protuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Number of tweets in the collection for the Portuguese-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-portuguese" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="19">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-portuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-portuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="12">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="69">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1533,13 +1617,25 @@ Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-
 </figure>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-8"><div class="card-body html-fill-item html-fill-container" data-title="Russian (ru)">
-<div id="tbl-russian" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="13">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-russian" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-russian-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Number of tweets in the collection for the Russian-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-russian" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="21">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;8: Number of tweets in the training and test sets for the Russian-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="13">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="71">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1600,13 +1696,25 @@ Table&nbsp;8: Number of tweets in the training and test sets for the Russian-spe
 </figure>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-9"><div class="card-body html-fill-item html-fill-container" data-title="Turkish (tr)">
-<div id="tbl-turkish" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="14">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-turkish" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-turkish-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Number of tweets in the collection for the Turkish-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-turkish" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="23">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;9: Number of tweets in the training and test sets for the Turkish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="14">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="73">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1653,13 +1761,25 @@ Table&nbsp;9: Number of tweets in the training and test sets for the Turkish-spe
 </figure>
 </div>
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-8-10"><div class="card-body html-fill-item html-fill-container" data-title="Chinese (zh)">
-<div id="tbl-chinese" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="15">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-chinese" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-chinese-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Number of tweets in the collection for the Chinese-speaking countries.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-chinese" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="25">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="15">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="75">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1770,7 +1890,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <img src="dialectid_files/figure-html/fig-macro-recall-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-macro-recall-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Performance of the different algorithms and languages.
+Figure&nbsp;11: Performance of the different algorithms and languages.
 </figcaption>
 </figure>
 </div>
@@ -1826,7 +1946,7 @@ Figure&nbsp;1: Performance of the different algorithms and languages.
 Performance
 </span></div></div>
 <div class="card-body html-fill-item html-fill-container">
-<p>The performance of different algorithms is presented in <a href="#fig-macro-recall" class="quarto-xref">Figure&nbsp;1</a> using macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception are Turkish and Dutch, where the best systems is StackBoW trained with only 262k tweets.</p>
+<p>The performance of different algorithms is presented in <a href="#fig-macro-recall" class="quarto-xref">Figure&nbsp;11</a> using macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception are Turkish and Dutch, where the best systems is StackBoW trained with only 262k tweets.</p>
 <p>The remaining figures provide details on macro-recall by presenting the system’s recall in each country.</p>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
@@ -1937,7 +2057,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <img src="dialectid_files/figure-html/fig-es-us-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-es-us-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Distribution estimated with DialectId on the Tweets having as geographic informacion United States.
+Figure&nbsp;12: Distribution estimated with DialectId on the Tweets having as geographic informacion United States.
 </figcaption>
 </figure>
 </div>
@@ -1950,7 +2070,7 @@ Figure&nbsp;2: Distribution estimated with DialectId on the Tweets having as geo
 <img src="dialectid_files/figure-html/fig-es-ca-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-es-ca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Distribution estimated with DialectId on the Tweets having as geographic informacion Canada.
+Figure&nbsp;13: Distribution estimated with DialectId on the Tweets having as geographic informacion Canada.
 </figcaption>
 </figure>
 </div>
@@ -1963,7 +2083,7 @@ Figure&nbsp;3: Distribution estimated with DialectId on the Tweets having as geo
 <img src="dialectid_files/figure-html/fig-es-bz-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-es-bz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Distribution estimated with DialectId on the Tweets having as geographic informacion Belize.
+Figure&nbsp;14: Distribution estimated with DialectId on the Tweets having as geographic informacion Belize.
 </figcaption>
 </figure>
 </div>
@@ -1976,7 +2096,7 @@ Figure&nbsp;4: Distribution estimated with DialectId on the Tweets having as geo
 <img src="dialectid_files/figure-html/fig-es-br-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-es-br-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Distribution estimated with DialectId on the Tweets having as geographic informacion Brazil.
+Figure&nbsp;15: Distribution estimated with DialectId on the Tweets having as geographic informacion Brazil.
 </figcaption>
 </figure>
 </div>
