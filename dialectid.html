@@ -161,7 +161,7 @@ Countries
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>detect.countries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="52">
+<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="2">
 <pre><code>array(['ar', 'bo', 'cl', 'co', 'cr', 'cu', 'do', 'ec', 'es', 'gq', 'gt',
        'hn', 'mx', 'ni', 'pa', 'pe', 'pr', 'py', 'sv', 'uy', 've'],
       dtype='&lt;U2')</code></pre>
@@ -188,7 +188,7 @@ Dialect Identification
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>detect.predict([<span class="st">'comiendo unos tacos'</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'acompañando el asado con un buen vino'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="53">
+<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="3">
 <pre><code>array(['mx', 'uy'], dtype='&lt;U2')</code></pre>
 </div>
 </div>
@@ -209,7 +209,7 @@ Decision Function
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> df.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], df[i]) <span class="cf">for</span> i <span class="kw">in</span> index</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> df[i] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="54">
+<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="4">
 <pre><code>[(np.str_('uy'), np.float64(1.5416804610086077)),
  (np.str_('py'), np.float64(1.3321806689071498)),
  (np.str_('ar'), np.float64(1.2182585368838774))]</code></pre>
@@ -233,7 +233,7 @@ Probability
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> prob.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], prob[i])</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> i <span class="kw">in</span> index[:<span class="dv">4</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="55">
+<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="5">
 <pre><code>[(np.str_('uy'), np.float64(0.4595517299090438)),
  (np.str_('ar'), np.float64(0.35344213246401396)),
  (np.str_('py'), np.float64(0.186954384531818)),
@@ -284,7 +284,7 @@ Figure&nbsp;1: Number of tweets in the collection for the Arabic-speaking countr
 Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="57">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="7">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -482,7 +482,7 @@ Figure&nbsp;2: Number of tweets in the collection for the German-speaking countr
 Table&nbsp;2: Number of tweets in the training and test sets for the German-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="59">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="9">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -554,7 +554,7 @@ Figure&nbsp;3: Number of tweets in the collection for the English-speaking count
 Table&nbsp;3: Number of tweets in the training and test sets for the English-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="61">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="11">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1053,7 +1053,7 @@ Figure&nbsp;4: Number of tweets in the collection for the Spanish-speaking count
 Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="63">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="13">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1251,7 +1251,7 @@ Figure&nbsp;5: Number of tweets in the collection for the French-speaking countr
 Table&nbsp;5: Number of tweets in the training and test sets for the French-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="65">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="15">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1484,7 +1484,7 @@ Figure&nbsp;6: Number of tweets in the collection for the Dutch-speaking countri
 Table&nbsp;6: Number of tweets in the training and test sets for the Dutch-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="67">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="17">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1549,7 +1549,7 @@ Figure&nbsp;7: Number of tweets in the collection for the Portuguese-speaking co
 Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-portuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="69">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="19">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1635,7 +1635,7 @@ Figure&nbsp;8: Number of tweets in the collection for the Russian-speaking count
 Table&nbsp;8: Number of tweets in the training and test sets for the Russian-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="71">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="21">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1714,7 +1714,7 @@ Figure&nbsp;9: Number of tweets in the collection for the Turkish-speaking count
 Table&nbsp;9: Number of tweets in the training and test sets for the Turkish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="73">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="23">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
@@ -1779,7 +1779,7 @@ Figure&nbsp;10: Number of tweets in the collection for the Chinese-speaking coun
 Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="75">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="25">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
