@@ -6,6 +6,7 @@ format:
     orientation: columns
     nav-buttons: [github]
     theme: cosmo
+    scrolling: true    
 execute:
   freeze: auto    
 ---
@@ -17,9 +18,11 @@ execute:
 
 from collections import defaultdict, Counter
 from os.path import join, basename, isfile
+from io import StringIO
+import json
+from glob import glob
 import pandas as pd
 import numpy as np
-from glob import glob
 from IPython.display import Markdown
 import seaborn as sns
 from CompStats import metrics
@@ -30,12 +33,36 @@ from microtc.utils import tweet_iterator
 from microtc.utils import save_model, load_model
 from dialectid import DialectId
 sns.set_style('whitegrid')
-sns.set_theme(font_scale=1.2)
+sns.set_theme(# font_scale=1.2,
+              context='paper')
 ORDER = ['DialectId[19]', 'DialectId[18]', 'DialectId[17]',
          'DialectId[19] (prob)', 'DialectId[18] (prob)',
          'DialectId[17] (prob)',
          'DialectId[19] (262k)', 'DialectId[18] (262k)',
-         'DialectId[17] (262k)', 'StackBoW (262k)']
+         'DialectId[17] (262k)', 'StackBoW (262k)',
+         'DialectId[19] (Orig. Dist.)']
+INFO_ES = {
+    'mx': ['Mexico', 'World'],
+    'cl': ['Chile', 'South'],
+    'es': ['Spain', 'World'],
+    'ar': ['Argentina', 'South'],
+    'co': ['Colombia', 'South'],
+    'pe': ['Peru', 'South'],
+    've': ['Venezuela', 'South'],
+    'do': ['Dominican Republic', 'Caribbean'],
+    'py': ['Paraguay', 'South'],
+    'ec': ['Ecuador', 'South'],
+    'uy': ['Uruguay', 'South'],
+    'cr': ['Costa Rica', 'Central'],
+    'sv': ['El Salvador', 'Central'],
+    'pa': ['Panama', 'Central'],
+    'gt': ['Guatemala', 'Central'],
+    'hn': ['Honduras', 'Central'],
+    'ni': ['Nicaragua', 'Central'],
+    'bo': ['Bolivia', 'South'],
+    'cu': ['Cuba', 'Caribbean'],
+    'gq': ['Equatorial Guinea', 'World'],
+    'pr': ['Puerto Rico', 'Caribbean']}
 
 
 def dataset_info(lang='es'):
@@ -44,8 +71,23 @@ def dataset_info(lang='es'):
     dataset = {data['set']: {k: v for k, v in data.items() 
                              if k not in ('lang', 'set')}
                for data in dataset if data['lang'] == lang}
-    dataset = pd.DataFrame(dataset).reset_index(names='Country')
-    return dataset.sort_values('Country')
+    dataset = pd.DataFrame(dataset) # .reset_index(names='Country')
+    dataset.sort_index(inplace=True)
+    orig_dist = download('dialectid_orig_dist_info',
+                         base_url=DialectID_URL)
+    orig_dist = {data['set']: {k: v for k, v in data.items() 
+                             if k not in ('lang', 'set')}
+                 for data in orig_dist if data['lang'] == lang}
+    orig_dist = pd.DataFrame(orig_dist)  # .reset_index(names='Country')
+    orig_dist.sort_index(inplace=True)
+    dataset['train (orig. dist.)'] = orig_dist['train']
+    dataset['test (orig. dist.)'] = orig_dist['test']
+    # dataset.reset_index(names='Country', inplace=True)
+    df = dataset.sort_values('train (orig. dist.)', ascending=False)
+    df = pd.concat((df, pd.DataFrame([df.sum(axis=0).values],
+                    columns=df.columns, index=['Sum'])), axis=0)
+    df.reset_index(inplace=True, names=['Country'])
+    return df
 
 
 def performance(lang, score, prefix='',
@@ -170,7 +212,77 @@ def dist_lang(lang):
         df2['Target'] = origin
         df = pd.concat((df, df2))
     return sns.lineplot(df, x='Country', y='Prob.',
-                        style='Target', hue='Target', size='Dataset')   
+                        style='Target', hue='Target', size='Dataset')
+
+
+def country_dist(country, lang='es', drop=None):
+    """Country distribution of language"""
+    info_dialect = {v[0]: v for k, v in INFO_ES.items()}
+    color = [x for x in sns.color_palette('Set1')][:5]
+    dashes = []
+    hue_order = None
+    dataframe = pd.DataFrame()
+    for alg in [0, 1]:
+        df = pd.read_json(f'countries/{lang}_{country}_{alg}.json.gz')
+        if drop is not None:
+            df.drop(columns=drop, inplace=True)
+        df.columns = [INFO_ES[k][0] for k in df.columns]
+        if alg == 0:
+            hue_order = df.sum(axis=0).sort_values(ascending=False).index.tolist()
+            for dash in ['', (1, 10), (5, 5), (1, 1)]:
+                dashes.extend([dash] * len(color))
+            dashes = (dashes * int(1 + len(hue_order) / len(dashes)))[:len(hue_order)]
+            color = (color * int(1 + len(hue_order) / len(color)))[:len(hue_order)]
+        df2 = df.rolling(window=7 * 12).sum()
+        df2.dropna(inplace=True)
+        df2 = df2.divide(df2.sum(axis=1), axis=0)
+        df2 = df2.melt(ignore_index=False, value_name='Probability', var_name='Dialect')
+        df2.reset_index(inplace=True, names='Date')
+        df2['Algorithm'] = 'DialectId' if alg == 0 else 'DialectId (Orig. Dist.)'
+        dataframe = pd.concat((dataframe, df2))
+    _ = sns.relplot(dataframe, kind='line', x='Date', col='Algorithm', col_wrap=2,
+                    hue_order=hue_order, style_order=hue_order,
+                    col_order=['DialectId', 'DialectId (Orig. Dist.)'],
+                    palette=color,
+                    dashes=dashes, y='Probability',
+                    style='Dialect', hue='Dialect')
+    return _
+
+
+def distribution_by_time(lang):
+    """Original distribution by time"""
+    fpt = StringIO('rw')
+    fpt.write(json.dumps(download(f'{lang}_info')))
+    fpt.seek(0)
+    df = pd.read_json(fpt)
+    df.drop(columns=['ALL'], inplace=True)
+    color = [x for x in sns.color_palette('Set1')][:5]
+    todos = df.sum(axis=0).sort_values(ascending=False).index.tolist()
+    superior = todos[:19]
+    inferior = todos[19:]
+    if len(inferior):
+        df['Rest'] = df[inferior].sum(axis=1)
+        superior.append('Rest')
+    hue_order = superior
+    df = df[superior]
+    dashes = []    
+    for dash in ['', (1, 10), (5, 5), (1, 1)]:
+        dashes.extend([dash] * len(color))
+    dashes = (dashes * int(1 + len(hue_order) / len(dashes)))[:len(hue_order)]
+    color = (color * int(1 + len(hue_order) / len(color)))[:len(hue_order)]
+    df2 = df.rolling(window=7).mean()
+    df2.dropna(inplace=True)
+    # df2 = df2.divide(df2.sum(axis=1), axis=0)
+    df2 = df2.melt(ignore_index=False, value_name='Number of tweets',
+                   var_name='Country')
+    df2.reset_index(inplace=True, names='Date')
+    fig = sns.relplot(df2, kind='line', x='Date',
+                      hue_order=hue_order, style_order=hue_order,
+                      palette=color,
+                      dashes=dashes, y='Number of tweets',
+                      style='Country', hue='Country')
+    return fig
+    # return sns.move_legend(fig, "upper right", ncol=3, frameon=True)
 ``` 
 
 # Introduction
@@ -268,6 +380,14 @@ index = prob.argsort()[::-1]
 ::: {.card title='Arabic (ar)'}
 ```{python}
 #| echo: false
+#| label: fig-arabic
+#| fig-cap: Number of tweets in the collection for the Arabic-speaking countries. 
+
+distribution_by_time('ar')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-arabic
 #| tbl-cap: Number of tweets in the training and test sets for the Arabic-speaking countries. 
 
@@ -276,6 +396,14 @@ Markdown(dataset_info('ar').to_markdown(index=False))
 :::
 
 ::: {.card title='German (de)'}
+```{python}
+#| echo: false
+#| label: fig-german
+#| fig-cap: Number of tweets in the collection for the German-speaking countries. 
+
+distribution_by_time('de')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-german
@@ -288,6 +416,14 @@ Markdown(dataset_info('de').to_markdown(index=False))
 ::: {.card title='English (en)'}
 ```{python}
 #| echo: false
+#| label: fig-english
+#| fig-cap: Number of tweets in the collection for the English-speaking countries. 
+
+distribution_by_time('en')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-english
 #| tbl-cap: Number of tweets in the training and test sets for the English-speaking countries.
 
@@ -296,6 +432,14 @@ Markdown(dataset_info('en').to_markdown(index=False))
 :::
 
 ::: {.card title='Spanish (es)'}
+```{python}
+#| echo: false
+#| label: fig-spanish
+#| fig-cap: Number of tweets in the collection for the Spanish-speaking countries. 
+
+distribution_by_time('es')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-spanish
@@ -308,6 +452,14 @@ Markdown(dataset_info('es').to_markdown(index=False))
 ::: {.card title='French (fr)'}
 ```{python}
 #| echo: false
+#| label: fig-french
+#| fig-cap: Number of tweets in the collection for the French-speaking countries. 
+
+distribution_by_time('fr')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-french
 #| tbl-cap: Number of tweets in the training and test sets for the French-speaking countries.
 
@@ -316,6 +468,14 @@ Markdown(dataset_info('fr').to_markdown(index=False))
 :::
 
 ::: {.card title='Dutch (nl)'}
+```{python}
+#| echo: false
+#| label: fig-dutch
+#| fig-cap: Number of tweets in the collection for the Dutch-speaking countries. 
+
+distribution_by_time('nl')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-dutch
@@ -328,6 +488,14 @@ Markdown(dataset_info('nl').to_markdown(index=False))
 ::: {.card title='Portuguese (pt)'}
 ```{python}
 #| echo: false
+#| label: fig-protuguese
+#| fig-cap: Number of tweets in the collection for the Portuguese-speaking countries. 
+
+distribution_by_time('pt')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-portuguese
 #| tbl-cap: Number of tweets in the training and test sets for the Portuguese-speaking countries.
 
@@ -336,6 +504,14 @@ Markdown(dataset_info('pt').to_markdown(index=False))
 :::
 
 ::: {.card title='Russian (ru)'}
+```{python}
+#| echo: false
+#| label: fig-russian
+#| fig-cap: Number of tweets in the collection for the Russian-speaking countries. 
+
+distribution_by_time('ru')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-russian
@@ -348,6 +524,14 @@ Markdown(dataset_info('ru').to_markdown(index=False))
 ::: {.card title='Turkish (tr)'}
 ```{python}
 #| echo: false
+#| label: fig-turkish
+#| fig-cap: Number of tweets in the collection for the Turkish-speaking countries. 
+
+distribution_by_time('tr')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-turkish
 #| tbl-cap: Number of tweets in the training and test sets for the Turkish-speaking countries.
 
@@ -356,6 +540,14 @@ Markdown(dataset_info('tr').to_markdown(index=False))
 :::
 
 ::: {.card title='Chinese (zh)'}
+```{python}
+#| echo: false
+#| label: fig-chinese
+#| fig-cap: Number of tweets in the collection for the Chinese-speaking countries. 
+
+distribution_by_time('zh')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-chinese
@@ -370,13 +562,13 @@ Markdown(dataset_info('zh').to_markdown(index=False))
 ::: {.card title="Description"}
 The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: retweets were removed; URLs and usernames were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were included in the final collection. 
 
-The corpora are divided into two sets: the first set is used as a training set, i.e., to estimate the parameters, while the second set corresponds to the test set, which could be used to measure the model's performance. The basis for this division is a specific date, with tweets published before October 1, 2022, forming the first set. Those published on or after October 3, 2022, are being used to create the test set. 
+The corpora are used to create two pairs of training and test sets. The training sets are drawn from tweets published before October 1, 2022, and the test sets are taken from tweets published on or after October 3, 2022. The procedure for creating the set pairs consists of two stages. In the first stage, the tweets were organized by country and then selected to form a uniform distribution by day. Within each day, near duplicates were removed. Then, a three-day sliding window was used to remove near duplicates within the window. The final step was to shuffle the data to remove the ordering by date, respecting the limit between the training and test sets.
 
-The procedure has two stages. Two datasets were created for each country and language in the first stage. The first one contains $2^{23}$ (8 million) tweets, and the second has $2^{12}$ (4,096) tweets; the former will be used to create the training set, and the latter corresponds to the test set. These two sets were constructed using tweets with geographic information and filtered according to the language information provided by Twitter. Each set was meticulously crafted to follow, as closely as possible, a uniform distribution of the days. Within each day, near duplicates were removed. Then, a three-day sliding window was used to remove near duplicates within the window. The final step was to shuffle the data to remove the ordering by date. 
+The tweets of the first pair were selected to follow a uniform distribution by country as closely as possible. In this pair, the size of the training set is roughly 2 million tweets, whereas the test set size is $2^{12}$ (4,096) tweets per country. We also produce a smaller training set containing 262 thousand tweets. The procedure is equivalent to the previous one, aiming to have a uniform distribution of the countries. 
 
-In the second stage, training sets are created for each language. Each training set contains $2^{21}$ (2 million) tweets. The procedure used to develop the training consists of drawing tweets from the sets created in the first stage, which have a size of $2^{12}$. The sampling procedure aims to develop training sets that follow a uniform distribution by country. We also produce a smaller training set containing $2^{18}$ (262 thousand) tweets. The procedure is equivalent to the previous one; the aim is to have a uniform distribution of the countries. 
+It is worth mentioning that we did not have enough information for all the countries and languages to follow an exactly uniform distribution. For example, @tbl-spanish (Spanish) notes that for Puerto Rico (pr), there are only 12,407 tweets in the training set and 1,487 tweets in the test set, corresponding to the total number of available tweets that meet the imposed restrictions. 
 
-It is worth mentioning that we did not have enough information for all the countries and languages to follow an exactly uniform distribution. For example, it can be observed in @tbl-spanish (Spanish) that for Puerto Rico (pr), there are only 12,407 tweets in the training set and 1,487 tweets in the test set, which correspond to the total number of available tweets that met the imposed restrictions.
+The second pair of tweets was selected to follow the original distribution of the corpus; in this case, the training and test set has a maximum size of 2 million tweets. The process of selecting the tweets was set as a convex optimization problem where the objective is to maximize the number of tweets subject to a maximum of 2 million ($2^{21}$), and the availability of tweets for each country, and the distribution is given by all the tweets available. In the tables, it can be observed that for Arabic, English, Spanish, French, Portuguese, and Russian, the maximum number of tweets is almost achieved in the training and test sets. 
 :::
 
 # Performance
@@ -615,3 +807,87 @@ dist_lang('zh')
 XxX
 
 ::: 
+
+# Spanish
+
+## Column {.tabset} 
+
+::: {.card title='United States'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion United States. 
+#| label: fig-es-us
+
+country_dist('us')
+```
+:::
+
+::: {.card title='Brazil'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Brazil. 
+#| label: fig-es-br
+
+country_dist('br')
+```
+:::
+
+::: {.card title='Great Britain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain. 
+#| label: fig-es-gb
+
+country_dist('gb')
+```
+:::
+
+::: {.card title='Italy'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy. 
+#| label: fig-es-it
+
+country_dist('it')
+```
+:::
+
+::: {.card title='France'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion France. 
+#| label: fig-es-fr
+
+country_dist('fr')
+```
+:::
+
+::: {.card title='Canada'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Canada. 
+#| label: fig-es-ca
+
+country_dist('ca')
+```
+:::
+
+::: {.card title='Germany'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Germany. 
+#| label: fig-es-de
+
+country_dist('de')
+```
+:::
+
+::: {.card title='Portugal'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Portugal. 
+#| label: fig-es-pt
+
+country_dist('pt')
+```
+:::
