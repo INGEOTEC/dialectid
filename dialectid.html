@@ -99,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         
       </div>
     </div>
-<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="true" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li><li class="nav-item" role="presentation"><a id="tab-quickstart" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#quickstart" data-scrolling="true" href="#quickstart" aria-controls="quickstart" aria-selected="false"><span class="nav-link-text">Quickstart</span></a></li><li class="nav-item" role="presentation"><a id="tab-corpora" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#corpora" data-scrolling="true" href="#corpora" aria-controls="corpora" aria-selected="false"><span class="nav-link-text">Corpora</span></a></li><li class="nav-item" role="presentation"><a id="tab-performance" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#performance" data-scrolling="true" href="#performance" aria-controls="performance" aria-selected="false"><span class="nav-link-text">Performance</span></a></li><li class="nav-item" role="presentation"><a id="tab-distribution" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#distribution" data-scrolling="true" href="#distribution" aria-controls="distribution" aria-selected="false"><span class="nav-link-text">Distribution</span></a></li><li class="nav-item" role="presentation"><a id="tab-spanish" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#spanish" data-scrolling="true" href="#spanish" aria-controls="spanish" aria-selected="false"><span class="nav-link-text">Spanish</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
+<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-introduction" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#introduction" data-scrolling="true" href="#introduction" aria-controls="introduction" aria-selected="true"><span class="nav-link-text">Introduction</span></a></li><li class="nav-item" role="presentation"><a id="tab-quickstart" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#quickstart" data-scrolling="true" href="#quickstart" aria-controls="quickstart" aria-selected="false"><span class="nav-link-text">Quickstart</span></a></li><li class="nav-item" role="presentation"><a id="tab-corpora" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#corpora" data-scrolling="true" href="#corpora" aria-controls="corpora" aria-selected="false"><span class="nav-link-text">Corpora</span></a></li><li class="nav-item" role="presentation"><a id="tab-performance" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#performance" data-scrolling="true" href="#performance" aria-controls="performance" aria-selected="false"><span class="nav-link-text">Performance</span></a></li><li class="nav-item" role="presentation"><a id="tab-distribution" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#distribution" data-scrolling="true" href="#distribution" aria-controls="distribution" aria-selected="false"><span class="nav-link-text">Distribution</span></a></li><li class="nav-item" role="presentation"><a id="tab-spanish" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#spanish" data-scrolling="true" href="#spanish" aria-controls="spanish" aria-selected="false"><span class="nav-link-text">Spanish</span></a></li><li class="nav-item" role="presentation"><a id="tab-english" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#english" data-scrolling="true" href="#english" aria-controls="english" aria-selected="false"><span class="nav-link-text">English</span></a></li><li class="nav-item" role="presentation"><a id="tab-arabic" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#arabic" data-scrolling="true" href="#arabic" aria-controls="arabic" aria-selected="false"><span class="nav-link-text">Arabic</span></a></li><li class="nav-item" role="presentation"><a id="tab-french" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#french" data-scrolling="true" href="#french" aria-controls="french" aria-selected="false"><span class="nav-link-text">French</span></a></li></ul><div class="quarto-dashboard-links"><a class="quarto-dashboard-link" href="https://github.com/INGEOTEC/dialectid/" title="GitHub"><i class="bi bi-github"></i></a></div></div></div>
 </nav>
 </header>
 <div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container dashboard-scrolling quarto-dashboard-pages">  
@@ -161,7 +161,7 @@ Countries
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>detect.countries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="2">
+<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="79">
 <pre><code>array(['ar', 'bo', 'cl', 'co', 'cr', 'cu', 'do', 'ec', 'es', 'gq', 'gt',
        'hn', 'mx', 'ni', 'pa', 'pe', 'pr', 'py', 'sv', 'uy', 've'],
       dtype='&lt;U2')</code></pre>
@@ -188,7 +188,7 @@ Dialect Identification
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>detect.predict([<span class="st">'comiendo unos tacos'</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'acompañando el asado con un buen vino'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="3">
+<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="80">
 <pre><code>array(['mx', 'uy'], dtype='&lt;U2')</code></pre>
 </div>
 </div>
@@ -209,7 +209,7 @@ Decision Function
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> df.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], df[i]) <span class="cf">for</span> i <span class="kw">in</span> index</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> df[i] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="4">
+<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="81">
 <pre><code>[(np.str_('uy'), np.float32(1.5416805)),
  (np.str_('py'), np.float32(1.3321806)),
  (np.str_('ar'), np.float32(1.2182581))]</code></pre>
@@ -233,7 +233,7 @@ Probability
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> prob.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], prob[i])</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> i <span class="kw">in</span> index[:<span class="dv">4</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="5">
+<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="82">
 <pre><code>[(np.str_('uy'), np.float32(0.45955184)),
  (np.str_('ar'), np.float32(0.353442)),
  (np.str_('py'), np.float32(0.18695451)),
@@ -284,7 +284,7 @@ Figure&nbsp;1: Number of tweets in the collection for the Arabic-speaking countr
 Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="7">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="84">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -506,7 +506,7 @@ Figure&nbsp;2: Number of tweets in the collection for the German-speaking countr
 Table&nbsp;2: Number of tweets in the training and test sets for the German-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="9">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="86">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -584,7 +584,7 @@ Figure&nbsp;3: Number of tweets in the collection for the English-speaking count
 Table&nbsp;3: Number of tweets in the training and test sets for the English-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="11">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="88">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 12%">
@@ -1150,7 +1150,7 @@ Figure&nbsp;4: Number of tweets in the collection for the Spanish-speaking count
 Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="13">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="90">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1372,7 +1372,7 @@ Figure&nbsp;5: Number of tweets in the collection for the French-speaking countr
 Table&nbsp;5: Number of tweets in the training and test sets for the French-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="15">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="92">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1634,7 +1634,7 @@ Figure&nbsp;6: Number of tweets in the collection for the Dutch-speaking countri
 Table&nbsp;6: Number of tweets in the training and test sets for the Dutch-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="17">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="94">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1704,7 +1704,7 @@ Figure&nbsp;7: Number of tweets in the collection for the Portuguese-speaking co
 Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-portuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="19">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="96">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1798,7 +1798,7 @@ Figure&nbsp;8: Number of tweets in the collection for the Russian-speaking count
 Table&nbsp;8: Number of tweets in the training and test sets for the Russian-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="21">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="98">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1884,7 +1884,7 @@ Figure&nbsp;9: Number of tweets in the collection for the Turkish-speaking count
 Table&nbsp;9: Number of tweets in the training and test sets for the Turkish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="23">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="100">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1954,7 +1954,7 @@ Figure&nbsp;10: Number of tweets in the collection for the Chinese-speaking coun
 Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="25">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="102">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -2232,9 +2232,6 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
-
-</div>
 <div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-14"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-14-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-es-us" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
@@ -2335,6 +2332,373 @@ Figure&nbsp;18: Distribution estimated with DialectId on the Tweets having as ge
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-es-pt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;19: Distribution estimated with DialectId on the Tweets having as geographic informacion Portugal.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div><div id="english" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-english">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
+
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-15"><li class="nav-item" role="presentation"><a href="#card-tabset-15-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Malaysia" aria-selected="true" class="nav-link active">Malaysia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Indonesia" aria-selected="false" class="nav-link">Indonesia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brasil" aria-selected="false" class="nav-link">Brasil</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United Arab Emirates" aria-selected="false" class="nav-link">United Arab Emirates</a></li></ul></div>
+
+
+
+
+
+
+
+
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-15"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-1"><div class="card-body html-fill-item html-fill-container" data-title="Malaysia">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-en-my" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-en-my-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-en-my-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-en-my-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;20: Distribution estimated with DialectId on the Tweets having as geographic informacion Malaysia.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-2"><div class="card-body html-fill-item html-fill-container" data-title="Indonesia">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-en-id" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-en-id-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-en-id-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-en-id-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;21: Distribution estimated with DialectId on the Tweets having as geographic informacion Indonesia.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-3"><div class="card-body html-fill-item html-fill-container" data-title="Brasil">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-en-br" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-en-br-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-en-br-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-en-br-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;22: Distribution estimated with DialectId on the Tweets having as geographic informacion Brasil.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-en-de" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-en-de-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-en-de-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-en-de-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;23: Distribution estimated with DialectId on the Tweets having as geographic informacion Germany.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-5"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-en-es" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-en-es-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-en-es-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-en-es-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;24: Distribution estimated with DialectId on the Tweets having as geographic informacion Spain.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-6"><div class="card-body html-fill-item html-fill-container" data-title="France">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-en-fr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-en-fr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-en-fr-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-en-fr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;25: Distribution estimated with DialectId on the Tweets having as geographic informacion France.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-7"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-en-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-en-it-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-en-it-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-en-it-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;26: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-8"><div class="card-body html-fill-item html-fill-container" data-title="United Arab Emirates">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-en-ae" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-en-ae-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-en-ae-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-en-ae-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;27: Distribution estimated with DialectId on the Tweets having as geographic informacion United Arab Emirates.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div><div id="arabic" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-arabic">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
+
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-16"><li class="nav-item" role="presentation"><a href="#card-tabset-16-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turkey" aria-selected="false" class="nav-link">Turkey</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Canada" aria-selected="false" class="nav-link">Canada</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Australia" aria-selected="false" class="nav-link">Australia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li></ul></div>
+
+
+
+
+
+
+
+
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-16"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-ar-us" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-ar-us-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-ar-us-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ar-us-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;28: Distribution estimated with DialectId on the Tweets having as geographic informacion United States.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-2"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-ar-gb" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-ar-gb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-ar-gb-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ar-gb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-3"><div class="card-body html-fill-item html-fill-container" data-title="Turkey">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-ar-tr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-ar-tr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-ar-tr-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ar-tr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;30: Distribution estimated with DialectId on the Tweets having as geographic informacion Turkey.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-ar-de" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-ar-de-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-ar-de-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ar-de-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31: Distribution estimated with DialectId on the Tweets having as geographic informacion Germany.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-5"><div class="card-body html-fill-item html-fill-container" data-title="France">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-ar-fr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-ar-fr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-ar-fr-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ar-fr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;32: Distribution estimated with DialectId on the Tweets having as geographic informacion France.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-6"><div class="card-body html-fill-item html-fill-container" data-title="Canada">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-ar-ca" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-ar-ca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-ar-ca-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ar-ca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;33: Distribution estimated with DialectId on the Tweets having as geographic informacion Canada.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-7"><div class="card-body html-fill-item html-fill-container" data-title="Australia">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-ar-au" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-ar-au-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-ar-au-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ar-au-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;34: Distribution estimated with DialectId on the Tweets having as geographic informacion Australia.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-8"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-ar-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-ar-it-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-ar-it-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ar-it-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;35: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div><div id="french" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-french">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
+
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-17"><li class="nav-item" role="presentation"><a href="#card-tabset-17-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Moroco" aria-selected="false" class="nav-link">Moroco</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Algeria" aria-selected="false" class="nav-link">Algeria</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tanzania" aria-selected="false" class="nav-link">Tanzania</a></li></ul></div>
+
+
+
+
+
+
+
+<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
+
+</div>
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-17"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-fr-us" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-fr-us-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-fr-us-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-us-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;36: Distribution estimated with DialectId on the Tweets having as geographic informacion United States.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-2"><div class="card-body html-fill-item html-fill-container" data-title="Moroco">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-fr-ma" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-fr-ma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-fr-ma-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-ma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;37: Distribution estimated with DialectId on the Tweets having as geographic informacion Moroco.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-3"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-fr-es" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-fr-es-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-fr-es-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-es-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;38: Distribution estimated with DialectId on the Tweets having as geographic informacion Spain.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-4"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-fr-gb" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-fr-gb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-fr-gb-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-gb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;39: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-5"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-fr-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-fr-it-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-fr-it-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-it-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;40: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Italy.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-6"><div class="card-body html-fill-item html-fill-container" data-title="Algeria">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-fr-dz" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-fr-dz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-fr-dz-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-dz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;41: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Algeria.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-7"><div class="card-body html-fill-item html-fill-container" data-title="Tanzania">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-fr-tz" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-fr-tz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-fr-tz-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-tz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;42: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Algeria.
 </figcaption>
 </figure>
 </div>
