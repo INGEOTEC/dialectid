@@ -18,7 +18,6 @@ execute:
 
 from collections import defaultdict, Counter
 from os.path import join, basename, isfile
-from io import StringIO
 import json
 from glob import glob
 import pandas as pd
@@ -84,6 +83,8 @@ def dataset_info(lang='es'):
     dataset['test (orig. dist.)'] = orig_dist['test']
     # dataset.reset_index(names='Country', inplace=True)
     df = dataset.sort_values('train (orig. dist.)', ascending=False)
+    df_all = pd.read_json(download(f'{lang}_info', return_path=True))
+    df['Corpus'] = (df_all.sum(axis=0))[df.index] 
     df = pd.concat((df, pd.DataFrame([df.sum(axis=0).values],
                     columns=df.columns, index=['Sum'])), axis=0)
     df.reset_index(inplace=True, names=['Country'])
@@ -217,22 +218,34 @@ def dist_lang(lang):
 
 def country_dist(country, lang='es', drop=None):
     """Country distribution of language"""
-    info_dialect = {v[0]: v for k, v in INFO_ES.items()}
+    # info_dialect = {v[0]: v for k, v in INFO_ES.items()}
     color = [x for x in sns.color_palette('Set1')][:5]
     dashes = []
     hue_order = None
     dataframe = pd.DataFrame()
+    inferior = None
+    superior = None
     for alg in [0, 1]:
         df = pd.read_json(f'countries/{lang}_{country}_{alg}.json.gz')
         if drop is not None:
             df.drop(columns=drop, inplace=True)
-        df.columns = [INFO_ES[k][0] for k in df.columns]
+        if lang == 'es':
+            df.columns = [INFO_ES[k][0] for k in df.columns]
         if alg == 0:
             hue_order = df.sum(axis=0).sort_values(ascending=False).index.tolist()
+            if len(hue_order) >= 19:
+                superior = hue_order[:19]
+                inferior = hue_order[19:]
+                df['Rest'] = df[inferior].sum(axis=1)
+                hue_order = hue_order[:20]
+                hue_order[-1] = 'Rest'
             for dash in ['', (1, 10), (5, 5), (1, 1)]:
                 dashes.extend([dash] * len(color))
             dashes = (dashes * int(1 + len(hue_order) / len(dashes)))[:len(hue_order)]
             color = (color * int(1 + len(hue_order) / len(color)))[:len(hue_order)]
+        if inferior is not None:
+            _ = set(inferior).intersection(df.columns)
+            df.drop(columns=_, inplace=True)
         df2 = df.rolling(window=7 * 12).sum()
         df2.dropna(inplace=True)
         df2 = df2.divide(df2.sum(axis=1), axis=0)
@@ -247,14 +260,16 @@ def country_dist(country, lang='es', drop=None):
                     dashes=dashes, y='Probability',
                     style='Dialect', hue='Dialect')
     return _
+    # order = pd.DataFrame()
+    # for key in hue_order:
+    #     order = pd.concat((order, dataframe.loc[dataframe.Dialect == key]))    
+    # return px.line(order, x='Date', y='Probability',
+    #                color='Dialect', facet_col='Algorithm')
 
 
 def distribution_by_time(lang):
     """Original distribution by time"""
-    fpt = StringIO('rw')
-    fpt.write(json.dumps(download(f'{lang}_info')))
-    fpt.seek(0)
-    df = pd.read_json(fpt)
+    df = pd.read_json(download(f'{lang}_info', return_path=True))
     df.drop(columns=['ALL'], inplace=True)
     color = [x for x in sns.color_palette('Set1')][:5]
     todos = df.sum(axis=0).sort_values(ascending=False).index.tolist()
@@ -889,5 +904,248 @@ country_dist('de')
 #| label: fig-es-pt
 
 country_dist('pt')
+```
+:::
+
+# English
+
+## Column {.tabset} 
+
+::: {.card title='Malaysia'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Malaysia. 
+#| label: fig-en-my
+
+country_dist('my', lang='en')
+```
+:::
+
+::: {.card title='Indonesia'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Indonesia. 
+#| label: fig-en-id
+
+country_dist('id', lang='en')
+```
+:::
+
+
+::: {.card title='Brasil'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Brasil. 
+#| label: fig-en-br
+
+country_dist('br', lang='en')
+```
+:::
+
+::: {.card title='Germany'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Germany. 
+#| label: fig-en-de
+
+country_dist('de', lang='en')
+```
+:::
+
+::: {.card title='Spain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Spain. 
+#| label: fig-en-es
+
+country_dist('es', lang='en')
+```
+:::
+
+::: {.card title='France'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion France. 
+#| label: fig-en-fr
+
+country_dist('fr', lang='en')
+```
+:::
+
+::: {.card title='Italy'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy. 
+#| label: fig-en-it
+
+country_dist('it', lang='en')
+```
+:::
+
+::: {.card title='United Arab Emirates'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion United Arab Emirates. 
+#| label: fig-en-ae
+
+country_dist('ae', lang='en')
+```
+:::
+
+# Arabic
+
+## Column {.tabset} 
+
+::: {.card title='United States'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion United States. 
+#| label: fig-ar-us
+
+country_dist('us', lang='ar')
+```
+:::
+
+::: {.card title='Great Britain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain. 
+#| label: fig-ar-gb
+
+country_dist('gb', lang='ar')
+```
+:::
+
+::: {.card title='Turkey'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Turkey. 
+#| label: fig-ar-tr
+
+country_dist('tr', lang='ar')
+```
+:::
+
+::: {.card title='Germany'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Germany. 
+#| label: fig-ar-de
+
+country_dist('de', lang='ar')
+```
+:::
+
+::: {.card title='France'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion France. 
+#| label: fig-ar-fr
+
+country_dist('fr', lang='ar')
+```
+:::
+
+::: {.card title='Canada'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Canada. 
+#| label: fig-ar-ca
+
+country_dist('ca', lang='ar')
+```
+:::
+
+::: {.card title='Australia'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Australia. 
+#| label: fig-ar-au
+
+country_dist('au', lang='ar')
+```
+:::
+
+::: {.card title='Italy'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy. 
+#| label: fig-ar-it
+
+country_dist('it', lang='ar')
+```
+:::
+
+# French
+
+## Column {.tabset} 
+
+::: {.card title='United States'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion United States. 
+#| label: fig-fr-us
+
+country_dist('us', lang='fr')
+```
+:::
+
+::: {.card title='Moroco'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Moroco. 
+#| label: fig-fr-ma
+
+country_dist('ma', lang='fr')
+```
+:::
+
+::: {.card title='Spain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Spain. 
+#| label: fig-fr-es
+
+country_dist('es', lang='fr')
+```
+:::
+
+::: {.card title='Great Britain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain. 
+#| label: fig-fr-gb
+
+country_dist('gb', lang='fr')
+```
+:::
+
+::: {.card title='Italy'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Italy. 
+#| label: fig-fr-it
+
+country_dist('it', lang='fr')
+```
+:::
+
+::: {.card title='Algeria'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Algeria. 
+#| label: fig-fr-dz
+
+country_dist('dz', lang='fr')
+```
+:::
+
+::: {.card title='Tanzania'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Algeria. 
+#| label: fig-fr-tz
+
+country_dist('tz', lang='fr')
 ```
 :::
