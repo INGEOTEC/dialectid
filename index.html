@@ -161,7 +161,7 @@ Countries
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>detect.countries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="79">
+<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="2">
 <pre><code>array(['ar', 'bo', 'cl', 'co', 'cr', 'cu', 'do', 'ec', 'es', 'gq', 'gt',
        'hn', 'mx', 'ni', 'pa', 'pe', 'pr', 'py', 'sv', 'uy', 've'],
       dtype='&lt;U2')</code></pre>
@@ -188,7 +188,7 @@ Dialect Identification
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>detect.predict([<span class="st">'comiendo unos tacos'</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'acompañando el asado con un buen vino'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="80">
+<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="3">
 <pre><code>array(['mx', 'uy'], dtype='&lt;U2')</code></pre>
 </div>
 </div>
@@ -209,7 +209,7 @@ Decision Function
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> df.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], df[i]) <span class="cf">for</span> i <span class="kw">in</span> index</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> df[i] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="81">
+<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="4">
 <pre><code>[(np.str_('uy'), np.float32(1.5416805)),
  (np.str_('py'), np.float32(1.3321806)),
  (np.str_('ar'), np.float32(1.2182581))]</code></pre>
@@ -233,7 +233,7 @@ Probability
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> prob.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], prob[i])</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> i <span class="kw">in</span> index[:<span class="dv">4</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="82">
+<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="5">
 <pre><code>[(np.str_('uy'), np.float32(0.45955184)),
  (np.str_('ar'), np.float32(0.353442)),
  (np.str_('py'), np.float32(0.18695451)),
@@ -284,7 +284,7 @@ Figure&nbsp;1: Number of tweets in the collection for the Arabic-speaking countr
 Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="84">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="7">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -506,7 +506,7 @@ Figure&nbsp;2: Number of tweets in the collection for the German-speaking countr
 Table&nbsp;2: Number of tweets in the training and test sets for the German-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="86">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="9">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -584,7 +584,7 @@ Figure&nbsp;3: Number of tweets in the collection for the English-speaking count
 Table&nbsp;3: Number of tweets in the training and test sets for the English-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="88">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="11">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 12%">
@@ -1150,7 +1150,7 @@ Figure&nbsp;4: Number of tweets in the collection for the Spanish-speaking count
 Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="90">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="13">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1372,7 +1372,7 @@ Figure&nbsp;5: Number of tweets in the collection for the French-speaking countr
 Table&nbsp;5: Number of tweets in the training and test sets for the French-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="92">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="15">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1634,7 +1634,7 @@ Figure&nbsp;6: Number of tweets in the collection for the Dutch-speaking countri
 Table&nbsp;6: Number of tweets in the training and test sets for the Dutch-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="94">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="17">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1704,7 +1704,7 @@ Figure&nbsp;7: Number of tweets in the collection for the Portuguese-speaking co
 Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-portuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="96">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="19">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1798,7 +1798,7 @@ Figure&nbsp;8: Number of tweets in the collection for the Russian-speaking count
 Table&nbsp;8: Number of tweets in the training and test sets for the Russian-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="98">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="21">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1884,7 +1884,7 @@ Figure&nbsp;9: Number of tweets in the collection for the Turkish-speaking count
 Table&nbsp;9: Number of tweets in the training and test sets for the Turkish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="100">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="23">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1954,7 +1954,7 @@ Figure&nbsp;10: Number of tweets in the collection for the Chinese-speaking coun
 Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="102">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="25">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -2218,9 +2218,9 @@ XxX
 </div>
 </div>
 </div><div id="spanish" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-spanish">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
-<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card tabset flow bslib-card html-fill-container" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
 
 </span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-14"><li class="nav-item" role="presentation"><a href="#card-tabset-14-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-14-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brazil" aria-selected="false" class="nav-link">Brazil</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-14-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-14-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-14-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-14-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Canada" aria-selected="false" class="nav-link">Canada</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-14-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-14-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Portugal" aria-selected="false" class="nav-link">Portugal</a></li></ul></div>
@@ -2341,15 +2341,298 @@ Figure&nbsp;19: Distribution estimated with DialectId on the Tweets having as ge
     <span class="bslib-full-screen-enter badge rounded-pill">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-title="Description" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header"><div class="card-title"><span style="display: inline">
+Description
+</span></div></div>
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="55">
+<div id="tbl-spanish-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="55">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-spanish-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11: Probability of the origin of Tweets in different non-Spanish-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-spanish-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="55">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 14%">
+<col style="width: 8%">
+<col style="width: 15%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">United States</th>
+<th style="text-align: right;">Brazil</th>
+<th style="text-align: right;">United Kingdom</th>
+<th style="text-align: right;">Italy</th>
+<th style="text-align: right;">France</th>
+<th style="text-align: right;">Canada</th>
+<th style="text-align: right;">Germany</th>
+<th style="text-align: right;">Portugal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Argentina</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.523</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.445</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bolivia</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.640</td>
+<td style="text-align: right;">0.132</td>
+<td style="text-align: right;">0.227</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Chile</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.114</td>
+<td style="text-align: right;">0.162</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.283</td>
+<td style="text-align: right;">0.336</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Colombia</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Costa Rica</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.244</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.151</td>
+<td style="text-align: right;">0.602</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cuba</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.361</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">0.312</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">0.096</td>
+<td style="text-align: right;">0.104</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dominican Republic</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ecuador</td>
+<td style="text-align: right;">0.010</td>
+<td style="text-align: right;">0.112</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.098</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.518</td>
+<td style="text-align: right;">0.070</td>
+<td style="text-align: right;">0.192</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spain</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.325</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.640</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Equatorial Guinea</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.122</td>
+<td style="text-align: right;">0.084</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.593</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.200</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Guatemala</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.863</td>
+<td style="text-align: right;">0.115</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Honduras</td>
+<td style="text-align: right;">0.890</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.026</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mexico</td>
+<td style="text-align: right;">0.260</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.707</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nicaragua</td>
+<td style="text-align: right;">0.790</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.176</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Panama</td>
+<td style="text-align: right;">0.854</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">0.017</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Peru</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.944</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Puerto Rico</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Paraguay</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">El Salvador</td>
+<td style="text-align: right;">0.665</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.335</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Uruguay</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.989</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Venezuela</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.164</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.455</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.339</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
+</div>
 </div><div id="english" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-english">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
 
-</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-15"><li class="nav-item" role="presentation"><a href="#card-tabset-15-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Malaysia" aria-selected="true" class="nav-link active">Malaysia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Indonesia" aria-selected="false" class="nav-link">Indonesia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brasil" aria-selected="false" class="nav-link">Brasil</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United Arab Emirates" aria-selected="false" class="nav-link">United Arab Emirates</a></li></ul></div>
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-16"><li class="nav-item" role="presentation"><a href="#card-tabset-16-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Malaysia" aria-selected="true" class="nav-link active">Malaysia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Indonesia" aria-selected="false" class="nav-link">Indonesia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brasil" aria-selected="false" class="nav-link">Brasil</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United Arab Emirates" aria-selected="false" class="nav-link">United Arab Emirates</a></li></ul></div>
 
 
 
@@ -2358,7 +2641,7 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-15"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-1"><div class="card-body html-fill-item html-fill-container" data-title="Malaysia">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-16"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-1"><div class="card-body html-fill-item html-fill-container" data-title="Malaysia">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-my" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2371,7 +2654,7 @@ Figure&nbsp;20: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-2"><div class="card-body html-fill-item html-fill-container" data-title="Indonesia">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-2"><div class="card-body html-fill-item html-fill-container" data-title="Indonesia">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-id" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2384,7 +2667,7 @@ Figure&nbsp;21: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-3"><div class="card-body html-fill-item html-fill-container" data-title="Brasil">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-3"><div class="card-body html-fill-item html-fill-container" data-title="Brasil">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-br" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2397,7 +2680,7 @@ Figure&nbsp;22: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-de" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2410,7 +2693,7 @@ Figure&nbsp;23: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-5"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-5"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-es" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2423,7 +2706,7 @@ Figure&nbsp;24: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-6"><div class="card-body html-fill-item html-fill-container" data-title="France">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-6"><div class="card-body html-fill-item html-fill-container" data-title="France">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-fr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2436,7 +2719,7 @@ Figure&nbsp;25: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-7"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-7"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2449,7 +2732,7 @@ Figure&nbsp;26: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-8"><div class="card-body html-fill-item html-fill-container" data-title="United Arab Emirates">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-8"><div class="card-body html-fill-item html-fill-container" data-title="United Arab Emirates">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-ae" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2467,15 +2750,771 @@ Figure&nbsp;27: Distribution estimated with DialectId on the Tweets having as ge
     <span class="bslib-full-screen-enter badge rounded-pill">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-title="Description" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header"><div class="card-title"><span style="display: inline">
+Description
+</span></div></div>
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="64">
+<div id="tbl-english-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="64">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-english-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;12: Probability of the origin of Tweets in different non-English-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-english-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="64">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">Malaysia</th>
+<th style="text-align: right;">Indonesia</th>
+<th style="text-align: right;">Brazil</th>
+<th style="text-align: right;">Germany</th>
+<th style="text-align: right;">Spain</th>
+<th style="text-align: right;">France</th>
+<th style="text-align: right;">Italy</th>
+<th style="text-align: right;">United Arab Emirates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Antigua and Barbuda</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.545</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.412</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Anguilla</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.657</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">0.230</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Australia</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.253</td>
+<td style="text-align: right;">0.510</td>
+<td style="text-align: right;">0.236</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Barbados</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.958</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bermuda</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">0.410</td>
+<td style="text-align: right;">0.070</td>
+<td style="text-align: right;">0.374</td>
+<td style="text-align: right;">0.119</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bahamas</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.875</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.079</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Belize</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.239</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.695</td>
+<td style="text-align: right;">0.063</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Canada</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.934</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cook Islands</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cameroon</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.907</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.002</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dominica</td>
+<td style="text-align: right;">0.876</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fiji</td>
+<td style="text-align: right;">0.117</td>
+<td style="text-align: right;">0.563</td>
+<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.286</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Falkland Islands</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.284</td>
+<td style="text-align: right;">0.323</td>
+<td style="text-align: right;">0.394</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Micronesia, Fed. Sts.</td>
+<td style="text-align: right;">0.989</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">United Kingdom</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.887</td>
+<td style="text-align: right;">0.067</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Grenada</td>
+<td style="text-align: right;">0.966</td>
+<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Guernsey</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">0.583</td>
+<td style="text-align: right;">0.278</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ghana</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.161</td>
+<td style="text-align: right;">0.119</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.124</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.595</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gibraltar</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gambia</td>
+<td style="text-align: right;">0.726</td>
+<td style="text-align: right;">0.139</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.114</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Guam</td>
+<td style="text-align: right;">0.691</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.229</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.080</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Guyana</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.958</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">0.026</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ireland</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.825</td>
+<td style="text-align: right;">0.175</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Isle of Man</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">0.860</td>
+<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">India</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.968</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jamaica</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.112</td>
+<td style="text-align: right;">0.047</td>
+<td style="text-align: right;">0.832</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Kenya</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.109</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.884</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">St.&nbsp;Kitts and Nevis</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.673</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.139</td>
+<td style="text-align: right;">0.135</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cayman Islands</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.063</td>
+<td style="text-align: right;">0.200</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">0.716</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">St.&nbsp;Lucia</td>
+<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.166</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.780</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Liberia</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">0.756</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.132</td>
+<td style="text-align: right;">0.050</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lesotho</td>
+<td style="text-align: right;">0.902</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.098</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Northern Mariana Islands</td>
+<td style="text-align: right;">0.757</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.213</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Malta</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mauritius</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.291</td>
+<td style="text-align: right;">0.127</td>
+<td style="text-align: right;">0.029</td>
+<td style="text-align: right;">0.411</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.142</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Malawi</td>
+<td style="text-align: right;">0.405</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.429</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.108</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Namibia</td>
+<td style="text-align: right;">0.999</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nigeria</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.446</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.554</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">New Zealand</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.067</td>
+<td style="text-align: right;">0.637</td>
+<td style="text-align: right;">0.072</td>
+<td style="text-align: right;">0.224</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Papua New Guinea</td>
+<td style="text-align: right;">0.694</td>
+<td style="text-align: right;">0.243</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.063</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Philippines</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.753</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">0.195</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pakistan</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.999</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Puerto Rico</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.788</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.212</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Palau</td>
+<td style="text-align: right;">0.760</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.152</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.037</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rwanda</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.123</td>
+<td style="text-align: right;">0.299</td>
+<td style="text-align: right;">0.094</td>
+<td style="text-align: right;">0.178</td>
+<td style="text-align: right;">0.173</td>
+<td style="text-align: right;">0.123</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Solomon Islands</td>
+<td style="text-align: right;">0.048</td>
+<td style="text-align: right;">0.519</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.308</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.109</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sudan</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.969</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Singapore</td>
+<td style="text-align: right;">0.898</td>
+<td style="text-align: right;">0.102</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">St.&nbsp;Helena</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.095</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">0.164</td>
+<td style="text-align: right;">0.205</td>
+<td style="text-align: right;">0.443</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sierra Leone</td>
+<td style="text-align: right;">0.062</td>
+<td style="text-align: right;">0.094</td>
+<td style="text-align: right;">0.291</td>
+<td style="text-align: right;">0.176</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.362</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sint Maarten</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.137</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.863</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Eswatini</td>
+<td style="text-align: right;">0.794</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">0.150</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Turks and Caicos Islands</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.926</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.047</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tonga</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Trinidad and Tobago</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.903</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.084</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Uganda</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.119</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.056</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">0.725</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">United States</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: right;">0.912</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">St.&nbsp;Vincent and the Grenadines</td>
+<td style="text-align: right;">0.932</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">British Virgin Islands</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.745</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.202</td>
+<td style="text-align: right;">0.018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">United States Virgin Islands</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.360</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.609</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Vanuatu</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.393</td>
+<td style="text-align: right;">0.390</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.211</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">South Africa</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">0.459</td>
+<td style="text-align: right;">0.383</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Zambia</td>
+<td style="text-align: right;">0.831</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.114</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Zimbabwe</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.187</td>
+<td style="text-align: right;">0.359</td>
+<td style="text-align: right;">0.199</td>
+<td style="text-align: right;">0.105</td>
+<td style="text-align: right;">0.064</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.069</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
+</div>
 </div><div id="arabic" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-arabic">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
 
-</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-16"><li class="nav-item" role="presentation"><a href="#card-tabset-16-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turkey" aria-selected="false" class="nav-link">Turkey</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Canada" aria-selected="false" class="nav-link">Canada</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Australia" aria-selected="false" class="nav-link">Australia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li></ul></div>
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-18"><li class="nav-item" role="presentation"><a href="#card-tabset-18-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-18-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-18-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turkey" aria-selected="false" class="nav-link">Turkey</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-18-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-18-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-18-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Canada" aria-selected="false" class="nav-link">Canada</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-18-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Australia" aria-selected="false" class="nav-link">Australia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-18-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li></ul></div>
 
 
 
@@ -2484,7 +3523,7 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-16"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-18"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-18-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-us" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2497,7 +3536,7 @@ Figure&nbsp;28: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-2"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-18-2"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-gb" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2510,7 +3549,7 @@ Figure&nbsp;29: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-3"><div class="card-body html-fill-item html-fill-container" data-title="Turkey">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-18-3"><div class="card-body html-fill-item html-fill-container" data-title="Turkey">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-tr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2523,7 +3562,7 @@ Figure&nbsp;30: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-18-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-de" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2536,7 +3575,7 @@ Figure&nbsp;31: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-5"><div class="card-body html-fill-item html-fill-container" data-title="France">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-18-5"><div class="card-body html-fill-item html-fill-container" data-title="France">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-fr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2549,7 +3588,7 @@ Figure&nbsp;32: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-6"><div class="card-body html-fill-item html-fill-container" data-title="Canada">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-18-6"><div class="card-body html-fill-item html-fill-container" data-title="Canada">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-ca" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2562,7 +3601,7 @@ Figure&nbsp;33: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-7"><div class="card-body html-fill-item html-fill-container" data-title="Australia">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-18-7"><div class="card-body html-fill-item html-fill-container" data-title="Australia">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-au" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2575,7 +3614,7 @@ Figure&nbsp;34: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-8"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-18-8"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2593,15 +3632,298 @@ Figure&nbsp;35: Distribution estimated with DialectId on the Tweets having as ge
     <span class="bslib-full-screen-enter badge rounded-pill">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-title="Description" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header"><div class="card-title"><span style="display: inline">
+Description
+</span></div></div>
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="73">
+<div id="tbl-arabic-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="73">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-arabic-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;13: Probability of the origin of Tweets in different non-Arabic-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-arabic-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="73">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">United States</th>
+<th style="text-align: right;">United Kingdom</th>
+<th style="text-align: right;">Türkiye</th>
+<th style="text-align: right;">Germany</th>
+<th style="text-align: right;">France</th>
+<th style="text-align: right;">Canada</th>
+<th style="text-align: right;">Australia</th>
+<th style="text-align: right;">Italy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">United Arab Emirates</td>
+<td style="text-align: right;">0.057</td>
+<td style="text-align: right;">0.617</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.080</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">0.152</td>
+<td style="text-align: right;">0.028</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bahrain</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">0.806</td>
+<td style="text-align: right;">0.083</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.048</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Djibouti</td>
+<td style="text-align: right;">0.254</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.150</td>
+<td style="text-align: right;">0.125</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: right;">0.249</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Algeria</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">0.940</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Egypt</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.975</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Iraq</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.174</td>
+<td style="text-align: right;">0.485</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.317</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Jordan</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.486</td>
+<td style="text-align: right;">0.357</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.029</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">0.036</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Kuwait</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.885</td>
+<td style="text-align: right;">0.061</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lebanon</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.010</td>
+<td style="text-align: right;">0.105</td>
+<td style="text-align: right;">0.578</td>
+<td style="text-align: right;">0.307</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Libya</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.319</td>
+<td style="text-align: right;">0.151</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.144</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.377</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Morocco</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.092</td>
+<td style="text-align: right;">0.749</td>
+<td style="text-align: right;">0.101</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mauritania</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.207</td>
+<td style="text-align: right;">0.183</td>
+<td style="text-align: right;">0.348</td>
+<td style="text-align: right;">0.139</td>
+<td style="text-align: right;">0.048</td>
+<td style="text-align: right;">0.063</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Oman</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.393</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.607</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Qatar</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">0.829</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.013</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Saudi Arabia</td>
+<td style="text-align: right;">0.150</td>
+<td style="text-align: right;">0.229</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.092</td>
+<td style="text-align: right;">0.518</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sudan</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.061</td>
+<td style="text-align: right;">0.531</td>
+<td style="text-align: right;">0.180</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.228</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Somalia</td>
+<td style="text-align: right;">0.057</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.454</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">0.374</td>
+<td style="text-align: right;">0.047</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Syria</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.599</td>
+<td style="text-align: right;">0.401</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Chad</td>
+<td style="text-align: right;">0.026</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">0.667</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.105</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tunisia</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">0.591</td>
+<td style="text-align: right;">0.160</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.165</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Yemen</td>
+<td style="text-align: right;">0.654</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.118</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">0.016</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
+</div>
 </div><div id="french" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-french">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
 
-</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-17"><li class="nav-item" role="presentation"><a href="#card-tabset-17-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Moroco" aria-selected="false" class="nav-link">Moroco</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Algeria" aria-selected="false" class="nav-link">Algeria</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-17-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tanzania" aria-selected="false" class="nav-link">Tanzania</a></li></ul></div>
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-20"><li class="nav-item" role="presentation"><a href="#card-tabset-20-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Moroco" aria-selected="false" class="nav-link">Moroco</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Algeria" aria-selected="false" class="nav-link">Algeria</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tanzania" aria-selected="false" class="nav-link">Tanzania</a></li></ul></div>
 
 
 
@@ -2609,10 +3931,8 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
 
-</div>
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-17"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-20"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-us" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2625,7 +3945,7 @@ Figure&nbsp;36: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-2"><div class="card-body html-fill-item html-fill-container" data-title="Moroco">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-2"><div class="card-body html-fill-item html-fill-container" data-title="Moroco">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-ma" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2638,7 +3958,7 @@ Figure&nbsp;37: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-3"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-3"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-es" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2651,7 +3971,20 @@ Figure&nbsp;38: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-4"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-4"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
+<div class="cell-output cell-output-display html-fill-item html-fill-container">
+<div id="fig-fr-gp" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
+<div aria-describedby="fig-fr-gp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<img src="dialectid_files/figure-html/fig-fr-gp-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-gp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;39: Distribution estimated with DialectId on the Tweets having as geographic informacion Guadalupe.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-5"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-gb" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2659,12 +3992,12 @@ Figure&nbsp;38: Distribution estimated with DialectId on the Tweets having as ge
 <img src="dialectid_files/figure-html/fig-fr-gb-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-gb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;39: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain.
+Figure&nbsp;40: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain.
 </figcaption>
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-5"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-6"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2672,12 +4005,12 @@ Figure&nbsp;39: Distribution estimated with DialectId on the Tweets having as ge
 <img src="dialectid_files/figure-html/fig-fr-it-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-it-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;40: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Italy.
+Figure&nbsp;41: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy.
 </figcaption>
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-6"><div class="card-body html-fill-item html-fill-container" data-title="Algeria">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-7"><div class="card-body html-fill-item html-fill-container" data-title="Algeria">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-dz" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2685,12 +4018,12 @@ Figure&nbsp;40: Distribution estimated with DialectId on the Tweets having as ge
 <img src="dialectid_files/figure-html/fig-fr-dz-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-dz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;41: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Algeria.
+Figure&nbsp;42: Distribution estimated with DialectId on the Tweets having as geographic informacion Algeria.
 </figcaption>
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-17-7"><div class="card-body html-fill-item html-fill-container" data-title="Tanzania">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-8"><div class="card-body html-fill-item html-fill-container" data-title="Tanzania">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-tz" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2698,7 +4031,7 @@ Figure&nbsp;41: Distribution estimated with DialectId on the Tweets having as ge
 <img src="dialectid_files/figure-html/fig-fr-tz-output-1.png" class="img-fluid figure-img quarto-dashboard-img-contain">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fr-tz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;42: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Algeria.
+Figure&nbsp;43: Distribution estimated with DialectId on the Tweets having as geographic informacion Tanzania.
 </figcaption>
 </figure>
 </div>
@@ -2708,7 +4041,348 @@ Figure&nbsp;42: Distribution estimated with DialectId on the Tweets having as ge
     <span class="bslib-full-screen-enter badge rounded-pill">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-title="Description" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header"><div class="card-title"><span style="display: inline">
+Description
+</span></div></div>
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="82">
+<div id="tbl-french-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="82">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-french-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14: Probability of the origin of Tweets in different non-French-speaking countries.
+</figcaption>
+<div aria-describedby="tbl-french-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="82">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">United States</th>
+<th style="text-align: right;">Morocco</th>
+<th style="text-align: right;">Spain</th>
+<th style="text-align: right;">Guadeloupe</th>
+<th style="text-align: right;">United Kingdom</th>
+<th style="text-align: right;">Italy</th>
+<th style="text-align: right;">Algeria</th>
+<th style="text-align: right;">Tanzania</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Belgium</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.608</td>
+<td style="text-align: right;">0.269</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.124</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Burkina Faso</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Benin</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Canada</td>
+<td style="text-align: right;">0.095</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.546</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.359</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DR Congo</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.862</td>
+<td style="text-align: right;">0.138</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Central African Republic</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.140</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.539</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">0.260</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Congo Republic</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.973</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Switzerland</td>
+<td style="text-align: right;">0.746</td>
+<td style="text-align: right;">0.254</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cote d’Ivoire</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cameroon</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Djibouti</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.963</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.470</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.530</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gabon</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.705</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.295</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Guinea</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.383</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.617</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Haiti</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Comoros</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.343</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.083</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.574</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Luxembourg</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.104</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">0.309</td>
+<td style="text-align: right;">0.168</td>
+<td style="text-align: right;">0.392</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Monaco</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.975</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mali</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">New Caledonia</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.064</td>
+<td style="text-align: right;">0.859</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Niger</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">French Polynesia</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.585</td>
+<td style="text-align: right;">0.415</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rwanda</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.187</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.620</td>
+<td style="text-align: right;">0.193</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Senegal</td>
+<td style="text-align: right;">0.072</td>
+<td style="text-align: right;">0.777</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.150</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Chad</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Togo</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.276</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.170</td>
+<td style="text-align: right;">0.519</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
+
+</div>
+</div>
 </div>
 </div>
 </div>
