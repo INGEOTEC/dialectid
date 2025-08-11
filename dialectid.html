@@ -161,7 +161,7 @@ Countries
 <div class="sourceCode cell-code html-fill-item html-fill-container" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dialectid <span class="im">import</span> DialectId</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>detect.countries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="2">
+<div id="countries" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="75">
 <pre><code>array(['ar', 'bo', 'cl', 'co', 'cr', 'cu', 'do', 'ec', 'es', 'gq', 'gt',
        'hn', 'mx', 'ni', 'pa', 'pe', 'pr', 'py', 'sv', 'uy', 've'],
       dtype='&lt;U2')</code></pre>
@@ -188,7 +188,7 @@ Dialect Identification
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>detect <span class="op">=</span> DialectId(lang<span class="op">=</span><span class="st">'es'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>detect.predict([<span class="st">'comiendo unos tacos'</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'acompañando el asado con un buen vino'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="3">
+<div id="identification" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="76">
 <pre><code>array(['mx', 'uy'], dtype='&lt;U2')</code></pre>
 </div>
 </div>
@@ -209,7 +209,7 @@ Decision Function
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> df.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], df[i]) <span class="cf">for</span> i <span class="kw">in</span> index</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> df[i] <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="4">
+<div id="distance" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="77">
 <pre><code>[(np.str_('uy'), np.float32(1.5416805)),
  (np.str_('py'), np.float32(1.3321806)),
  (np.str_('ar'), np.float32(1.2182581))]</code></pre>
@@ -233,7 +233,7 @@ Probability
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> prob.argsort()[::<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>[(detect.countries[i], prob[i])</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> i <span class="kw">in</span> index[:<span class="dv">4</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="5">
+<div id="probability" class="cell-output cell-output-display html-fill-item html-fill-container" data-execution_count="78">
 <pre><code>[(np.str_('uy'), np.float32(0.45955184)),
  (np.str_('ar'), np.float32(0.353442)),
  (np.str_('py'), np.float32(0.18695451)),
@@ -284,15 +284,15 @@ Figure&nbsp;1: Number of tweets in the collection for the Arabic-speaking countr
 Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-arabic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="7">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="80">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 10%">
+<col style="width: 23%">
 <col style="width: 9%">
-<col style="width: 27%">
-<col style="width: 26%">
-<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 24%">
+<col style="width: 23%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -306,7 +306,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">sa</td>
+<td style="text-align: left;">Saudi Arabia</td>
 <td style="text-align: right;">119009</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">1139707</td>
@@ -314,7 +314,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">61578662</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">eg</td>
+<td style="text-align: left;">Egypt</td>
 <td style="text-align: right;">119122</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">271439</td>
@@ -322,7 +322,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">14665935</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">kw</td>
+<td style="text-align: left;">Kuwait</td>
 <td style="text-align: right;">119117</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">188944</td>
@@ -330,7 +330,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">10208696</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ae</td>
+<td style="text-align: left;">United Arab Emirates</td>
 <td style="text-align: right;">119600</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">115345</td>
@@ -338,7 +338,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">6232153</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">om</td>
+<td style="text-align: left;">Oman</td>
 <td style="text-align: right;">119771</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">70484</td>
@@ -346,7 +346,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">3808309</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">iq</td>
+<td style="text-align: left;">Iraq</td>
 <td style="text-align: right;">119655</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">50912</td>
@@ -354,7 +354,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">2750834</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">qa</td>
+<td style="text-align: left;">Qatar</td>
 <td style="text-align: right;">119362</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">48860</td>
@@ -362,7 +362,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">2639967</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">bh</td>
+<td style="text-align: left;">Bahrain</td>
 <td style="text-align: right;">119666</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">45196</td>
@@ -370,7 +370,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">2441971</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">lb</td>
+<td style="text-align: left;">Lebanon</td>
 <td style="text-align: right;">119370</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">35812</td>
@@ -378,7 +378,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">1934983</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">jo</td>
+<td style="text-align: left;">Jordan</td>
 <td style="text-align: right;">119718</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">34619</td>
@@ -386,7 +386,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">1870514</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ly</td>
+<td style="text-align: left;">Libya</td>
 <td style="text-align: right;">119659</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">31495</td>
@@ -394,7 +394,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">1701716</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ye</td>
+<td style="text-align: left;">Yemen</td>
 <td style="text-align: right;">119823</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">16917</td>
@@ -402,7 +402,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">914053</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">dz</td>
+<td style="text-align: left;">Algeria</td>
 <td style="text-align: right;">119143</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">16609</td>
@@ -410,7 +410,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">897394</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ma</td>
+<td style="text-align: left;">Morocco</td>
 <td style="text-align: right;">119556</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">9600</td>
@@ -418,7 +418,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">518739</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">sd</td>
+<td style="text-align: left;">Sudan</td>
 <td style="text-align: right;">120078</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">7662</td>
@@ -426,7 +426,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">413993</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">tn</td>
+<td style="text-align: left;">Tunisia</td>
 <td style="text-align: right;">119244</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">6405</td>
@@ -434,7 +434,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">346082</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">sy</td>
+<td style="text-align: left;">Syria</td>
 <td style="text-align: right;">119159</td>
 <td style="text-align: right;">4093</td>
 <td style="text-align: right;">5768</td>
@@ -442,7 +442,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">311660</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">mr</td>
+<td style="text-align: left;">Mauritania</td>
 <td style="text-align: right;">41017</td>
 <td style="text-align: right;">1809</td>
 <td style="text-align: right;">844</td>
@@ -450,7 +450,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">45624</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">so</td>
+<td style="text-align: left;">Somalia</td>
 <td style="text-align: right;">17410</td>
 <td style="text-align: right;">561</td>
 <td style="text-align: right;">355</td>
@@ -458,7 +458,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">19215</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">td</td>
+<td style="text-align: left;">Chad</td>
 <td style="text-align: right;">4797</td>
 <td style="text-align: right;">706</td>
 <td style="text-align: right;">105</td>
@@ -466,7 +466,7 @@ Table&nbsp;1: Number of tweets in the training and test sets for the Arabic-spea
 <td style="text-align: right;">5706</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">dj</td>
+<td style="text-align: left;">Djibouti</td>
 <td style="text-align: right;">2873</td>
 <td style="text-align: right;">309</td>
 <td style="text-align: right;">63</td>
@@ -506,15 +506,15 @@ Figure&nbsp;2: Number of tweets in the collection for the German-speaking countr
 Table&nbsp;2: Number of tweets in the training and test sets for the German-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-german-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="9">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="82">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
+<col style="width: 15%">
 <col style="width: 10%">
 <col style="width: 9%">
 <col style="width: 27%">
-<col style="width: 26%">
-<col style="width: 12%">
+<col style="width: 25%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -528,7 +528,7 @@ Table&nbsp;2: Number of tweets in the training and test sets for the German-spea
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">de</td>
+<td style="text-align: left;">Germany</td>
 <td style="text-align: right;">83023</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">80620</td>
@@ -536,7 +536,7 @@ Table&nbsp;2: Number of tweets in the training and test sets for the German-spea
 <td style="text-align: right;">1262931</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">at</td>
+<td style="text-align: left;">Austria</td>
 <td style="text-align: right;">7004</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">7004</td>
@@ -544,7 +544,7 @@ Table&nbsp;2: Number of tweets in the training and test sets for the German-spea
 <td style="text-align: right;">109718</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ch</td>
+<td style="text-align: left;">Switzerland</td>
 <td style="text-align: right;">4573</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">4547</td>
@@ -584,15 +584,15 @@ Figure&nbsp;3: Number of tweets in the collection for the English-speaking count
 Table&nbsp;3: Number of tweets in the training and test sets for the English-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-english-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="11">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="84">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 12%">
-<col style="width: 10%">
-<col style="width: 9%">
-<col style="width: 27%">
-<col style="width: 25%">
-<col style="width: 14%">
+<col style="width: 30%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 21%">
+<col style="width: 20%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -606,7 +606,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">us</td>
+<td style="text-align: left;">United States</td>
 <td style="text-align: right;">36492</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">1411215</td>
@@ -614,7 +614,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">1241245184</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">gb</td>
+<td style="text-align: left;">United Kingdom</td>
 <td style="text-align: right;">36417</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">284076</td>
@@ -622,7 +622,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">249861873</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ca</td>
+<td style="text-align: left;">Canada</td>
 <td style="text-align: right;">36338</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">79421</td>
@@ -630,7 +630,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">69855356</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">in</td>
+<td style="text-align: left;">India</td>
 <td style="text-align: right;">36348</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">76678</td>
@@ -638,7 +638,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">67442862</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ng</td>
+<td style="text-align: left;">Nigeria</td>
 <td style="text-align: right;">36199</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">43566</td>
@@ -646,7 +646,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">38319549</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">za</td>
+<td style="text-align: left;">South Africa</td>
 <td style="text-align: right;">36323</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">42569</td>
@@ -654,7 +654,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">37442472</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">au</td>
+<td style="text-align: left;">Australia</td>
 <td style="text-align: right;">36373</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">38466</td>
@@ -662,7 +662,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">33833515</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ph</td>
+<td style="text-align: left;">Philippines</td>
 <td style="text-align: right;">36599</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">36427</td>
@@ -670,7 +670,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">32039887</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ie</td>
+<td style="text-align: left;">Ireland</td>
 <td style="text-align: right;">36352</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">20796</td>
@@ -678,7 +678,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">18291944</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ke</td>
+<td style="text-align: left;">Kenya</td>
 <td style="text-align: right;">36231</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">10383</td>
@@ -686,7 +686,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">9132974</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">pk</td>
+<td style="text-align: left;">Pakistan</td>
 <td style="text-align: right;">36376</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">9236</td>
@@ -694,7 +694,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">8124273</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">gh</td>
+<td style="text-align: left;">Ghana</td>
 <td style="text-align: right;">36395</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">8702</td>
@@ -702,7 +702,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">7654670</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">nz</td>
+<td style="text-align: left;">New Zealand</td>
 <td style="text-align: right;">36361</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">6610</td>
@@ -710,7 +710,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">5813959</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sg</td>
+<td style="text-align: left;">Singapore</td>
 <td style="text-align: right;">36048</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">5608</td>
@@ -718,7 +718,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">4933008</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ug</td>
+<td style="text-align: left;">Uganda</td>
 <td style="text-align: right;">36511</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">4662</td>
@@ -726,7 +726,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">4100771</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">jm</td>
+<td style="text-align: left;">Jamaica</td>
 <td style="text-align: right;">36332</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">3185</td>
@@ -734,7 +734,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">2801604</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">zw</td>
+<td style="text-align: left;">Zimbabwe</td>
 <td style="text-align: right;">36237</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">1809</td>
@@ -742,7 +742,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">1591827</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">tt</td>
+<td style="text-align: left;">Trinidad and Tobago</td>
 <td style="text-align: right;">36459</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">1725</td>
@@ -750,7 +750,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">1517980</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">zm</td>
+<td style="text-align: left;">Zambia</td>
 <td style="text-align: right;">36686</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">1468</td>
@@ -758,7 +758,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">1291544</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">na</td>
+<td style="text-align: left;">Namibia</td>
 <td style="text-align: right;">36553</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">1268</td>
@@ -766,7 +766,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">1115587</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">bs</td>
+<td style="text-align: left;">Bahamas</td>
 <td style="text-align: right;">36223</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">1265</td>
@@ -774,7 +774,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">1113202</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">bb</td>
+<td style="text-align: left;">Barbados</td>
 <td style="text-align: right;">36478</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">868</td>
@@ -782,7 +782,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">764085</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">mw</td>
+<td style="text-align: left;">Malawi</td>
 <td style="text-align: right;">36373</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">753</td>
@@ -790,7 +790,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">662789</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">rw</td>
+<td style="text-align: left;">Rwanda</td>
 <td style="text-align: right;">36374</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">496</td>
@@ -798,7 +798,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">436529</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cm</td>
+<td style="text-align: left;">Cameroon</td>
 <td style="text-align: right;">36461</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">416</td>
@@ -806,7 +806,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">365902</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">mt</td>
+<td style="text-align: left;">Malta</td>
 <td style="text-align: right;">36405</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">398</td>
@@ -814,7 +814,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">350352</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ag</td>
+<td style="text-align: left;">Antigua and Barbuda</td>
 <td style="text-align: right;">36526</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">356</td>
@@ -822,7 +822,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">313582</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">gu</td>
+<td style="text-align: left;">Guam</td>
 <td style="text-align: right;">36494</td>
 <td style="text-align: right;">3008</td>
 <td style="text-align: right;">351</td>
@@ -830,7 +830,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">309229</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">lc</td>
+<td style="text-align: left;">St.&nbsp;Lucia</td>
 <td style="text-align: right;">36223</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">313</td>
@@ -838,7 +838,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">275897</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sz</td>
+<td style="text-align: left;">Eswatini</td>
 <td style="text-align: right;">36408</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">268</td>
@@ -846,7 +846,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">236190</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">mu</td>
+<td style="text-align: left;">Mauritius</td>
 <td style="text-align: right;">36306</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">263</td>
@@ -854,7 +854,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">231391</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">bm</td>
+<td style="text-align: left;">Bermuda</td>
 <td style="text-align: right;">36319</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">259</td>
@@ -862,7 +862,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">227865</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">im</td>
+<td style="text-align: left;">Isle of Man</td>
 <td style="text-align: right;">36220</td>
 <td style="text-align: right;">1495</td>
 <td style="text-align: right;">248</td>
@@ -870,7 +870,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">218569</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ls</td>
+<td style="text-align: left;">Lesotho</td>
 <td style="text-align: right;">35926</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">241</td>
@@ -878,7 +878,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">212309</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ky</td>
+<td style="text-align: left;">Cayman Islands</td>
 <td style="text-align: right;">36161</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">204</td>
@@ -886,7 +886,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">180023</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">gm</td>
+<td style="text-align: left;">Gambia</td>
 <td style="text-align: right;">36296</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">204</td>
@@ -894,7 +894,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">179764</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">gi</td>
+<td style="text-align: left;">Gibraltar</td>
 <td style="text-align: right;">36216</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">193</td>
@@ -902,7 +902,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">170041</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sl</td>
+<td style="text-align: left;">Sierra Leone</td>
 <td style="text-align: right;">36278</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">183</td>
@@ -910,7 +910,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">161814</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">tc</td>
+<td style="text-align: left;">Turks and Caicos Islands</td>
 <td style="text-align: right;">36277</td>
 <td style="text-align: right;">3064</td>
 <td style="text-align: right;">179</td>
@@ -918,7 +918,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">158077</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sd</td>
+<td style="text-align: left;">Sudan</td>
 <td style="text-align: right;">36460</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">165</td>
@@ -926,7 +926,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">145226</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">vc</td>
+<td style="text-align: left;">St.&nbsp;Vincent and the Grenadines</td>
 <td style="text-align: right;">36324</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">160</td>
@@ -934,7 +934,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">140768</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">bz</td>
+<td style="text-align: left;">Belize</td>
 <td style="text-align: right;">36538</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">154</td>
@@ -942,7 +942,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">136040</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">lr</td>
+<td style="text-align: left;">Liberia</td>
 <td style="text-align: right;">36247</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">136</td>
@@ -950,7 +950,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">120223</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">gd</td>
+<td style="text-align: left;">Grenada</td>
 <td style="text-align: right;">36573</td>
 <td style="text-align: right;">2761</td>
 <td style="text-align: right;">134</td>
@@ -958,7 +958,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">118559</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">vg</td>
+<td style="text-align: left;">British Virgin Islands</td>
 <td style="text-align: right;">36276</td>
 <td style="text-align: right;">1650</td>
 <td style="text-align: right;">126</td>
@@ -966,7 +966,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">111011</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">gy</td>
+<td style="text-align: left;">Guyana</td>
 <td style="text-align: right;">36654</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">106</td>
@@ -974,7 +974,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">93531</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">kn</td>
+<td style="text-align: left;">St.&nbsp;Kitts and Nevis</td>
 <td style="text-align: right;">36601</td>
 <td style="text-align: right;">3652</td>
 <td style="text-align: right;">106</td>
@@ -982,7 +982,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">93321</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">vi</td>
+<td style="text-align: left;">United States Virgin Islands</td>
 <td style="text-align: right;">36592</td>
 <td style="text-align: right;">219</td>
 <td style="text-align: right;">103</td>
@@ -990,7 +990,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">90888</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">mp</td>
+<td style="text-align: left;">Northern Mariana Islands</td>
 <td style="text-align: right;">36550</td>
 <td style="text-align: right;">617</td>
 <td style="text-align: right;">100</td>
@@ -998,7 +998,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">88606</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">pg</td>
+<td style="text-align: left;">Papua New Guinea</td>
 <td style="text-align: right;">36038</td>
 <td style="text-align: right;">3904</td>
 <td style="text-align: right;">89</td>
@@ -1006,7 +1006,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">78435</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">pr</td>
+<td style="text-align: left;">Puerto Rico</td>
 <td style="text-align: right;">36594</td>
 <td style="text-align: right;">3164</td>
 <td style="text-align: right;">74</td>
@@ -1014,7 +1014,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">65874</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">dm</td>
+<td style="text-align: left;">Dominica</td>
 <td style="text-align: right;">36452</td>
 <td style="text-align: right;">1140</td>
 <td style="text-align: right;">63</td>
@@ -1022,7 +1022,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">55815</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">sx</td>
+<td style="text-align: left;">Sint Maarten</td>
 <td style="text-align: right;">36311</td>
 <td style="text-align: right;">1745</td>
 <td style="text-align: right;">57</td>
@@ -1030,7 +1030,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">50880</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">fj</td>
+<td style="text-align: left;">Fiji</td>
 <td style="text-align: right;">36538</td>
 <td style="text-align: right;">1934</td>
 <td style="text-align: right;">53</td>
@@ -1038,7 +1038,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">47474</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">gg</td>
+<td style="text-align: left;">Guernsey</td>
 <td style="text-align: right;">24068</td>
 <td style="text-align: right;">1790</td>
 <td style="text-align: right;">31</td>
@@ -1046,7 +1046,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">27863</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">to</td>
+<td style="text-align: left;">Tonga</td>
 <td style="text-align: right;">25728</td>
 <td style="text-align: right;">901</td>
 <td style="text-align: right;">31</td>
@@ -1054,7 +1054,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">27690</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ai</td>
+<td style="text-align: left;">Anguilla</td>
 <td style="text-align: right;">23965</td>
 <td style="text-align: right;">1250</td>
 <td style="text-align: right;">30</td>
@@ -1062,7 +1062,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">26826</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">vu</td>
+<td style="text-align: left;">Vanuatu</td>
 <td style="text-align: right;">13985</td>
 <td style="text-align: right;">767</td>
 <td style="text-align: right;">17</td>
@@ -1070,7 +1070,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">15601</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">fk</td>
+<td style="text-align: left;">Falkland Islands</td>
 <td style="text-align: right;">11917</td>
 <td style="text-align: right;">412</td>
 <td style="text-align: right;">14</td>
@@ -1078,7 +1078,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">13158</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">fm</td>
+<td style="text-align: left;">Micronesia, Fed. Sts.</td>
 <td style="text-align: right;">7497</td>
 <td style="text-align: right;">266</td>
 <td style="text-align: right;">10</td>
@@ -1086,7 +1086,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">9306</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ck</td>
+<td style="text-align: left;">Cook Islands</td>
 <td style="text-align: right;">8053</td>
 <td style="text-align: right;">274</td>
 <td style="text-align: right;">10</td>
@@ -1094,7 +1094,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">8961</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sb</td>
+<td style="text-align: left;">Solomon Islands</td>
 <td style="text-align: right;">8141</td>
 <td style="text-align: right;">458</td>
 <td style="text-align: right;">10</td>
@@ -1102,7 +1102,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">9479</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">pw</td>
+<td style="text-align: left;">Palau</td>
 <td style="text-align: right;">6556</td>
 <td style="text-align: right;">691</td>
 <td style="text-align: right;">8</td>
@@ -1110,7 +1110,7 @@ Table&nbsp;3: Number of tweets in the training and test sets for the English-spe
 <td style="text-align: right;">7491</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sh</td>
+<td style="text-align: left;">St.&nbsp;Helena</td>
 <td style="text-align: right;">2876</td>
 <td style="text-align: right;">974</td>
 <td style="text-align: right;">5</td>
@@ -1150,15 +1150,15 @@ Figure&nbsp;4: Number of tweets in the collection for the Spanish-speaking count
 Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-spanish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="13">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="86">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 10%">
+<col style="width: 21%">
 <col style="width: 9%">
-<col style="width: 27%">
-<col style="width: 26%">
-<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 24%">
+<col style="width: 23%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1172,7 +1172,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">ar</td>
+<td style="text-align: left;">Argentina</td>
 <td style="text-align: right;">104466</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">536137</td>
@@ -1180,7 +1180,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">156910687</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">es</td>
+<td style="text-align: left;">Spain</td>
 <td style="text-align: right;">103924</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">401933</td>
@@ -1188,7 +1188,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">117633385</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">mx</td>
+<td style="text-align: left;">Mexico</td>
 <td style="text-align: right;">104318</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">353432</td>
@@ -1196,7 +1196,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">103438764</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">co</td>
+<td style="text-align: left;">Colombia</td>
 <td style="text-align: right;">104267</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">204831</td>
@@ -1204,7 +1204,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">59947766</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cl</td>
+<td style="text-align: left;">Chile</td>
 <td style="text-align: right;">104027</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">156319</td>
@@ -1212,7 +1212,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">45749886</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ve</td>
+<td style="text-align: left;">Venezuela</td>
 <td style="text-align: right;">104496</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">109073</td>
@@ -1220,7 +1220,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">31922346</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">uy</td>
+<td style="text-align: left;">Uruguay</td>
 <td style="text-align: right;">103733</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">66209</td>
@@ -1228,7 +1228,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">19377563</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ec</td>
+<td style="text-align: left;">Ecuador</td>
 <td style="text-align: right;">104408</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">53037</td>
@@ -1236,7 +1236,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">15522286</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">pe</td>
+<td style="text-align: left;">Peru</td>
 <td style="text-align: right;">103907</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">52144</td>
@@ -1244,7 +1244,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">15261118</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">py</td>
+<td style="text-align: left;">Paraguay</td>
 <td style="text-align: right;">104617</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">33486</td>
@@ -1252,7 +1252,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">9800404</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">do</td>
+<td style="text-align: left;">Dominican Republic</td>
 <td style="text-align: right;">104000</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">30142</td>
@@ -1260,7 +1260,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">8821881</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">pa</td>
+<td style="text-align: left;">Panama</td>
 <td style="text-align: right;">104014</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">25525</td>
@@ -1268,7 +1268,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">7470575</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cr</td>
+<td style="text-align: left;">Costa Rica</td>
 <td style="text-align: right;">104415</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">19730</td>
@@ -1276,7 +1276,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">5774617</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">gt</td>
+<td style="text-align: left;">Guatemala</td>
 <td style="text-align: right;">103800</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">17401</td>
@@ -1284,7 +1284,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">5092733</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">sv</td>
+<td style="text-align: left;">El Salvador</td>
 <td style="text-align: right;">104111</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">10990</td>
@@ -1292,7 +1292,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">3216498</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">hn</td>
+<td style="text-align: left;">Honduras</td>
 <td style="text-align: right;">104020</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">8660</td>
@@ -1300,7 +1300,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">2534698</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ni</td>
+<td style="text-align: left;">Nicaragua</td>
 <td style="text-align: right;">104438</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">8435</td>
@@ -1308,7 +1308,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">2468938</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">bo</td>
+<td style="text-align: left;">Bolivia</td>
 <td style="text-align: right;">103537</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">4913</td>
@@ -1316,7 +1316,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">1438141</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cu</td>
+<td style="text-align: left;">Cuba</td>
 <td style="text-align: right;">104570</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">3359</td>
@@ -1324,7 +1324,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">983104</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">pr</td>
+<td style="text-align: left;">Puerto Rico</td>
 <td style="text-align: right;">103994</td>
 <td style="text-align: right;">1487</td>
 <td style="text-align: right;">1320</td>
@@ -1332,7 +1332,7 @@ Table&nbsp;4: Number of tweets in the training and test sets for the Spanish-spe
 <td style="text-align: right;">386595</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">gq</td>
+<td style="text-align: left;">Equatorial Guinea</td>
 <td style="text-align: right;">14090</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">64</td>
@@ -1372,15 +1372,15 @@ Figure&nbsp;5: Number of tweets in the collection for the French-speaking countr
 Table&nbsp;5: Number of tweets in the training and test sets for the French-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-french-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="15">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="88">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 10%">
-<col style="width: 9%">
-<col style="width: 27%">
 <col style="width: 26%">
-<col style="width: 12%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 10%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1394,7 +1394,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">fr</td>
+<td style="text-align: left;">France</td>
 <td style="text-align: right;">215940</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">1488423</td>
@@ -1402,7 +1402,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">9241569</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ca</td>
+<td style="text-align: left;">Canada</td>
 <td style="text-align: right;">215745</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">122173</td>
@@ -1410,7 +1410,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">758570</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cd</td>
+<td style="text-align: left;">DR Congo</td>
 <td style="text-align: right;">214853</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">93877</td>
@@ -1418,7 +1418,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">582879</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">cm</td>
+<td style="text-align: left;">Cameroon</td>
 <td style="text-align: right;">215520</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">92835</td>
@@ -1426,7 +1426,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">576414</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">be</td>
+<td style="text-align: left;">Belgium</td>
 <td style="text-align: right;">214731</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">65710</td>
@@ -1434,7 +1434,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">407994</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sn</td>
+<td style="text-align: left;">Senegal</td>
 <td style="text-align: right;">216403</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">53106</td>
@@ -1442,7 +1442,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">329734</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ci</td>
+<td style="text-align: left;">Cote d’Ivoire</td>
 <td style="text-align: right;">215555</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">52423</td>
@@ -1450,7 +1450,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">325496</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ch</td>
+<td style="text-align: left;">Switzerland</td>
 <td style="text-align: right;">116815</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">24217</td>
@@ -1458,7 +1458,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">150366</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">gn</td>
+<td style="text-align: left;">Guinea</td>
 <td style="text-align: right;">90619</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">19163</td>
@@ -1466,7 +1466,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">118984</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">bj</td>
+<td style="text-align: left;">Benin</td>
 <td style="text-align: right;">63347</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">14310</td>
@@ -1474,7 +1474,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">88856</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ml</td>
+<td style="text-align: left;">Mali</td>
 <td style="text-align: right;">54495</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">12232</td>
@@ -1482,7 +1482,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">75952</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">tg</td>
+<td style="text-align: left;">Togo</td>
 <td style="text-align: right;">44077</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">9698</td>
@@ -1490,7 +1490,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">60220</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">bf</td>
+<td style="text-align: left;">Burkina Faso</td>
 <td style="text-align: right;">28514</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">6957</td>
@@ -1498,7 +1498,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">43197</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ga</td>
+<td style="text-align: left;">Gabon</td>
 <td style="text-align: right;">27051</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">5986</td>
@@ -1506,7 +1506,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">37173</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ht</td>
+<td style="text-align: left;">Haiti</td>
 <td style="text-align: right;">25939</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">5909</td>
@@ -1514,7 +1514,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">36694</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ne</td>
+<td style="text-align: left;">Niger</td>
 <td style="text-align: right;">27468</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">5900</td>
@@ -1522,7 +1522,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">36638</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cg</td>
+<td style="text-align: left;">Congo Republic</td>
 <td style="text-align: right;">26441</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">5584</td>
@@ -1530,7 +1530,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">34676</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">td</td>
+<td style="text-align: left;">Chad</td>
 <td style="text-align: right;">15160</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">3452</td>
@@ -1538,7 +1538,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">21439</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">mc</td>
+<td style="text-align: left;">Monaco</td>
 <td style="text-align: right;">13037</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">2901</td>
@@ -1546,7 +1546,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">18014</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">lu</td>
+<td style="text-align: left;">Luxembourg</td>
 <td style="text-align: right;">11358</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">2820</td>
@@ -1554,7 +1554,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">17511</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cf</td>
+<td style="text-align: left;">Central African Republic</td>
 <td style="text-align: right;">13445</td>
 <td style="text-align: right;">2122</td>
 <td style="text-align: right;">2551</td>
@@ -1562,7 +1562,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">15840</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">nc</td>
+<td style="text-align: left;">New Caledonia</td>
 <td style="text-align: right;">7150</td>
 <td style="text-align: right;">1715</td>
 <td style="text-align: right;">1486</td>
@@ -1570,7 +1570,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">9230</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">pf</td>
+<td style="text-align: left;">French Polynesia</td>
 <td style="text-align: right;">6408</td>
 <td style="text-align: right;">2304</td>
 <td style="text-align: right;">1459</td>
@@ -1578,7 +1578,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">9065</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">dj</td>
+<td style="text-align: left;">Djibouti</td>
 <td style="text-align: right;">6331</td>
 <td style="text-align: right;">2237</td>
 <td style="text-align: right;">1429</td>
@@ -1586,7 +1586,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">8873</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">km</td>
+<td style="text-align: left;">Comoros</td>
 <td style="text-align: right;">6025</td>
 <td style="text-align: right;">1736</td>
 <td style="text-align: right;">1273</td>
@@ -1594,7 +1594,7 @@ Table&nbsp;5: Number of tweets in the training and test sets for the French-spea
 <td style="text-align: right;">7908</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">rw</td>
+<td style="text-align: left;">Rwanda</td>
 <td style="text-align: right;">4695</td>
 <td style="text-align: right;">2749</td>
 <td style="text-align: right;">1263</td>
@@ -1634,15 +1634,15 @@ Figure&nbsp;6: Number of tweets in the collection for the Dutch-speaking countri
 Table&nbsp;6: Number of tweets in the training and test sets for the Dutch-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-dutch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="17">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="90">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
+<col style="width: 15%">
 <col style="width: 10%">
 <col style="width: 9%">
 <col style="width: 27%">
-<col style="width: 26%">
-<col style="width: 12%">
+<col style="width: 25%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1656,7 +1656,7 @@ Table&nbsp;6: Number of tweets in the training and test sets for the Dutch-speak
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">nl</td>
+<td style="text-align: left;">Netherlands</td>
 <td style="text-align: right;">102887</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">102887</td>
@@ -1664,7 +1664,7 @@ Table&nbsp;6: Number of tweets in the training and test sets for the Dutch-speak
 <td style="text-align: right;">1092054</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">be</td>
+<td style="text-align: left;">Belgium</td>
 <td style="text-align: right;">16880</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">15640</td>
@@ -1704,15 +1704,15 @@ Figure&nbsp;7: Number of tweets in the collection for the Portuguese-speaking co
 Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-portuguese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="19">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="92">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
+<col style="width: 14%">
 <col style="width: 10%">
 <col style="width: 9%">
 <col style="width: 27%">
 <col style="width: 26%">
-<col style="width: 12%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1726,7 +1726,7 @@ Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">br</td>
+<td style="text-align: left;">Brazil</td>
 <td style="text-align: right;">978254</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">2049142</td>
@@ -1734,7 +1734,7 @@ Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-
 <td style="text-align: right;">79748620</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">pt</td>
+<td style="text-align: left;">Portugal</td>
 <td style="text-align: right;">979061</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">43008</td>
@@ -1742,7 +1742,7 @@ Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-
 <td style="text-align: right;">1673795</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">mz</td>
+<td style="text-align: left;">Mozambique</td>
 <td style="text-align: right;">78571</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">2656</td>
@@ -1750,7 +1750,7 @@ Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-
 <td style="text-align: right;">103393</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ao</td>
+<td style="text-align: left;">Angola</td>
 <td style="text-align: right;">53243</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">2071</td>
@@ -1758,7 +1758,7 @@ Table&nbsp;7: Number of tweets in the training and test sets for the Portuguese-
 <td style="text-align: right;">80610</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cv</td>
+<td style="text-align: left;">Cabo Verde</td>
 <td style="text-align: right;">8022</td>
 <td style="text-align: right;">2434</td>
 <td style="text-align: right;">273</td>
@@ -1798,15 +1798,15 @@ Figure&nbsp;8: Number of tweets in the collection for the Russian-speaking count
 Table&nbsp;8: Number of tweets in the training and test sets for the Russian-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-russian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="21">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="94">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
+<col style="width: 19%">
 <col style="width: 10%">
-<col style="width: 9%">
-<col style="width: 27%">
-<col style="width: 26%">
-<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 25%">
+<col style="width: 24%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1820,7 +1820,7 @@ Table&nbsp;8: Number of tweets in the training and test sets for the Russian-spe
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">ru</td>
+<td style="text-align: left;">Russia</td>
 <td style="text-align: right;">962191</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">1887634</td>
@@ -1828,7 +1828,7 @@ Table&nbsp;8: Number of tweets in the training and test sets for the Russian-spe
 <td style="text-align: right;">11487343</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">by</td>
+<td style="text-align: left;">Belarus</td>
 <td style="text-align: right;">652818</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">114108</td>
@@ -1836,7 +1836,7 @@ Table&nbsp;8: Number of tweets in the training and test sets for the Russian-spe
 <td style="text-align: right;">694419</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">kz</td>
+<td style="text-align: left;">Kazakhstan</td>
 <td style="text-align: right;">336189</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">67909</td>
@@ -1844,7 +1844,7 @@ Table&nbsp;8: Number of tweets in the training and test sets for the Russian-spe
 <td style="text-align: right;">413267</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">kg</td>
+<td style="text-align: left;">Kyrgyz Republic</td>
 <td style="text-align: right;">145942</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">27499</td>
@@ -1884,7 +1884,7 @@ Figure&nbsp;9: Number of tweets in the collection for the Turkish-speaking count
 Table&nbsp;9: Number of tweets in the training and test sets for the Turkish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-turkish-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="23">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="96">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1906,7 +1906,7 @@ Table&nbsp;9: Number of tweets in the training and test sets for the Turkish-spe
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">tr</td>
+<td style="text-align: left;">Türkiye</td>
 <td style="text-align: right;">550662</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">550664</td>
@@ -1914,7 +1914,7 @@ Table&nbsp;9: Number of tweets in the training and test sets for the Turkish-spe
 <td style="text-align: right;">756902</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">cy</td>
+<td style="text-align: left;">Cyprus</td>
 <td style="text-align: right;">3085</td>
 <td style="text-align: right;">924</td>
 <td style="text-align: right;">2936</td>
@@ -1954,7 +1954,7 @@ Figure&nbsp;10: Number of tweets in the collection for the Chinese-speaking coun
 Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-chinese-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="25">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="98">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
@@ -1976,7 +1976,7 @@ Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-sp
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">cn</td>
+<td style="text-align: left;">China</td>
 <td style="text-align: right;">206312</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">206313</td>
@@ -1984,7 +1984,7 @@ Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-sp
 <td style="text-align: right;">510998</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">tw</td>
+<td style="text-align: left;">Taiwan</td>
 <td style="text-align: right;">115165</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">100741</td>
@@ -1992,7 +1992,7 @@ Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-sp
 <td style="text-align: right;">249518</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">hk</td>
+<td style="text-align: left;">Hong Kong</td>
 <td style="text-align: right;">13944</td>
 <td style="text-align: right;">4096</td>
 <td style="text-align: right;">10315</td>
@@ -2000,7 +2000,7 @@ Table&nbsp;10: Number of tweets in the training and test sets for the Chinese-sp
 <td style="text-align: right;">25549</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sg</td>
+<td style="text-align: left;">Singapore</td>
 <td style="text-align: right;">4452</td>
 <td style="text-align: right;">3963</td>
 <td style="text-align: right;">4130</td>
@@ -2052,16 +2052,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
 
-</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-10"><li class="nav-item" role="presentation"><a href="#card-tabset-10-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Macro-recall" aria-selected="true" class="nav-link active">Macro-recall</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Arabic (recall)" aria-selected="false" class="nav-link">Arabic (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="German (recall)" aria-selected="false" class="nav-link">German (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="English (recall)" aria-selected="false" class="nav-link">English (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spanish (recall)" aria-selected="false" class="nav-link">Spanish (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="French (recall)" aria-selected="false" class="nav-link">French (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Dutch (recall)" aria-selected="false" class="nav-link">Dutch (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Portuguese (recall)" aria-selected="false" class="nav-link">Portuguese (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-9" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Russian (recall)" aria-selected="false" class="nav-link">Russian (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-10" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turkish (recall)" aria-selected="false" class="nav-link">Turkish (recall)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-11" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Chinese (recall)" aria-selected="false" class="nav-link">Chinese (recall)</a></li></ul></div>
-
-
-
-
-
-
-
-
-
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-10"><li class="nav-item" role="presentation"><a href="#card-tabset-10-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Macro-recall" aria-selected="true" class="nav-link active">Macro-recall</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-10-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Macro-recall (Orig. Dist.)" aria-selected="false" class="nav-link">Macro-recall (Orig. Dist.)</a></li></ul></div>
 
 
 <div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-10"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-1"><div class="card-body html-fill-item html-fill-container" data-title="Macro-recall">
@@ -2077,45 +2068,143 @@ Figure&nbsp;11: Performance of the different algorithms and languages.
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-2"><div class="card-body html-fill-item html-fill-container" data-title="Arabic (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/arabic-perf-output-1.png" id="arabic-perf" class="img-fluid quarto-dashboard-img-contain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-2"><div class="card-body html-fill-item html-fill-container" data-title="Macro-recall (Orig. Dist.)">
+<div id="tbl-macro-recall" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="27">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-macro-recall-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11: Performance of the different algorithms and languages on the original distribution.
+</figcaption>
+<div aria-describedby="tbl-macro-recall-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="100">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Language</th>
+<th style="text-align: right;">DialectId[19]</th>
+<th style="text-align: right;">DialectId[18]</th>
+<th style="text-align: right;">DialectId[17]</th>
+<th style="text-align: right;">DialectId[19] (prob)</th>
+<th style="text-align: right;">DialectId[18] (prob)</th>
+<th style="text-align: right;">DialectId[17] (prob)</th>
+<th style="text-align: right;">DialectId[19] (Orig. Dist.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Spanish</td>
+<td style="text-align: right;">0.393871</td>
+<td style="text-align: right;">0.387931</td>
+<td style="text-align: right;">0.380785</td>
+<td style="text-align: right;">0.389857</td>
+<td style="text-align: right;">0.384908</td>
+<td style="text-align: right;">0.376885</td>
+<td style="text-align: right;">0.326408</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">English</td>
+<td style="text-align: right;">0.297277</td>
+<td style="text-align: right;">0.292217</td>
+<td style="text-align: right;">0.287136</td>
+<td style="text-align: right;">0.274388</td>
+<td style="text-align: right;">0.272053</td>
+<td style="text-align: right;">0.268018</td>
+<td style="text-align: right;">0.123703</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Arabic</td>
+<td style="text-align: right;">0.404075</td>
+<td style="text-align: right;">0.398246</td>
+<td style="text-align: right;">0.394239</td>
+<td style="text-align: right;">0.402241</td>
+<td style="text-align: right;">0.39719</td>
+<td style="text-align: right;">0.392376</td>
+<td style="text-align: right;">0.315598</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">German</td>
+<td style="text-align: right;">0.539788</td>
+<td style="text-align: right;">0.541319</td>
+<td style="text-align: right;">0.542666</td>
+<td style="text-align: right;">0.544251</td>
+<td style="text-align: right;">0.550631</td>
+<td style="text-align: right;">0.549586</td>
+<td style="text-align: right;">0.53886</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">French</td>
+<td style="text-align: right;">0.362548</td>
+<td style="text-align: right;">0.359006</td>
+<td style="text-align: right;">0.35431</td>
+<td style="text-align: right;">0.361165</td>
+<td style="text-align: right;">0.357872</td>
+<td style="text-align: right;">0.352662</td>
+<td style="text-align: right;">0.301662</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dutch</td>
+<td style="text-align: right;">0.766098</td>
+<td style="text-align: right;">0.768917</td>
+<td style="text-align: right;">0.771064</td>
+<td style="text-align: right;">0.766098</td>
+<td style="text-align: right;">0.768917</td>
+<td style="text-align: right;">0.771064</td>
+<td style="text-align: right;">0.762003</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Portuguese</td>
+<td style="text-align: right;">0.597749</td>
+<td style="text-align: right;">0.598047</td>
+<td style="text-align: right;">0.597945</td>
+<td style="text-align: right;">0.614143</td>
+<td style="text-align: right;">0.617536</td>
+<td style="text-align: right;">0.611561</td>
+<td style="text-align: right;">0.420706</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Russian</td>
+<td style="text-align: right;">0.482316</td>
+<td style="text-align: right;">0.479701</td>
+<td style="text-align: right;">0.478004</td>
+<td style="text-align: right;">0.473134</td>
+<td style="text-align: right;">0.46984</td>
+<td style="text-align: right;">0.470146</td>
+<td style="text-align: right;">0.443566</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Turkish</td>
+<td style="text-align: right;">0.542141</td>
+<td style="text-align: right;">0.545016</td>
+<td style="text-align: right;">0.547308</td>
+<td style="text-align: right;">0.542141</td>
+<td style="text-align: right;">0.545016</td>
+<td style="text-align: right;">0.547308</td>
+<td style="text-align: right;">0.54008</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chinese</td>
+<td style="text-align: right;">0.70113</td>
+<td style="text-align: right;">0.702983</td>
+<td style="text-align: right;">0.702755</td>
+<td style="text-align: right;">0.722877</td>
+<td style="text-align: right;">0.722072</td>
+<td style="text-align: right;">0.719007</td>
+<td style="text-align: right;">0.692151</td>
+</tr>
+</tbody>
+</table>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-3"><div class="card-body html-fill-item html-fill-container" data-title="German (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/german-perf-output-1.png" id="german-perf" class="img-fluid quarto-dashboard-img-contain">
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-4"><div class="card-body html-fill-item html-fill-container" data-title="English (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/english-perf-output-1.png" id="english-perf" class="img-fluid quarto-dashboard-img-contain">
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-5"><div class="card-body html-fill-item html-fill-container" data-title="Spanish (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/spanish-perf-output-1.png" id="spanish-perf" class="img-fluid quarto-dashboard-img-contain">
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-6"><div class="card-body html-fill-item html-fill-container" data-title="French (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/french-perf-output-1.png" id="french-perf" class="img-fluid quarto-dashboard-img-contain">
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-7"><div class="card-body html-fill-item html-fill-container" data-title="Dutch (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/dutch-perf-output-1.png" id="dutch-perf" class="img-fluid quarto-dashboard-img-contain">
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-8"><div class="card-body html-fill-item html-fill-container" data-title="Portuguese (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/portuguese-perf-output-1.png" id="portuguese-perf" class="img-fluid quarto-dashboard-img-contain">
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-9"><div class="card-body html-fill-item html-fill-container" data-title="Russian (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/russian-perf-output-1.png" id="russian-perf" class="img-fluid quarto-dashboard-img-contain">
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-10"><div class="card-body html-fill-item html-fill-container" data-title="Turkish (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/turkish-perf-output-1.png" id="turkish-perf" class="img-fluid quarto-dashboard-img-contain">
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-10-11"><div class="card-body html-fill-item html-fill-container" data-title="Chinese (recall)">
-<div class="cell-output cell-output-display html-fill-item html-fill-container">
-<img src="dialectid_files/figure-html/chinese-perf-output-1.png" id="chinese-perf" class="img-fluid quarto-dashboard-img-contain">
+</figure>
 </div>
 </div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -2346,14 +2435,14 @@ Figure&nbsp;19: Distribution estimated with DialectId on the Tweets having as ge
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Description
 </span></div></div>
-<div class="cell card-body html-fill-item html-fill-container" data-execution_count="55">
-<div id="tbl-spanish-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="55">
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="46">
+<div id="tbl-spanish-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="46">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-spanish-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;11: Probability of the origin of Tweets in different non-Spanish-speaking countries.
+Table&nbsp;12: Probability of the origin of Tweets in different non-Spanish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-spanish-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="55">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="119">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 17%">
@@ -2755,14 +2844,14 @@ Figure&nbsp;27: Distribution estimated with DialectId on the Tweets having as ge
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Description
 </span></div></div>
-<div class="cell card-body html-fill-item html-fill-container" data-execution_count="64">
-<div id="tbl-english-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="64">
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="55">
+<div id="tbl-english-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="55">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-english-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;12: Probability of the origin of Tweets in different non-English-speaking countries.
+Table&nbsp;13: Probability of the origin of Tweets in different non-English-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-english-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="64">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="128">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 24%">
@@ -3637,14 +3726,14 @@ Figure&nbsp;35: Distribution estimated with DialectId on the Tweets having as ge
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Description
 </span></div></div>
-<div class="cell card-body html-fill-item html-fill-container" data-execution_count="73">
-<div id="tbl-arabic-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="73">
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="64">
+<div id="tbl-arabic-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="64">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-arabic-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;13: Probability of the origin of Tweets in different non-Arabic-speaking countries.
+Table&nbsp;14: Probability of the origin of Tweets in different non-Arabic-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-arabic-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="73">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="137">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 18%">
@@ -4046,14 +4135,14 @@ Figure&nbsp;43: Distribution estimated with DialectId on the Tweets having as ge
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Description
 </span></div></div>
-<div class="cell card-body html-fill-item html-fill-container" data-execution_count="82">
-<div id="tbl-french-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="82">
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="73">
+<div id="tbl-french-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="73">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-french-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;14: Probability of the origin of Tweets in different non-French-speaking countries.
+Table&nbsp;15: Probability of the origin of Tweets in different non-French-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-french-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="82">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="146">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 20%">
