@@ -20,12 +20,15 @@ from collections import defaultdict, Counter
 from os.path import join, basename, isfile
 import json
 from glob import glob
+import country_converter as coco
 import pandas as pd
 import numpy as np
 from IPython.display import Markdown
 import seaborn as sns
 from CompStats import metrics
 from CompStats import measurements
+import cvxpy as cp
+from sklearn.metrics import recall_score
 from encexp.download import download
 from encexp.utils import DialectID_URL
 from microtc.utils import tweet_iterator
@@ -88,6 +91,9 @@ def dataset_info(lang='es'):
     df = pd.concat((df, pd.DataFrame([df.sum(axis=0).values],
                     columns=df.columns, index=['Sum'])), axis=0)
     df.reset_index(inplace=True, names=['Country'])
+    xxx = coco.convert(df.Country[:-1], to='name_short')
+    xxx.append(df.Country.iloc[-1])
+    df.Country = xxx
     return df
 
 
@@ -195,6 +201,8 @@ def dist_lang(lang):
     df = pd.DataFrame(prior_train, columns=['Country', 'Prob.'])
     df['Dataset'] = 'Test set'
     df['Target'] = 'Measured'
+    df = df.sort_values(by='Prob.', ascending=False)[:21]
+    countries = set(df.Country)
     for func, name, origin in zip([hprob_test,
                                    orig_dist_hprob_test, dist_all,
                                    dist_all_origin_dist],
@@ -210,10 +218,15 @@ def dist_lang(lang):
         df2 = pd.DataFrame([(cntr, _info.get(cntr, 0), name)
                             for cntr, _ in prior_train],
                             columns=['Country', 'Prob.', 'Dataset'])
+        mask = [x in countries for x in df2.Country]
+        df2 = df2.loc[mask]
         df2['Target'] = origin
         df = pd.concat((df, df2))
-    return sns.lineplot(df, x='Country', y='Prob.',
-                        style='Target', hue='Target', size='Dataset')
+    df.Country = coco.convert(df.Country, to='name_short')
+    ax = sns.lineplot(df, x='Country', y='Prob.',
+                      style='Target', hue='Target', size='Dataset')
+    ax.tick_params(axis='x', rotation=90)
+    return ax
 
 
 def country_dist(country, lang='es', drop=None):
@@ -274,12 +287,15 @@ def distribution_by_time(lang):
     color = [x for x in sns.color_palette('Set1')][:5]
     todos = df.sum(axis=0).sort_values(ascending=False).index.tolist()
     superior = todos[:19]
+    columns_desc = coco.convert(superior, to='name_short')
     inferior = todos[19:]
     if len(inferior):
         df['Rest'] = df[inferior].sum(axis=1)
         superior.append('Rest')
-    hue_order = superior
+        columns_desc.append('Rest')
+    hue_order = columns_desc
     df = df[superior]
+    df.columns = columns_desc
     dashes = []    
     for dash in ['', (1, 10), (5, 5), (1, 1)]:
         dashes.extend([dash] * len(color))
@@ -298,6 +314,50 @@ def distribution_by_time(lang):
                       style='Country', hue='Country')
     return fig
     # return sns.move_legend(fig, "upper right", ncol=3, frameon=True)
+
+
+def hypothesis(lang, alg=0,
+               countries=None):
+    """Hypothesis"""
+    columns = None
+    data = []
+    for country in countries:
+        fname = f'countries/{lang}_{country}_{alg}.json.gz'
+        df2 = pd.read_json(fname)
+        df2 = df2.rolling(window=7 * 12).sum()
+        df2.dropna(inplace=True)
+        df2 = df2.divide(df2.sum(axis=1), axis=0)
+        if columns is None:
+            columns = sorted(df2.columns)
+        data.append(df2)
+
+    index = data[0].index
+    for d in data[1:]:
+        index = index.intersection(d.index)
+
+    P = cp.Parameter((len(columns), len(countries)))
+    T = cp.Variable((len(countries), len(columns)))
+    # obj = cp.Maximize(cp.min(cp.diag(T @ P)))
+    obj = cp.Maximize(cp.sum(cp.diag(T @ P)))
+    constraints = [T.sum(axis=0) == 1, T >= 0]
+    prob = cp.Problem(obj, constraints)
+
+    sol = []
+    for value in index:
+        P.value = np.array([d.loc[value][columns].values for d in data]).T
+        prob.solve()
+        sol.append(T.value)
+    sol = np.array(sol)
+
+    hipo = []
+    for idx in range(len(columns)):
+        cnt = Counter()
+        cnt.update(countries[sol[:, :, idx].argmax(axis=1)].tolist())
+        hipo.append(dict(cnt))    
+    columns_desc = coco.convert(columns, to='name_short')
+    hipo = pd.DataFrame(hipo, index=columns_desc)
+    hipo.fillna(0, inplace=True)
+    return hipo.divide(hipo.sum(axis=1), axis=0)
 ``` 
 
 # Introduction
@@ -390,7 +450,6 @@ index = prob.argsort()[::-1]
 # Corpora 
 
 ## Column {.tabset} 
-
 
 ::: {.card title='Arabic (ar)'}
 ```{python}
@@ -593,6 +652,40 @@ The second pair of tweets was selected to follow the original distribution of th
 ::: {.card title='Macro-recall'}
 ```{python}
 #| echo: false
+#| tbl-cap: Performance of the different algorithms and languages.
+#| label: tbl-macro-recall
+
+if not isfile('perf/uniform_dist.json'):    
+    df = pd.DataFrame()
+    todos = []
+    index = []
+    for lang in ['es', 'en', 'ar',
+                'de', 'fr', 'nl',
+                'pt', 'ru', 'tr',
+                'zh']:
+        pred_dirname = f'dialectid-datasets/predictions/{lang}'
+        gold = np.array(next(tweet_iterator(join(pred_dirname, 'y.json')))['y'])
+        row = {}
+        for alg in ORDER:
+            fname_pred = join(pred_dirname, f'{alg}.json')
+            data = next(tweet_iterator(fname_pred))
+            key = basename(fname_pred).split('.json')[0]
+            if key == 'y':
+                continue
+            row[key] = recall_score(gold, np.array(data), average='macro')
+        todos.append(row)
+        index.append(lang)
+    df = pd.DataFrame(todos, index=['Spanish', 'English', 'Arabic',
+                                    'German', 'French', 'Dutch',
+                                    'Portuguese', 'Russian', 'Turkish', 'Chinese'])
+    df.to_json('perf/uniform_dist.json')
+else:
+    df = pd.read_json('perf/uniform_dist.json')
+Markdown(df.T.reset_index(names='Language').to_markdown(index=False, floatfmt=".4f"))
+```
+
+```{python}
+#| echo: false
 #| fig-cap: Performance of the different algorithms and languages. 
 #| label: fig-macro-recall
 
@@ -619,97 +712,143 @@ f_grid = sns.catplot(df, x='macro-recall', y='Algorithm', col_wrap=3,
 ```
 :::
 
-::: {.card title='Arabic (recall)'}
 
+::: {.card title='Macro-recall (Orig. Dist.)'}
 ```{python}
 #| echo: false
-#| label: Arabic-perf
+#| tbl-cap: Performance of the different algorithms and languages on the original distribution.
+#| label: tbl-macro-recall-orig-dist
 
-country_recall('ar')
+if not isfile('perf/orig_dist.json'):    
+    df = pd.DataFrame()
+    order = [x for x in ORDER if '262k' not in x]
+    todos = []
+    index = []
+    for lang in ['es', 'en', 'ar',
+                'de', 'fr', 'nl',
+                'pt', 'ru', 'tr',
+                'zh']:
+        pred_dirname = f'dialectid-datasets/predictions/dist-{lang}'
+        gold = np.array(next(tweet_iterator(join(pred_dirname, 'y.json.gz')))['y'])
+        row = {}
+        for alg in order:
+            fname_pred = join(pred_dirname, f'{alg}.json.gz')
+            data = next(tweet_iterator(fname_pred))
+            key = basename(fname_pred).split('.json')[0]
+            if key == 'y':
+                continue
+            row[key] = recall_score(gold, np.array(data), average='macro')
+        todos.append(row)
+        index.append(lang)
+    df = pd.DataFrame(todos, index=['Spanish', 'English', 'Arabic',
+                                    'German', 'French', 'Dutch',
+                                    'Portuguese', 'Russian', 'Turkish', 'Chinese'])
+    df.to_json('perf/orig_dist.json')
+else:
+    df = pd.read_json('perf/orig_dist.json')
+Markdown(df.T.reset_index(names='Language').to_markdown(index=False, floatfmt=".4f"))
 ```
-::: 
+:::
 
-::: {.card title='German (recall)'}
+::: {.card title='Arabic'}
 ```{python}
 #| echo: false
-#| label: German-perf
+#| label: fig-Arabic-dist
+#| fig-cap: Distributions of Arabic-speaking countries.
 
-country_recall('de', col_wrap=None)
+dist_lang('ar')
 ```
-::: 
+:::
 
-::: {.card title='English (recall)'}
+::: {.card title='German'}
 ```{python}
 #| echo: false
-#| label: English-perf
+#| label: fig-German-dist
+#| fig-cap: Distributions of German-speaking countries. 
 
-country_recall('en', col_wrap=7)
+dist_lang('de')
 ```
-::: 
+:::
 
-::: {.card title='Spanish (recall)'}
+::: {.card title='English'}
 ```{python}
 #| echo: false
-#| label: Spanish-perf
+#| label: fig-English-dist
+#| fig-cap: Distributions of English-speaking countries.
 
-country_recall('es')
+dist_lang('en')
 ```
-::: 
+:::
 
-::: {.card title='French (recall)'}
+::: {.card title='Spanish'}
 ```{python}
 #| echo: false
-#| label: French-perf
+#| label: fig-Spanish-dist
+#| fig-cap: Distributions of Spanish-speaking countries.
 
-country_recall('fr')
+dist_lang('es')
 ```
-::: 
+:::
 
-::: {.card title='Dutch (recall)'}
+::: {.card title='French'}
 ```{python}
 #| echo: false
-#| label: Dutch-perf
+#| label: fig-French-dist
+#| fig-cap: Distributions of French-speaking countries.
 
-country_recall('nl', col_wrap=None)
+dist_lang('fr')
 ```
-::: 
+:::
 
-::: {.card title='Portuguese (recall)'}
+::: {.card title='Dutch'}
 ```{python}
 #| echo: false
-#| label: Portuguese-perf
+#| label: fig-Dutch-dist
+#| fig-cap: Distributions of Dutch-speaking countries.
 
-country_recall('pt', col_wrap=3)
+dist_lang('nl')
 ```
-::: 
+:::
 
-::: {.card title='Russian (recall)'}
+::: {.card title='Portuguese'}
 ```{python}
 #| echo: false
-#| label: Russian-perf
+#| label: fig-Portuguese-dist
+#| fig-cap: Distributions of Portuguese-speaking countries.
 
-country_recall('ru', col_wrap=2)
+dist_lang('pt')
 ```
-::: 
+:::
 
-::: {.card title='Turkish (recall)'}
+::: {.card title='Russian'}
 ```{python}
 #| echo: false
-#| label: Turkish-perf
+#| label: fig-Russian-dist
+#| fig-cap: Distributions of Russian-speaking countries.
 
-country_recall('tr', col_wrap=None)
+dist_lang('ru')
 ```
-::: 
+:::
 
-::: {.card title='Chinese (recall)'}
+::: {.card title='Turkish'}
 ```{python}
 #| echo: false
-#| label: Chinese-perf
+#| label: fig-Turkish-dist
+#| fig-cap: Distributions of Turkish-speaking countries.
 
-country_recall('zh', col_wrap=2)
+dist_lang('tr')
 ```
-::: 
+:::
 
+::: {.card title='Chinese'}
+```{python}
+#| echo: false
+#| label: fig-Chinese-dist
+#| fig-cap: Distributions of Chinese-speaking countries.
+
+dist_lang('zh')
+```
+:::
 
 ## Column 
 
@@ -720,112 +859,9 @@ The performance of different algorithms is presented in @fig-macro-recall using 
 The remaining figures provide details on macro-recall by presenting the system's recall in each country. 
 ::: 
 
-
-# Distribution 
-
-## Column {.tabset}
-
-::: {.card title='Arabic'}
-```{python}
-#| echo: false
-#| label: Arabic-dist
-
-dist_lang('ar')
-```
-:::
-
-::: {.card title='German'}
-```{python}
-#| echo: false
-#| label: German-dist
-
-dist_lang('de')
-```
-:::
-
-::: {.card title='English'}
-```{python}
-#| echo: false
-#| label: English-dist
-
-dist_lang('en')
-```
-:::
-
-::: {.card title='Spanish'}
-```{python}
-#| echo: false
-#| label: Spanish-dist
-
-dist_lang('es')
-```
-:::
-
-::: {.card title='French'}
-```{python}
-#| echo: false
-#| label: French-dist
-
-dist_lang('fr')
-```
-:::
-
-::: {.card title='Dutch'}
-```{python}
-#| echo: false
-#| label: Dutch-dist
-
-dist_lang('nl')
-```
-:::
-
-::: {.card title='Portuguese'}
-```{python}
-#| echo: false
-#| label: Portuguese-dist
-
-dist_lang('pt')
-```
-:::
-
-::: {.card title='Russian'}
-```{python}
-#| echo: false
-#| label: Russian-dist
-
-dist_lang('ru')
-```
-:::
-
-::: {.card title='Turkish'}
-```{python}
-#| echo: false
-#| label: Turkish-dist
-
-dist_lang('tr')
-```
-:::
-
-::: {.card title='Chinese'}
-```{python}
-#| echo: false
-#| label: Chinese-dist
-
-dist_lang('zh')
-```
-:::
-
-## Column 
-
-::: {.card title='Description'}
-
-XxX
-
-::: 
-
 # Spanish
 
-## Column {.tabset} 
+## Column {.tabset .flow} 
 
 ::: {.card title='United States'}
 ```{python}
@@ -904,6 +940,23 @@ country_dist('de')
 #| label: fig-es-pt
 
 country_dist('pt')
+```
+:::
+
+## Column 
+
+::: {.card title="Description"}
+
+```{python}
+#| echo: false
+#| label: tbl-spanish-dest
+#| tbl-cap: Probability of the origin of Tweets in different non-Spanish-speaking countries. 
+
+countries = np.array(['us', 'br', 'gb', 'it', 'fr', 'ca', 'de', 'pt'])
+df = hypothesis('es', countries=countries)
+df = df[countries]
+df.columns = coco.convert(df.columns, to='name_short')
+Markdown(df.reset_index(names=['Country']).to_markdown(index=False, floatfmt=".3f"))
 ```
 :::
 
@@ -992,6 +1045,25 @@ country_dist('ae', lang='en')
 ```
 :::
 
+
+## Column 
+
+::: {.card title="Description"}
+
+```{python}
+#| echo: false
+#| label: tbl-english-dest
+#| tbl-cap: Probability of the origin of Tweets in different non-English-speaking countries. 
+
+countries = np.array(['my', 'id', 'br', 'de', 'es', 'fr', 'it', 'ae'])
+df = hypothesis('en', countries=countries)
+df = df[countries]
+df.columns = coco.convert(df.columns, to='name_short')
+Markdown(df.reset_index(names=['Country']).to_markdown(index=False, floatfmt=".3f"))
+```
+:::
+
+
 # Arabic
 
 ## Column {.tabset} 
@@ -1076,6 +1148,24 @@ country_dist('it', lang='ar')
 ```
 :::
 
+## Column 
+
+::: {.card title="Description"}
+
+```{python}
+#| echo: false
+#| label: tbl-arabic-dest
+#| tbl-cap: Probability of the origin of Tweets in different non-Arabic-speaking countries. 
+
+countries = np.array(['us', 'gb', 'tr', 'de', 'fr', 'ca', 'au', 'it'])
+df = hypothesis('ar', countries=countries)
+df = df[countries]
+df.columns = coco.convert(df.columns, to='name_short')
+Markdown(df.reset_index(names=['Country']).to_markdown(index=False, floatfmt=".3f"))
+```
+:::
+
+
 # French
 
 ## Column {.tabset} 
@@ -1110,6 +1200,16 @@ country_dist('es', lang='fr')
 ```
 :::
 
+::: {.card title='Guadeloupe'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Guadeloupe. 
+#| label: fig-fr-gp
+
+country_dist('gp', lang='fr')
+```
+:::
+
 ::: {.card title='Great Britain'}
 ```{python}
 #| echo: false
@@ -1123,7 +1223,7 @@ country_dist('gb', lang='fr')
 ::: {.card title='Italy'}
 ```{python}
 #| echo: false
-#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Italy. 
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy. 
 #| label: fig-fr-it
 
 country_dist('it', lang='fr')
@@ -1133,7 +1233,7 @@ country_dist('it', lang='fr')
 ::: {.card title='Algeria'}
 ```{python}
 #| echo: false
-#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Algeria. 
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Algeria. 
 #| label: fig-fr-dz
 
 country_dist('dz', lang='fr')
@@ -1143,9 +1243,26 @@ country_dist('dz', lang='fr')
 ::: {.card title='Tanzania'}
 ```{python}
 #| echo: false
-#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Algeria. 
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Tanzania. 
 #| label: fig-fr-tz
 
 country_dist('tz', lang='fr')
+```
+:::
+
+## Column 
+
+::: {.card title="Description"}
+
+```{python}
+#| echo: false
+#| label: tbl-french-dest
+#| tbl-cap: Probability of the origin of Tweets in different non-French-speaking countries. 
+
+countries = np.array(['us', 'ma', 'es', 'gp', 'gb', 'it', 'dz', 'tz'])
+df = hypothesis('fr', countries=countries)
+df = df[countries]
+df.columns = coco.convert(df.columns, to='name_short')
+Markdown(df.reset_index(names=['Country']).to_markdown(index=False, floatfmt=".3f"))
 ```
 :::
