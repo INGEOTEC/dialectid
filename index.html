@@ -2679,7 +2679,7 @@ Figure&nbsp;21: Distributions of Chinese-speaking countries.
     <span class="bslib-full-screen-enter badge rounded-pill">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr) minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-title="Performance" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Performance
@@ -2695,6 +2695,87 @@ Performance
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+<div class="card cell html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div id="tbl-pearsonr" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="43">
+<figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pearsonr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;13: Performance of the different algorithms and languages.
+</figcaption>
+<div aria-describedby="tbl-pearsonr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="43">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Language</th>
+<th style="text-align: right;">DialectId</th>
+<th style="text-align: right;">DialectId (Orig. Dist.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">es</td>
+<td style="text-align: right;">0.9707</td>
+<td style="text-align: right;">0.9866</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">en</td>
+<td style="text-align: right;">0.9063</td>
+<td style="text-align: right;">0.9824</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ar</td>
+<td style="text-align: right;">0.9629</td>
+<td style="text-align: right;">0.9806</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">de</td>
+<td style="text-align: right;">0.9999</td>
+<td style="text-align: right;">0.9999</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fr</td>
+<td style="text-align: right;">0.9433</td>
+<td style="text-align: right;">0.9899</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nl</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pt</td>
+<td style="text-align: right;">0.9961</td>
+<td style="text-align: right;">0.9991</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ru</td>
+<td style="text-align: right;">0.9575</td>
+<td style="text-align: right;">0.9931</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tr</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">zh</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
 </div>
 </div><div id="spanish" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-spanish">
@@ -2703,7 +2784,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset flow bslib-card html-fill-container" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
 
-</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-19"><li class="nav-item" role="presentation"><a href="#card-tabset-19-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-19-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brazil" aria-selected="false" class="nav-link">Brazil</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-19-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-19-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-19-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-19-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Canada" aria-selected="false" class="nav-link">Canada</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-19-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-19-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Portugal" aria-selected="false" class="nav-link">Portugal</a></li></ul></div>
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-20"><li class="nav-item" role="presentation"><a href="#card-tabset-20-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brazil" aria-selected="false" class="nav-link">Brazil</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Canada" aria-selected="false" class="nav-link">Canada</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-20-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Portugal" aria-selected="false" class="nav-link">Portugal</a></li></ul></div>
 
 
 
@@ -2712,7 +2793,7 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-19"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-19-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-20"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-es-us" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2725,7 +2806,7 @@ Figure&nbsp;22: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-19-2"><div class="card-body html-fill-item html-fill-container" data-title="Brazil">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-2"><div class="card-body html-fill-item html-fill-container" data-title="Brazil">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-es-br" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2738,7 +2819,7 @@ Figure&nbsp;23: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-19-3"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-3"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-es-gb" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2751,7 +2832,7 @@ Figure&nbsp;24: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-19-4"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-4"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-es-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2764,7 +2845,7 @@ Figure&nbsp;25: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-19-5"><div class="card-body html-fill-item html-fill-container" data-title="France">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-5"><div class="card-body html-fill-item html-fill-container" data-title="France">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-es-fr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2777,7 +2858,7 @@ Figure&nbsp;26: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-19-6"><div class="card-body html-fill-item html-fill-container" data-title="Canada">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-6"><div class="card-body html-fill-item html-fill-container" data-title="Canada">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-es-ca" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2790,7 +2871,7 @@ Figure&nbsp;27: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-19-7"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-7"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-es-de" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2803,7 +2884,7 @@ Figure&nbsp;28: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-19-8"><div class="card-body html-fill-item html-fill-container" data-title="Portugal">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-20-8"><div class="card-body html-fill-item html-fill-container" data-title="Portugal">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-es-pt" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -2826,14 +2907,14 @@ Figure&nbsp;29: Distribution estimated with DialectId on the Tweets having as ge
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Description
 </span></div></div>
-<div class="cell card-body html-fill-item html-fill-container" data-execution_count="51">
-<div id="tbl-spanish-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="51">
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="52">
+<div id="tbl-spanish-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="52">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-spanish-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;13: Probability of the origin of Tweets in different non-Spanish-speaking countries.
+Table&nbsp;14: Probability of the origin of Tweets in different non-Spanish-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-spanish-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="51">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="52">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 17%">
@@ -3112,7 +3193,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
 
-</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-21"><li class="nav-item" role="presentation"><a href="#card-tabset-21-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Malaysia" aria-selected="true" class="nav-link active">Malaysia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-21-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Indonesia" aria-selected="false" class="nav-link">Indonesia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-21-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brasil" aria-selected="false" class="nav-link">Brasil</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-21-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-21-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-21-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-21-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-21-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United Arab Emirates" aria-selected="false" class="nav-link">United Arab Emirates</a></li></ul></div>
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-22"><li class="nav-item" role="presentation"><a href="#card-tabset-22-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Malaysia" aria-selected="true" class="nav-link active">Malaysia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-22-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Indonesia" aria-selected="false" class="nav-link">Indonesia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-22-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brasil" aria-selected="false" class="nav-link">Brasil</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-22-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-22-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-22-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-22-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-22-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United Arab Emirates" aria-selected="false" class="nav-link">United Arab Emirates</a></li></ul></div>
 
 
 
@@ -3121,7 +3202,7 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-21"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-21-1"><div class="card-body html-fill-item html-fill-container" data-title="Malaysia">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-22"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-22-1"><div class="card-body html-fill-item html-fill-container" data-title="Malaysia">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-my" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -3134,7 +3215,7 @@ Figure&nbsp;30: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-21-2"><div class="card-body html-fill-item html-fill-container" data-title="Indonesia">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-22-2"><div class="card-body html-fill-item html-fill-container" data-title="Indonesia">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-id" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -3147,7 +3228,7 @@ Figure&nbsp;31: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-21-3"><div class="card-body html-fill-item html-fill-container" data-title="Brasil">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-22-3"><div class="card-body html-fill-item html-fill-container" data-title="Brasil">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-br" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -3160,7 +3241,7 @@ Figure&nbsp;32: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-21-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-22-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-de" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -3173,7 +3254,7 @@ Figure&nbsp;33: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-21-5"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-22-5"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-es" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -3186,7 +3267,7 @@ Figure&nbsp;34: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-21-6"><div class="card-body html-fill-item html-fill-container" data-title="France">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-22-6"><div class="card-body html-fill-item html-fill-container" data-title="France">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-fr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -3199,7 +3280,7 @@ Figure&nbsp;35: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-21-7"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-22-7"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -3212,7 +3293,7 @@ Figure&nbsp;36: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-21-8"><div class="card-body html-fill-item html-fill-container" data-title="United Arab Emirates">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-22-8"><div class="card-body html-fill-item html-fill-container" data-title="United Arab Emirates">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-en-ae" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -3235,14 +3316,14 @@ Figure&nbsp;37: Distribution estimated with DialectId on the Tweets having as ge
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Description
 </span></div></div>
-<div class="cell card-body html-fill-item html-fill-container" data-execution_count="60">
-<div id="tbl-english-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="60">
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="61">
+<div id="tbl-english-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="61">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-english-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;14: Probability of the origin of Tweets in different non-English-speaking countries.
+Table&nbsp;15: Probability of the origin of Tweets in different non-English-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-english-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="60">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="61">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 24%">
@@ -3994,7 +4075,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
 
-</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-23"><li class="nav-item" role="presentation"><a href="#card-tabset-23-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turkey" aria-selected="false" class="nav-link">Turkey</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Canada" aria-selected="false" class="nav-link">Canada</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Australia" aria-selected="false" class="nav-link">Australia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li></ul></div>
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-24"><li class="nav-item" role="presentation"><a href="#card-tabset-24-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turkey" aria-selected="false" class="nav-link">Turkey</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Germany" aria-selected="false" class="nav-link">Germany</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="France" aria-selected="false" class="nav-link">France</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Canada" aria-selected="false" class="nav-link">Canada</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Australia" aria-selected="false" class="nav-link">Australia</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li></ul></div>
 
 
 
@@ -4003,7 +4084,7 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-23"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-24"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-us" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4016,7 +4097,7 @@ Figure&nbsp;38: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-2"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-2"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-gb" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4029,7 +4110,7 @@ Figure&nbsp;39: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-3"><div class="card-body html-fill-item html-fill-container" data-title="Turkey">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-3"><div class="card-body html-fill-item html-fill-container" data-title="Turkey">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-tr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4042,7 +4123,7 @@ Figure&nbsp;40: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-4"><div class="card-body html-fill-item html-fill-container" data-title="Germany">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-de" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4055,7 +4136,7 @@ Figure&nbsp;41: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-5"><div class="card-body html-fill-item html-fill-container" data-title="France">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-5"><div class="card-body html-fill-item html-fill-container" data-title="France">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-fr" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4068,7 +4149,7 @@ Figure&nbsp;42: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-6"><div class="card-body html-fill-item html-fill-container" data-title="Canada">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-6"><div class="card-body html-fill-item html-fill-container" data-title="Canada">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-ca" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4081,7 +4162,7 @@ Figure&nbsp;43: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-7"><div class="card-body html-fill-item html-fill-container" data-title="Australia">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-7"><div class="card-body html-fill-item html-fill-container" data-title="Australia">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-au" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4094,7 +4175,7 @@ Figure&nbsp;44: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-8"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-8"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-ar-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4117,14 +4198,14 @@ Figure&nbsp;45: Distribution estimated with DialectId on the Tweets having as ge
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Description
 </span></div></div>
-<div class="cell card-body html-fill-item html-fill-container" data-execution_count="69">
-<div id="tbl-arabic-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="69">
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="70">
+<div id="tbl-arabic-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="70">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-arabic-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;15: Probability of the origin of Tweets in different non-Arabic-speaking countries.
+Table&nbsp;16: Probability of the origin of Tweets in different non-Arabic-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-arabic-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="69">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="70">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 18%">
@@ -4403,7 +4484,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header bslib-navs-card-title"><div class="card-title"><span style="display: inline">
 
-</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-25"><li class="nav-item" role="presentation"><a href="#card-tabset-25-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-25-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Moroco" aria-selected="false" class="nav-link">Moroco</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-25-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-25-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Guadeloupe" aria-selected="false" class="nav-link">Guadeloupe</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-25-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-25-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-25-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Algeria" aria-selected="false" class="nav-link">Algeria</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-25-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tanzania" aria-selected="false" class="nav-link">Tanzania</a></li></ul></div>
+</span></div><ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-26"><li class="nav-item" role="presentation"><a href="#card-tabset-26-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="United States" aria-selected="true" class="nav-link active">United States</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-26-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Moroco" aria-selected="false" class="nav-link">Moroco</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-26-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Spain" aria-selected="false" class="nav-link">Spain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-26-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Guadeloupe" aria-selected="false" class="nav-link">Guadeloupe</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-26-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Britain" aria-selected="false" class="nav-link">Great Britain</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-26-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Italy" aria-selected="false" class="nav-link">Italy</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-26-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Algeria" aria-selected="false" class="nav-link">Algeria</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-26-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tanzania" aria-selected="false" class="nav-link">Tanzania</a></li></ul></div>
 
 
 
@@ -4412,7 +4493,7 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-25"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-26"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-26-1"><div class="card-body html-fill-item html-fill-container" data-title="United States">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-us" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4425,7 +4506,7 @@ Figure&nbsp;46: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-2"><div class="card-body html-fill-item html-fill-container" data-title="Moroco">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-26-2"><div class="card-body html-fill-item html-fill-container" data-title="Moroco">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-ma" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4438,7 +4519,7 @@ Figure&nbsp;47: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-3"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-26-3"><div class="card-body html-fill-item html-fill-container" data-title="Spain">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-es" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4451,7 +4532,7 @@ Figure&nbsp;48: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-4"><div class="card-body html-fill-item html-fill-container" data-title="Guadeloupe">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-26-4"><div class="card-body html-fill-item html-fill-container" data-title="Guadeloupe">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-gp" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4464,7 +4545,7 @@ Figure&nbsp;49: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-5"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-26-5"><div class="card-body html-fill-item html-fill-container" data-title="Great Britain">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-gb" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4477,7 +4558,7 @@ Figure&nbsp;50: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-6"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-26-6"><div class="card-body html-fill-item html-fill-container" data-title="Italy">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-it" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4490,7 +4571,7 @@ Figure&nbsp;51: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-7"><div class="card-body html-fill-item html-fill-container" data-title="Algeria">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-26-7"><div class="card-body html-fill-item html-fill-container" data-title="Algeria">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-dz" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4503,7 +4584,7 @@ Figure&nbsp;52: Distribution estimated with DialectId on the Tweets having as ge
 </figure>
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-25-8"><div class="card-body html-fill-item html-fill-container" data-title="Tanzania">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-26-8"><div class="card-body html-fill-item html-fill-container" data-title="Tanzania">
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="fig-fr-tz" class="quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container">
 <figure class="quarto-float quarto-float-fig figure html-fill-item html-fill-container">
@@ -4526,14 +4607,14 @@ Figure&nbsp;53: Distribution estimated with DialectId on the Tweets having as ge
 <div class="card-header"><div class="card-title"><span style="display: inline">
 Description
 </span></div></div>
-<div class="cell card-body html-fill-item html-fill-container" data-execution_count="78">
-<div id="tbl-french-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="78">
+<div class="cell card-body html-fill-item html-fill-container" data-execution_count="79">
+<div id="tbl-french-dest" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="79">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-french-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;16: Probability of the origin of Tweets in different non-French-speaking countries.
+Table&nbsp;17: Probability of the origin of Tweets in different non-French-speaking countries.
 </figcaption>
 <div aria-describedby="tbl-french-dest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
-<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="78">
+<div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="79">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 20%">
@@ -5291,7 +5372,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 Graff, Mario, Sabino Miranda-Jiménez, Eric Sadit Tellez, and Daniela Moctezuma. 2020. <span>“EvoMSA: <span>A</span> Multilingual Evolutionary Approach for Sentiment Analysis.”</span> <em>Computational Intelligence Magazine</em> 15: 76–88. <a href="https://ieeexplore.ieee.org/document/8956106">https://ieeexplore.ieee.org/document/8956106</a>.
 </div>
 <div id="ref-GRAFF2025100154" class="csl-entry" role="listitem">
-Graff, Mario, Daniela Moctezuma, and Eric S. Téllez. 2025. <span>“Bag-of-Word Approach Is Not Dead: A Performance Analysis on a Myriad of Text Classification Challenges.”</span> <em>Natural Language Processing Journal</em> 11: 100154. https://doi.org/<a href="https://doi.org/10.1016/j.nlp.2025.100154">https://doi.org/10.1016/j.nlp.2025.100154</a>.
+Graff, Mario, Daniela Moctezuma, and Eric S. Téllez. 2025. <span>“Bag-of-Word Approach Is Not Dead: A Performance Analysis on a Myriad of Text Classification Challenges.”</span> <em>Natural Language Processing Journal</em> 11: 100154. <a href="https://doi.org/10.1016/j.nlp.2025.100154">https://doi.org/10.1016/j.nlp.2025.100154</a>.
 </div>
 </div></section></div></div> <!-- /container fluid -->
 
