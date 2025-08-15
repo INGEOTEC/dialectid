@@ -1,14 +1,15 @@
 --- 
 title: "Dialect Identification (dialectid)"
-format: 
+format:
   dashboard:
     logo: images/ingeotec.png
     orientation: columns
     nav-buttons: [github]
     theme: cosmo
-    scrolling: true    
+    scrolling: true
 execute:
-  freeze: auto    
+  freeze: auto
+bibliography: references.bib  
 ---
 
 ```{python} 
@@ -23,6 +24,7 @@ from glob import glob
 import country_converter as coco
 import pandas as pd
 import numpy as np
+from scipy.stats import pearsonr
 from IPython.display import Markdown
 import seaborn as sns
 from CompStats import metrics
@@ -242,8 +244,9 @@ def country_dist(country, lang='es', drop=None):
         df = pd.read_json(f'countries/{lang}_{country}_{alg}.json.gz')
         if drop is not None:
             df.drop(columns=drop, inplace=True)
-        if lang == 'es':
-            df.columns = [INFO_ES[k][0] for k in df.columns]
+        # if lang == 'es':
+        # df.columns = [INFO_ES[k][0] for k in df.columns]
+        df.columns = coco.convert(df.columns, to='name_short')
         if alg == 0:
             hue_order = df.sum(axis=0).sort_values(ascending=False).index.tolist()
             if len(hue_order) >= 19:
@@ -358,6 +361,33 @@ def hypothesis(lang, alg=0,
     hipo = pd.DataFrame(hipo, index=columns_desc)
     hipo.fillna(0, inplace=True)
     return hipo.divide(hipo.sum(axis=1), axis=0)
+
+
+def correlation():
+    """Correlation table"""
+    lang = 'es'
+    table = []
+    langs = ['es', 'en', 'ar', 'de', 'fr', 'nl',
+             'pt', 'ru', 'tr', 'zh']
+    for lang in langs:
+        test_values = hprob_test(lang)
+        prior_train = sorted([(k, v) for k, v in prior_test(lang).items()
+                            if k in test_values], key=lambda x: x[0])
+        row = {}
+        for func, name, origin in zip([hprob_test,
+                                    orig_dist_hprob_test],
+                                    ['Test set', 'Test set'],
+                                    ['DialectId',
+                                    'DialectId (Orig. Dist.)']):
+            _info = func(lang)
+            if _info is None:
+                continue
+            corr = pearsonr([v for k, v in prior_train],
+                            [_info.get(k, 0) for k, _ in prior_train])
+            row[origin] = corr.statistic
+        table.append(row)
+    df = pd.DataFrame(table, index=langs)
+    return df
 ``` 
 
 # Introduction
@@ -365,14 +395,14 @@ def hypothesis(lang, alg=0,
 ## Column 
 
 ::: {.card title='Introduction' .flow}  
-`dialectid` aims to develop a set of algorithms to detect the dialect of a given text. For example, given a text written in Spanish, `dialectid` predicts the Spanish-speaking country where the text comes from. 
+`DialectId` aims to develop a set of algorithms that detect the dialect of a given text. For example, given a text in Spanish, DialectId predicts the Spanish-speaking country from which the text comes. 
 
-`dialectid` is available for Arabic (ar), German (de), English (en), Spanish (es), French (fr), Dutch (nl), Portuguese (pt), Russian (ru), Turkish (tr), and Chinese (zh).
+`DialectId` is available for Arabic (ar), German (de), English (en), Spanish (es), French (fr), Dutch (nl), Portuguese (pt), Russian (ru), Turkish (tr), and Chinese (zh).
 :::
 
 ::: {.card title='Installing using conda' .flow}
 
-`dialectid` can be install using the conda package manager with the following instruction.
+`DialectId` can be install using the conda package manager with the following instruction.
 
 ```{sh} 
 conda install --channel conda-forge dialectid
@@ -380,32 +410,16 @@ conda install --channel conda-forge dialectid
 ::: 
 
 ::: {.card title='Installing using pip' .flow} 
-A more general approach to installing `dialectid` is through the use of the command pip, as illustrated in the following instruction.
+A more general approach to installing `DialectId` is through the use of the command pip, as illustrated in the following instruction.
 
 ```{sh} 
 pip install dialectid
 ```
 ::: 
 
-## Column
-
-::: {.card title='Countries' .flow}
-```{python}
-#| echo: true
-#| label: countries
-
-from dialectid import DialectId
-detect = DialectId(lang='es')
-detect.countries
-```
-:::
-
-
-# Quickstart
-
-## Column 
-
 ::: {.card title='Dialect Identification' .flow}
+`DialectId` can be used to predict the dialect of a list of texts using the method `predict` as seen in the following lines. The first line imports the `DialectId` class, the second instantiates the class in the Spanish language, and finally, the third line predicts two utterances. The first corresponds to an expression that would be common in Mexico, and the second is an expression that could be associated with Argentina, Uruguay, Chile, and other South American countries. 
+
 ```{python} 
 #| echo: true
 #| label: Identification
@@ -417,7 +431,24 @@ detect.predict(['comiendo unos tacos',
 ```
 :::
 
+## Column
+
+::: {.card title='Countries' .flow}
+The available dialects for each language can be identified in the attribute `countries`, as seen in the following snippet for Spanish.
+
+```{python}
+#| echo: true
+#| label: countries
+
+from dialectid import DialectId
+detect = DialectId(lang='es')
+detect.countries
+```
+:::
+
 ::: {.card title='Decision Function' .flow}
+One might be interested in all the countries from which the speaker could come. To facilitate this, one can use the `decision_function` method. DialectId uses linear Support Vector Machines (SVM) as classifiers; consequently, the positive values in the `decision_function` are interpreted as belonging to the positive class, i.e., a particular country. The following code exemplifies this idea: the first two lines import and instantiate the `DialectId` class in Spanish. The third line computes the decision-function values; it returns a two-dimensional array where the first dimension corresponds to the number of texts. In this case, it keeps only the decision-function values, where the positive values indicate the presence of the particular country. The fourth line sorts the values where the highest value is the first element. The fifth line retrieves the country and its associated decision-function values, considering only those countries with positive values. 
+
 ```{python} 
 #| echo: true
 #| label: Distance
@@ -431,9 +462,9 @@ index = df.argsort()[::-1]
 ```
 :::
 
-## Column 
-
 ::: {.card title='Probability' .flow}
+In some situations, one is interested in the probability instead of the decision-function values of a linear SVM. The probability can be computed using the `predict_proba` method. The following code exemplifies this idea: the first line imports the `DialectId` class as in previous examples. The second line differs from the last example in that the parameter `probability` is set to true. The rest of the lines are almost equivalent to the previous example. 
+
 ```{python} 
 #| echo: true
 #| label: Probability
@@ -562,7 +593,7 @@ Markdown(dataset_info('nl').to_markdown(index=False))
 ::: {.card title='Portuguese (pt)'}
 ```{python}
 #| echo: false
-#| label: fig-protuguese
+#| label: fig-portuguese
 #| fig-cap: Number of tweets in the collection for the Portuguese-speaking countries. 
 
 distribution_by_time('pt')
@@ -634,15 +665,75 @@ Markdown(dataset_info('zh').to_markdown(index=False))
 ## Column 
 
 ::: {.card title="Description"}
-The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: retweets were removed; URLs and usernames were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were included in the final collection. 
+The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: retweets were removed; URLs and usernames were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were included in the final collection. The column **Corpus** in @tbl-arabic and @fig-arabic show the number of tweets collected for the Arabic-speaking countries. The figure shows that there are days when more tweets are collected, and there is a tendency to collect fewer tweets in 2023 due to changes in the Twitter API. The data corresponding to German, English, Spanish, French, Dutch, Portuguese, Russian, Turkish, and Chinese are shown in @tbl-german, @tbl-english, @tbl-spanish, @tbl-french, @tbl-dutch, @tbl-portuguese, @tbl-russian, @tbl-turkish, and @tbl-chinese; and @fig-german, @fig-english, @fig-spanish, @fig-french, @fig-dutch, @fig-portuguese, @fig-russian, @fig-turkish, and @fig-chinese.
 
 The corpora are used to create two pairs of training and test sets. The training sets are drawn from tweets published before October 1, 2022, and the test sets are taken from tweets published on or after October 3, 2022. The procedure for creating the set pairs consists of two stages. In the first stage, the tweets were organized by country and then selected to form a uniform distribution by day. Within each day, near duplicates were removed. Then, a three-day sliding window was used to remove near duplicates within the window. The final step was to shuffle the data to remove the ordering by date, respecting the limit between the training and test sets.
 
-The tweets of the first pair were selected to follow a uniform distribution by country as closely as possible. In this pair, the size of the training set is roughly 2 million tweets, whereas the test set size is $2^{12}$ (4,096) tweets per country. We also produce a smaller training set containing 262 thousand tweets. The procedure is equivalent to the previous one, aiming to have a uniform distribution of the countries. 
+The tweets of the first pair were selected to follow a uniform distribution by country as closely as possible. In this pair, the size of the training set is roughly 2 million tweets, whereas the test set size is $2^{12}$ (4,096) tweets per country. We also produce a smaller training set containing 262 thousand tweets. The procedure is equivalent to the previous one, aiming to have a uniform distribution of the countries. The column identified with the legend **train** in @tbl-arabic, @tbl-german, @tbl-english, @tbl-spanish, @tbl-french, @tbl-dutch, @tbl-portuguese, @tbl-russian, @tbl-turkish, and @tbl-chinese shows the size of the training set, and the column **test** indicates the size of the test set in the first pair of training and test sets. It is worth mentioning that we did not have enough information for all the countries and languages to follow an exactly uniform distribution. For example, @tbl-spanish (Spanish) notes that for Puerto Rico (pr), 1,487 tweets in the test set correspond to the total number of available tweets that meet the imposed restrictions. 
 
-It is worth mentioning that we did not have enough information for all the countries and languages to follow an exactly uniform distribution. For example, @tbl-spanish (Spanish) notes that for Puerto Rico (pr), there are only 12,407 tweets in the training set and 1,487 tweets in the test set, corresponding to the total number of available tweets that meet the imposed restrictions. 
+The second pair of tweets was selected to follow the original distribution of the corpus; in this case, the training and test set has a maximum size of 2 million tweets. The process of selecting the tweets was set as a convex optimization problem where the objective is to maximize the number of tweets subject to a maximum of 2 million ($2^{21}$), and the availability of tweets for each country, and the distribution is given by all the tweets available. The column identified with the legend **train (orig. dist.)** in @tbl-arabic, @tbl-german, @tbl-english, @tbl-spanish, @tbl-french, @tbl-dutch, @tbl-portuguese, @tbl-russian, @tbl-turkish, and @tbl-chinese shows the size of the training set, and the column **test (orig. dist.)** indicates the size of the test set in the second pair of training and test sets. 
+:::
 
-The second pair of tweets was selected to follow the original distribution of the corpus; in this case, the training and test set has a maximum size of 2 million tweets. The process of selecting the tweets was set as a convex optimization problem where the objective is to maximize the number of tweets subject to a maximum of 2 million ($2^{21}$), and the availability of tweets for each country, and the distribution is given by all the tweets available. In the tables, it can be observed that for Arabic, English, Spanish, French, Portuguese, and Russian, the maximum number of tweets is almost achieved in the training and test sets. 
+# DialectId
+
+## Column 
+
+`DialectId` is a text classifier based on a Bag of Words (BoW) representation with a linear Support Vector Machine (SVM) as the classifier.
+
+The normalization procedure used in the BoW corresponds to setting all characters to lowercase, removing diacritics, and replacing usernames and URLs with the tags "_usr" and "_url", respectively.
+
+The BoW representation weights the tokens with the term frequency and inverse document frequency (TF-IDF). The tokens correspond to words, bi-grams of words, and q-grams of characters (with q=4, 3, 2). The tokens and weights were estimated using each language's training dataset (2 million tweets). The tokens (vocabulary) with higher frequency in the training set were kept. We developed systems for different vocabulary sizes, i.e., $2^{17}$, $2^{18}$, and $2^{19}.$
+
+The BoW can be used by importing the `BoW` class, as seen in the following example, where the *good morning* text is transformed into a vector space. The first line imports the class, the second line instantiates the class, where the parameter `token_max_filter` indicates the vocabulary size, and the third line converts the text into a vector space.
+
+```{python}
+#| echo: true
+
+from dialectid import BoW
+bow = BoW(lang='en', token_max_filter=2**18)
+bow.transform(['good morning'])
+```
+
+Each text in the training set is represented in the vector space, and the associated country is retained for use in a linear SVM using the one-vs-all strategy. The approach creates as many binary classification problems as there are different classes. In the binary problems, each class corresponds to the positive class exactly once, and it is the negative class in the remaining cases. Traditionally, one uses all the information in the approach, which is the case for the reduced training set (262 thousand tweets). Nonetheless, in the full training set, the negative examples were limited to the maximum number of positive elements or $2^{14}$ tweets. In both cases, the examples are weighted inversely proportional to class frequencies to treat an imbalanced dataset.
+
+Complementing the previous example, the following code instantiates the `DialectId` in Spanish using a vocabulary size of $2^{18}$ indicated by the parameters `lang` and `token_max_filter`, respectively.
+
+::: {.flow}
+```{python}
+#| echo: true
+
+from dialectid import DialectId
+detect = DialectId(lang='es', token_max_filter=2**18)
+detect.predict(['comiendo unos tacos'])
+```
+::: 
+
+## Column 
+
+A drawback of using SVM is that it does not estimate the classification probability. For some applications, it is more amenable to calculate the probability instead of the decision-function value. Thus, the developed systems are calibrated to estimate the probability by training a logistic regression using the SVM's decision function as inputs. The calibration procedure involves predicting the SVM's decision function on the reduced training set using stratified k-fold cross-validation (k = 3). The decision functions predicted are the inputs of the logistic regression, and the classes are the ones in the reduced training set; the parameters that weight each example inversely proportional to class frequencies are used in this case. To invoke the model using probability, the parameter `probability` must be set to true, as shown in the following example.
+
+::: {.flow}
+```{python}
+#| echo: true
+
+from dialectid import DialectId
+detect = DialectId(lang='es', probability=True)
+detect.predict_proba(['comiendo unos tacos'])
+```
+:::
+
+As described previously, there are two training sets: one that follows a uniform distribution in the countries as closely as possible, and the second one that follows the distribution seen in the corpus, namely the original distribution (identified as orig. dist.). The parameter `uniform_distribution` indicates which training set is used to estimate the parameters. By default, the parameter is set to true to use the training sets with uniform distribution in the countries.
+
+::: {.flow}
+```{python}
+#| echo: true
+
+from dialectid import DialectId
+detect = DialectId(lang='es',
+                   uniform_distribution=False,
+                   probability=True)
+detect.predict_proba(['comiendo unos tacos'])
+```
 :::
 
 # Performance
@@ -853,11 +944,21 @@ dist_lang('zh')
 ## Column 
 
 ::: {.card title='Performance'}
+The performance, using macro-recall, of `DialectId` with different parameters and `StackBoW` (@GRAFF2025100154, @EvoMSA), used as baseline, is presented in @tbl-macro-recall and @tbl-macro-recall-orig-dist. @tbl-macro-recall shows the performance on the test set that has at most 2048 in all countries, and @tbl-macro-recall-orig-dist presents the performance on the test set that follows the original distribution across countries. 
 
-The performance of different algorithms is presented in @fig-macro-recall using macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception are Turkish and Dutch, where the best systems is StackBoW trained with only 262k tweets.
+The notation used is as follows: the number in brackets indicates the vocabulary size, the systems with the number 626k in parentheses show the performance of the systems trained with the small training set. The system identified with the label **Orig. Dist.** indicates that it is trained on the training set that follows the original distribution; the rest of the systems are trained with the training set that has a uniform distribution across countries.
 
-The remaining figures provide details on macro-recall by presenting the system's recall in each country. 
+It can be observed in @tbl-macro-recall that `DialectId` outperforms the baseline (`StackBoW`) in almost all languages except in Dutch and Turkish. It is essential to note that the training set size of these languages is less than 600k tweets. `DialectId` trained with the uniform distribution training set outperformed the system trained with the original distribution training set; this behaviour is expected because the original distribution training set provides fewer examples in the minority classes; however, macro-recall gives the same weight to all classes. `DialectId` with a vocabulary size of $2^{19}$ obtained the best performance in Spanish, English, Arabic, French, Portuguese, Russian, and Chinese. `DialectId` using a vocabulary size of $2^{18}$ obtained the best performance in German; this could be the result that the training set size is 94k tweets, which might not be enough to train a greater vocabulary size. The other language with fewer examples is Chinese; in this case, the difference in performance of `DialectId` with $2^{18}$ and $2^{19}$ is not statistically significant, as can be seen in @fig-macro-recall.
 ::: 
+
+```{python}
+#| echo: false
+#| tbl-cap: Performance of the different algorithms and languages.
+#| label: tbl-pearsonr
+
+df = correlation()
+Markdown(df.reset_index(names='Language').to_markdown(index=False, floatfmt='0.4f'))
+```
 
 # Spanish
 
