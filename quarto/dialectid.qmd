@@ -664,7 +664,7 @@ Markdown(dataset_info('zh').to_markdown(index=False))
 
 ## Column 
 
-::: {.card title="Description"}
+::: {.card title="Description" .flow}
 The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: retweets were removed; URLs and usernames were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were included in the final collection. The column **Corpus** in @tbl-arabic and @fig-arabic show the number of tweets collected for the Arabic-speaking countries. The figure shows that there are days when more tweets are collected, and there is a tendency to collect fewer tweets in 2023 due to changes in the Twitter API. The data corresponding to German, English, Spanish, French, Dutch, Portuguese, Russian, Turkish, and Chinese are shown in @tbl-german, @tbl-english, @tbl-spanish, @tbl-french, @tbl-dutch, @tbl-portuguese, @tbl-russian, @tbl-turkish, and @tbl-chinese; and @fig-german, @fig-english, @fig-spanish, @fig-french, @fig-dutch, @fig-portuguese, @fig-russian, @fig-turkish, and @fig-chinese.
 
 The corpora are used to create two pairs of training and test sets. The training sets are drawn from tweets published before October 1, 2022, and the test sets are taken from tweets published on or after October 3, 2022. The procedure for creating the set pairs consists of two stages. In the first stage, the tweets were organized by country and then selected to form a uniform distribution by day. Within each day, near duplicates were removed. Then, a three-day sliding window was used to remove near duplicates within the window. The final step was to shuffle the data to remove the ordering by date, respecting the limit between the training and test sets.
@@ -738,7 +738,7 @@ detect.predict_proba(['comiendo unos tacos'])
 
 # Performance
 
-## Column {.tabset}
+## Column {.tabset .flow}
 
 ::: {.card title='Macro-recall'}
 ```{python}
@@ -804,7 +804,7 @@ f_grid = sns.catplot(df, x='macro-recall', y='Algorithm', col_wrap=3,
 :::
 
 
-::: {.card title='Macro-recall (Orig. Dist.)'}
+::: {.card title='Macro-recall (Orig. Dist.)' .flow}
 ```{python}
 #| echo: false
 #| tbl-cap: Performance of the different algorithms and languages on the original distribution.
@@ -841,100 +841,100 @@ Markdown(df.T.reset_index(names='Language').to_markdown(index=False, floatfmt=".
 ```
 :::
 
-::: {.card title='Arabic'}
+::: {.card title='Arabic' .flow}
 ```{python}
 #| echo: false
-#| label: fig-Arabic-dist
+#| label: fig-arabic-dist
 #| fig-cap: Distributions of Arabic-speaking countries.
 
 dist_lang('ar')
 ```
 :::
 
-::: {.card title='German'}
+::: {.card title='German' .flow}
 ```{python}
 #| echo: false
-#| label: fig-German-dist
+#| label: fig-german-dist
 #| fig-cap: Distributions of German-speaking countries. 
 
 dist_lang('de')
 ```
 :::
 
-::: {.card title='English'}
+::: {.card title='English' .flow}
 ```{python}
 #| echo: false
-#| label: fig-English-dist
+#| label: fig-english-dist
 #| fig-cap: Distributions of English-speaking countries.
 
 dist_lang('en')
 ```
 :::
 
-::: {.card title='Spanish'}
+::: {.card title='Spanish' .flow}
 ```{python}
 #| echo: false
-#| label: fig-Spanish-dist
+#| label: fig-spanish-dist
 #| fig-cap: Distributions of Spanish-speaking countries.
 
 dist_lang('es')
 ```
 :::
 
-::: {.card title='French'}
+::: {.card title='French' .flow}
 ```{python}
 #| echo: false
-#| label: fig-French-dist
+#| label: fig-french-dist
 #| fig-cap: Distributions of French-speaking countries.
 
 dist_lang('fr')
 ```
 :::
 
-::: {.card title='Dutch'}
+::: {.card title='Dutch' .flow}
 ```{python}
 #| echo: false
-#| label: fig-Dutch-dist
+#| label: fig-dutch-dist
 #| fig-cap: Distributions of Dutch-speaking countries.
 
 dist_lang('nl')
 ```
 :::
 
-::: {.card title='Portuguese'}
+::: {.card title='Portuguese' .flow}
 ```{python}
 #| echo: false
-#| label: fig-Portuguese-dist
+#| label: fig-portuguese-dist
 #| fig-cap: Distributions of Portuguese-speaking countries.
 
 dist_lang('pt')
 ```
 :::
 
-::: {.card title='Russian'}
+::: {.card title='Russian' .flow}
 ```{python}
 #| echo: false
-#| label: fig-Russian-dist
+#| label: fig-russian-dist
 #| fig-cap: Distributions of Russian-speaking countries.
 
 dist_lang('ru')
 ```
 :::
 
-::: {.card title='Turkish'}
+::: {.card title='Turkish' .flow}
 ```{python}
 #| echo: false
-#| label: fig-Turkish-dist
+#| label: fig-turkish-dist
 #| fig-cap: Distributions of Turkish-speaking countries.
 
 dist_lang('tr')
 ```
 :::
 
-::: {.card title='Chinese'}
+::: {.card title='Chinese' .flow}
 ```{python}
 #| echo: false
-#| label: fig-Chinese-dist
+#| label: fig-chinese-dist
 #| fig-cap: Distributions of Chinese-speaking countries.
 
 dist_lang('zh')
@@ -949,6 +949,12 @@ The performance, using macro-recall, of `DialectId` with different parameters an
 The notation used is as follows: the number in brackets indicates the vocabulary size, the systems with the number 626k in parentheses show the performance of the systems trained with the small training set. The system identified with the label **Orig. Dist.** indicates that it is trained on the training set that follows the original distribution; the rest of the systems are trained with the training set that has a uniform distribution across countries.
 
 It can be observed in @tbl-macro-recall that `DialectId` outperforms the baseline (`StackBoW`) in almost all languages except in Dutch and Turkish. It is essential to note that the training set size of these languages is less than 600k tweets. `DialectId` trained with the uniform distribution training set outperformed the system trained with the original distribution training set; this behaviour is expected because the original distribution training set provides fewer examples in the minority classes; however, macro-recall gives the same weight to all classes. `DialectId` with a vocabulary size of $2^{19}$ obtained the best performance in Spanish, English, Arabic, French, Portuguese, Russian, and Chinese. `DialectId` using a vocabulary size of $2^{18}$ obtained the best performance in German; this could be the result that the training set size is 94k tweets, which might not be enough to train a greater vocabulary size. The other language with fewer examples is Chinese; in this case, the difference in performance of `DialectId` with $2^{18}$ and $2^{19}$ is not statistically significant, as can be seen in @fig-macro-recall.
+
+`DialectId` aims to estimate the likelihood of origin of a text; one of its applications could be to calculate the distribution of dialects of a set of texts. The performance has been presented using macro-recall; however, this measure does not provide information about the closeness of the distribution computed with `DialectId.` To provide information, @tbl-pearsonr presents the Pearson correlation coefficient in the test set, which follows the original distribution of the `DialectId` with a vocabulary size of $2^{19}$ trained with the two training sets. It can be observed that in all the countries, the correlation is above 0.9. The lowest value is in Spanish, where the system trained with the uniform distribution got 0.9063, and the other system got 0.9824. `DialectId` trained with the original distribution has correlation coefficients above 0.98 in all the cases; however, it is the system with the lowest macro-recall in all the cases. 
+
+To complement the information presented in @tbl-pearsonr, @fig-arabic-dist, @fig-german-dist, @fig-english-dist, @fig-spanish-dist, @fig-french-dist, @fig-dutch-dist, @fig-portuguese-dist, @fig-russian-dist, @fig-turkish-dist, and @fig-chinese-dist present these distributions for Arabic, German, English, Spanish, French, Dutch, Portuguese, Russian, Turkish, and Chinese; all the figures follow an equivalent notation. For example, @fig-spanish-dist shows in the blue line the distribution measured in the test set, the broad orange line presents the distribution obtained with the prediction made by `DialectId` trained in the uniform distribution, and the wide green line presents the distribution obtained with the `DialectId` (trained with the original distribution) predictions. 
+
+The figure also includes, in thin lines, estimated distributions, with the two versions of `DialectId,` from a dataset where there is no geographic information, so it is impossible to measure the actual distribution. The dataset comes from the same period as the test set, and it follows a treatment equivalent to the test set, such as the near duplicates are removed among other constraints. It can be observed that the thin lines follow the wide lines in almost all countries, except in the Dominican Republic. These later distributions (i.e., thin lines) show one of the applications of DialectId, which is to estimate the dialect of texts from a collection where the information is not available.  
 ::: 
 
 ```{python}
