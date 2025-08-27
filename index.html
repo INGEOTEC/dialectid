@@ -2341,29 +2341,29 @@ Table&nbsp;11: Performance of the different algorithms and languages.
 </tr>
 <tr class="even">
 <td style="text-align: left;">DialectId[18] (262k)</td>
-<td style="text-align: right;">0.3476</td>
-<td style="text-align: right;">0.2787</td>
-<td style="text-align: right;">0.3767</td>
-<td style="text-align: right;">0.4945</td>
-<td style="text-align: right;">0.3540</td>
-<td style="text-align: right;">0.7731</td>
-<td style="text-align: right;">0.6091</td>
+<td style="text-align: right;">0.3480</td>
+<td style="text-align: right;">0.2792</td>
+<td style="text-align: right;">0.3771</td>
+<td style="text-align: right;">0.4944</td>
+<td style="text-align: right;">0.3549</td>
+<td style="text-align: right;">0.7734</td>
+<td style="text-align: right;">0.6081</td>
 <td style="text-align: right;">0.4590</td>
-<td style="text-align: right;">0.5532</td>
-<td style="text-align: right;">0.6732</td>
+<td style="text-align: right;">0.5528</td>
+<td style="text-align: right;">0.6753</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">DialectId[17] (262k)</td>
-<td style="text-align: right;">0.3412</td>
-<td style="text-align: right;">0.2726</td>
-<td style="text-align: right;">0.3700</td>
-<td style="text-align: right;">0.5002</td>
-<td style="text-align: right;">0.3476</td>
-<td style="text-align: right;">0.7731</td>
-<td style="text-align: right;">0.6041</td>
-<td style="text-align: right;">0.4598</td>
-<td style="text-align: right;">0.5562</td>
-<td style="text-align: right;">0.6740</td>
+<td style="text-align: right;">0.3421</td>
+<td style="text-align: right;">0.2738</td>
+<td style="text-align: right;">0.3715</td>
+<td style="text-align: right;">0.5006</td>
+<td style="text-align: right;">0.3495</td>
+<td style="text-align: right;">0.7742</td>
+<td style="text-align: right;">0.6058</td>
+<td style="text-align: right;">0.4612</td>
+<td style="text-align: right;">0.5577</td>
+<td style="text-align: right;">0.6761</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">StackBoW (262k)</td>
@@ -2688,7 +2688,7 @@ Performance
 <p>The performance, using macro-recall, of <code>DialectId</code> with different parameters and <code>StackBoW</code> (<span class="citation" data-cites="GRAFF2025100154">Graff, Moctezuma, and Téllez (<a href="#ref-GRAFF2025100154" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="EvoMSA">Graff et al. (<a href="#ref-EvoMSA" role="doc-biblioref">2020</a>)</span>), used as baseline, is presented in <a href="#tbl-macro-recall" class="quarto-xref">Table&nbsp;11</a> and <a href="#tbl-macro-recall-orig-dist" class="quarto-xref">Table&nbsp;12</a>. <a href="#tbl-macro-recall" class="quarto-xref">Table&nbsp;11</a> shows the performance on the test set that has at most 2048 in all countries, and <a href="#tbl-macro-recall-orig-dist" class="quarto-xref">Table&nbsp;12</a> presents the performance on the test set that follows the original distribution across countries.</p>
 <p>The notation used is as follows: the number in brackets indicates the vocabulary size, the systems with the number 626k in parentheses show the performance of the systems trained with the small training set. The system identified with the label <strong>Orig. Dist.</strong> indicates that it is trained on the training set that follows the original distribution; the rest of the systems are trained with the training set that has a uniform distribution across countries.</p>
 <p>It can be observed in <a href="#tbl-macro-recall" class="quarto-xref">Table&nbsp;11</a> that <code>DialectId</code> outperforms the baseline (<code>StackBoW</code>) in almost all languages except in Dutch and Turkish. It is essential to note that the training set size of these languages is less than 600k tweets. <code>DialectId</code> trained with the uniform distribution training set outperformed the system trained with the original distribution training set; this behaviour is expected because the original distribution training set provides fewer examples in the minority classes; however, macro-recall gives the same weight to all classes. <code>DialectId</code> with a vocabulary size of <span class="math inline">\(2^{19}\)</span> obtained the best performance in Spanish, English, Arabic, French, Portuguese, Russian, and Chinese. <code>DialectId</code> using a vocabulary size of <span class="math inline">\(2^{18}\)</span> obtained the best performance in German; this could be the result that the training set size is 94k tweets, which might not be enough to train a greater vocabulary size. The other language with fewer examples is Chinese; in this case, the difference in performance of <code>DialectId</code> with <span class="math inline">\(2^{18}\)</span> and <span class="math inline">\(2^{19}\)</span> is not statistically significant, as can be seen in <a href="#fig-macro-recall" class="quarto-xref">Figure&nbsp;11</a>.</p>
-<p><code>DialectId</code> aims to estimate the likelihood of origin of a text; one of its applications could be to calculate the distribution of dialects of a set of texts. The performance has been presented using macro-recall; however, this measure does not provide information about the closeness of the distribution computed with <code>DialectId.</code> To provide information, <a href="#tbl-pearsonr" class="quarto-xref">Table&nbsp;13</a> presents the Pearson correlation coefficient in the test set, which follows the original distribution of the <code>DialectId</code> with a vocabulary size of <span class="math inline">\(2^{19}\)</span> trained with the two training sets. It can be observed that in all the countries, the correlation is above 0.9. The lowest value is in Spanish, where the system trained with the uniform distribution got 0.9063, and the other system got 0.9824. <code>DialectId</code> trained with the original distribution has correlation coefficients above 0.98 in all the cases; however, it is the system with the lowest macro-recall in all the cases.</p>
+<p><code>DialectId</code> aims to estimate the likelihood of origin of a text; one of its applications could be to calculate the distribution of dialects of a set of texts. The performance has been presented using macro-recall; however, this measure does not provide information about the closeness of the distribution computed with <code>DialectId.</code> To provide information, <a href="#tbl-pearsonr" class="quarto-xref">Table&nbsp;13</a> presents the Pearson correlation coefficient in the test set, which follows the original distribution of the <code>DialectId</code> with a vocabulary size of <span class="math inline">\(2^{19}\)</span> trained with the two training sets. It can be observed that in all the countries, the correlation is above 0.9. The lowest value is in Spanish, where the system trained with the uniform distribution achieved 0.9063, while the other system achieved 0.9824. <code>DialectId</code> trained with the original distribution has correlation coefficients above 0.98 in all the cases; however, it is the system with the lowest macro-recall in all the cases. The table includes the system <code>DialectId</code>(Bias), which is equivalent to <code>DialectId</code> trained on the uniform distribution, with the difference that the probabilities are weighted by the proportion of each country measured in the training set of the original distribution. It can be observed that in all the cases, <code>DialectId</code>(Bias) has a correlation greater than 0.97.</p>
 <p>To complement the information presented in <a href="#tbl-pearsonr" class="quarto-xref">Table&nbsp;13</a>, <a href="#fig-arabic-dist" class="quarto-xref">Figure&nbsp;12</a>, <a href="#fig-german-dist" class="quarto-xref">Figure&nbsp;13</a>, <a href="#fig-english-dist" class="quarto-xref">Figure&nbsp;14</a>, <a href="#fig-spanish-dist" class="quarto-xref">Figure&nbsp;15</a>, <a href="#fig-french-dist" class="quarto-xref">Figure&nbsp;16</a>, <a href="#fig-dutch-dist" class="quarto-xref">Figure&nbsp;17</a>, <a href="#fig-portuguese-dist" class="quarto-xref">Figure&nbsp;18</a>, <a href="#fig-russian-dist" class="quarto-xref">Figure&nbsp;19</a>, <a href="#fig-turkish-dist" class="quarto-xref">Figure&nbsp;20</a>, and <a href="#fig-chinese-dist" class="quarto-xref">Figure&nbsp;21</a> present these distributions for Arabic, German, English, Spanish, French, Dutch, Portuguese, Russian, Turkish, and Chinese; all the figures follow an equivalent notation. For example, <a href="#fig-spanish-dist" class="quarto-xref">Figure&nbsp;15</a> shows in the blue line the distribution measured in the test set, the broad orange line presents the distribution obtained with the prediction made by <code>DialectId</code> trained in the uniform distribution, and the wide green line presents the distribution obtained with the <code>DialectId</code> (trained with the original distribution) predictions.</p>
 <p>The figure also includes, in thin lines, estimated distributions, with the two versions of <code>DialectId,</code> from a dataset where there is no geographic information, so it is impossible to measure the actual distribution. The dataset comes from the same period as the test set, and it follows a treatment equivalent to the test set, such as the near duplicates are removed among other constraints. It can be observed that the thin lines follow the wide lines in almost all countries, except in the Dominican Republic. These later distributions (i.e., thin lines) show one of the applications of DialectId, which is to estimate the dialect of texts from a collection where the information is not available.</p>
 </div>
@@ -2703,16 +2703,23 @@ Performance
 <div id="tbl-pearsonr" class="cell quarto-float quarto-figure quarto-figure-center html-fill-item html-fill-container" data-execution_count="43">
 <figure class="quarto-float quarto-float-tbl figure html-fill-item html-fill-container">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pearsonr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;13: Performance of the different algorithms and languages.
+Table&nbsp;13: Pearson correlation coefficient of the different algorithms and languages.
 </figcaption>
 <div aria-describedby="tbl-pearsonr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="html-fill-item html-fill-container">
 <div class="cell-output cell-output-display cell-output-markdown html-fill-item html-fill-container" data-execution_count="43">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 37%">
+<col style="width: 27%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Language</th>
 <th style="text-align: right;">DialectId</th>
 <th style="text-align: right;">DialectId (Orig. Dist.)</th>
+<th style="text-align: right;">DialectId (Bias)</th>
 </tr>
 </thead>
 <tbody>
@@ -2720,29 +2727,35 @@ Table&nbsp;13: Performance of the different algorithms and languages.
 <td style="text-align: left;">es</td>
 <td style="text-align: right;">0.9707</td>
 <td style="text-align: right;">0.9866</td>
+<td style="text-align: right;">0.9767</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">en</td>
 <td style="text-align: right;">0.9063</td>
 <td style="text-align: right;">0.9824</td>
+<td style="text-align: right;">0.9746</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">ar</td>
 <td style="text-align: right;">0.9629</td>
 <td style="text-align: right;">0.9806</td>
+<td style="text-align: right;">0.9933</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">de</td>
 <td style="text-align: right;">0.9999</td>
 <td style="text-align: right;">0.9999</td>
+<td style="text-align: right;">1.0000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">fr</td>
 <td style="text-align: right;">0.9433</td>
 <td style="text-align: right;">0.9899</td>
+<td style="text-align: right;">0.9983</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">nl</td>
+<td style="text-align: right;">1.0000</td>
 <td style="text-align: right;">1.0000</td>
 <td style="text-align: right;">1.0000</td>
 </tr>
@@ -2750,19 +2763,23 @@ Table&nbsp;13: Performance of the different algorithms and languages.
 <td style="text-align: left;">pt</td>
 <td style="text-align: right;">0.9961</td>
 <td style="text-align: right;">0.9991</td>
+<td style="text-align: right;">0.9999</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">ru</td>
 <td style="text-align: right;">0.9575</td>
 <td style="text-align: right;">0.9931</td>
+<td style="text-align: right;">0.9993</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">tr</td>
 <td style="text-align: right;">1.0000</td>
 <td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">zh</td>
+<td style="text-align: right;">1.0000</td>
 <td style="text-align: right;">1.0000</td>
 <td style="text-align: right;">1.0000</td>
 </tr>
