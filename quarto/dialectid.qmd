@@ -437,8 +437,6 @@ detect.predict(['comiendo unos tacos',
 ```
 :::
 
-## Column
-
 ::: {.card title='Countries' .flow}
 The available dialects for each language can be identified in the attribute `countries`, as seen in the following snippet for Spanish.
 
@@ -451,6 +449,8 @@ detect = DialectId(lang='es')
 detect.countries
 ```
 :::
+
+## Column
 
 ::: {.card title='Decision Function' .flow}
 One might be interested in all the countries from which the speaker could come. To facilitate this, one can use the `decision_function` method. DialectId uses linear Support Vector Machines (SVM) as classifiers; consequently, the positive values in the `decision_function` are interpreted as belonging to the positive class, i.e., a particular country. The following code exemplifies this idea: the first two lines import and instantiate the `DialectId` class in Spanish. The third line computes the decision-function values; it returns a two-dimensional array where the first dimension corresponds to the number of texts. In this case, it keeps only the decision-function values, where the positive values indicate the presence of the particular country. The fourth line sorts the values where the highest value is the first element. The fifth line retrieves the country and its associated decision-function values, considering only those countries with positive values. 
@@ -468,6 +468,20 @@ index = df.argsort()[::-1]
 ```
 :::
 
+::: {.card title='Positive class' .flow}
+In the case where one is interested in the positive classes, as described in the previous example, `DialectId` implements the `DialectId.positive` method to retrieve the positive labels in a list of texts, as shown in the following example. 
+
+```{python} 
+#| echo: true
+#| label: positive-default
+
+from dialectid import DialectId
+detect = DialectId(lang='es')
+pos = detect.positive(['acompañando el asado con un buen vino'])[0]
+pos
+```
+:::
+
 ::: {.card title='Probability' .flow}
 In some situations, one is interested in the probability instead of the decision-function values of a linear SVM. The probability can be computed using the `predict_proba` method. The following code exemplifies this idea: the first line imports the `DialectId` class as in previous examples. The second line differs from the last example in that the parameter `probability` is set to true. The rest of the lines are almost equivalent to the previous example. 
 
@@ -481,6 +495,18 @@ prob = detect.predict_proba(['acompañando el asado con un buen vino'])[0]
 index = prob.argsort()[::-1]
 [(detect.countries[i], prob[i])
  for i in index[:4]]
+```
+
+The `DialectId.positive` method can also be used when one is interested in the probabilities of the positive classes, as shown in the following lines.
+
+```{python} 
+#| echo: true
+#| label: positive-probability
+
+from dialectid import DialectId
+detect = DialectId(lang='es', probability=True)
+pos = detect.positive(['acompañando el asado con un buen vino'])[0]
+pos
 ```
 :::
 
