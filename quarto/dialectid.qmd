@@ -1,13 +1,15 @@
 --- 
 title: "Dialect Identification (dialectid)"
-format: 
+format:
   dashboard:
     logo: images/ingeotec.png
     orientation: columns
     nav-buttons: [github]
     theme: cosmo
+    scrolling: true
 execute:
-  freeze: auto    
+  freeze: auto
+bibliography: references.bib  
 ---
 
 ```{python} 
@@ -15,27 +17,34 @@ execute:
 #| include: false
 #| label: setup
 
-from collections import defaultdict
+from collections import defaultdict, Counter
 from os.path import join, basename, isfile
+import json
+from glob import glob
+import country_converter as coco
 import pandas as pd
 import numpy as np
-from glob import glob
+from scipy.stats import pearsonr
 from IPython.display import Markdown
 import seaborn as sns
 from CompStats import metrics
 from CompStats import measurements
+import cvxpy as cp
+from sklearn.metrics import recall_score
 from encexp.download import download
 from encexp.utils import DialectID_URL
 from microtc.utils import tweet_iterator
 from microtc.utils import save_model, load_model
 from dialectid import DialectId
 sns.set_style('whitegrid')
-sns.set_theme(font_scale=1.2)
+sns.set_theme(# font_scale=1.2,
+              context='paper')
 ORDER = ['DialectId[19]', 'DialectId[18]', 'DialectId[17]',
          'DialectId[19] (prob)', 'DialectId[18] (prob)',
          'DialectId[17] (prob)',
          'DialectId[19] (262k)', 'DialectId[18] (262k)',
-         'DialectId[17] (262k)', 'StackBoW (262k)']
+         'DialectId[17] (262k)', 'StackBoW (262k)',
+         'DialectId[19] (Orig. Dist.)']
 
 
 def dataset_info(lang='es'):
@@ -44,8 +53,28 @@ def dataset_info(lang='es'):
     dataset = {data['set']: {k: v for k, v in data.items() 
                              if k not in ('lang', 'set')}
                for data in dataset if data['lang'] == lang}
-    dataset = pd.DataFrame(dataset).reset_index(names='Country')
-    return dataset.sort_values('Country')
+    dataset = pd.DataFrame(dataset) # .reset_index(names='Country')
+    dataset.sort_index(inplace=True)
+    orig_dist = download('dialectid_orig_dist_info',
+                         base_url=DialectID_URL)
+    orig_dist = {data['set']: {k: v for k, v in data.items() 
+                             if k not in ('lang', 'set')}
+                 for data in orig_dist if data['lang'] == lang}
+    orig_dist = pd.DataFrame(orig_dist)  # .reset_index(names='Country')
+    orig_dist.sort_index(inplace=True)
+    dataset['train (orig. dist.)'] = orig_dist['train']
+    dataset['test (orig. dist.)'] = orig_dist['test']
+    # dataset.reset_index(names='Country', inplace=True)
+    df = dataset.sort_values('train (orig. dist.)', ascending=False)
+    df_all = pd.read_json(download(f'{lang}_info', return_path=True))
+    df['Corpus'] = (df_all.sum(axis=0))[df.index] 
+    df = pd.concat((df, pd.DataFrame([df.sum(axis=0).values],
+                    columns=df.columns, index=['Sum'])), axis=0)
+    df.reset_index(inplace=True, names=['Country'])
+    xxx = coco.convert(df.Country[:-1], to='name_short')
+    xxx.append(df.Country.iloc[-1])
+    df.Country = xxx
+    return df
 
 
 def performance(lang, score, prefix='',
@@ -86,21 +115,300 @@ def country_recall(lang, col_wrap=5):
                          kind='point', errorbar=ci, # sharex=False,
                          hue='Comparison')
     return f_grid
-``` 
+
+
+def prior_proba(lang):
+    freq = download('freq_countries_lang')
+    data = freq[lang]['counter']
+    del data['ALL']
+    norm = sum(data.values())
+    return {k: v / norm for k, v in data.items()}
+
+
+def hprob_test(lang):
+    fname = f'dialectid-datasets/predictions/dist-{lang}/DialectId[19].json.gz'
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update(_)
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def orig_dist_hprob_test(lang):
+    fname = f'dialectid-datasets/predictions/dist-{lang}/DialectId[19] (Orig. Dist.).json.gz'
+    if not isfile(fname):
+        return None
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update(_)
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def bias_hprob_test(lang):
+    fname = f'dialectid-datasets/predictions/dist-{lang}/DialectId[19] (Bias).json.gz'
+    if not isfile(fname):
+        return None
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update(_)
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()} 
+
+
+def prior_test(lang):
+    fname = f'dialectid-datasets/predictions/dist-{lang}/y.json.gz'
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update(_['y'])
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def dist_all(lang):
+    if not isfile(f'pred-all/{lang}.json.gz'):
+        return None
+    data = Counter()
+    data.update(next(tweet_iterator(f'pred-all/{lang}.json.gz')))
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def dist_all_origin_dist(lang):
+    if not isfile(f'pred-all/{lang}.json.gz'):
+        return None
+    data = Counter()
+    data.update(next(tweet_iterator(f'pred-all/{lang}-orig-dist.json.gz')))
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def dist_lang(lang):
+    """Distribution"""
+
+    test_values = hprob_test(lang)
+    prior_train = sorted([(k, v) for k, v in prior_test(lang).items()
+                          if k in test_values], key=lambda x: x[1])
+    df = pd.DataFrame(prior_train, columns=['Country', 'Prob.'])
+    df['Dataset'] = 'Test set'
+    df['Target'] = 'Measured'
+    df = df.sort_values(by='Prob.', ascending=False)[:21]
+    countries = set(df.Country)
+    for func, name, origin in zip([hprob_test,
+                                   orig_dist_hprob_test, dist_all,
+                                   dist_all_origin_dist],
+                                  ['Test set', 'Test set',
+                                   'w/o Geo. Inf.',
+                                   'w/o Geo. Inf.'],
+                                  ['DialectId',
+                                   'DialectId (Orig. Dist.)',
+                                   'DialectId', 'DialectId (Orig. Dist.)']):
+        _info = func(lang)
+        if _info is None:
+            continue
+        df2 = pd.DataFrame([(cntr, _info.get(cntr, 0), name)
+                            for cntr, _ in prior_train],
+                            columns=['Country', 'Prob.', 'Dataset'])
+        mask = [x in countries for x in df2.Country]
+        df2 = df2.loc[mask]
+        df2['Target'] = origin
+        df = pd.concat((df, df2))
+    df.Country = coco.convert(df.Country, to='name_short')
+    ax = sns.lineplot(df, x='Country', y='Prob.',
+                      style='Target', hue='Target', size='Dataset')
+    ax.tick_params(axis='x', rotation=90)
+    return ax
+
+
+def country_dist(country, lang='es', drop=None):
+    """Country distribution of language"""
+    color = [x for x in sns.color_palette('Set1')][:5]
+    dashes = []
+    hue_order = None
+    dataframe = pd.DataFrame()
+    inferior = None
+    superior = None
+    for alg in [0, 1]:
+        df = pd.read_json(f'countries/{lang}_{country}_{alg}.json.gz')
+        if drop is not None:
+            df.drop(columns=drop, inplace=True)
+        df.columns = coco.convert(df.columns, to='name_short')
+        if alg == 0:
+            hue_order = df.sum(axis=0).sort_values(ascending=False).index.tolist()
+            if len(hue_order) >= 19:
+                superior = hue_order[:19]
+                inferior = hue_order[19:]
+                df['Rest'] = df[inferior].sum(axis=1)
+                hue_order = hue_order[:20]
+                hue_order[-1] = 'Rest'
+            for dash in ['', (1, 10), (5, 5), (1, 1)]:
+                dashes.extend([dash] * len(color))
+            dashes = (dashes * int(1 + len(hue_order) / len(dashes)))[:len(hue_order)]
+            color = (color * int(1 + len(hue_order) / len(color)))[:len(hue_order)]
+        if inferior is not None:
+            _ = set(inferior).intersection(df.columns)
+            df.drop(columns=_, inplace=True)
+        df2 = df.rolling(window=7 * 12).sum()
+        df2.dropna(inplace=True)
+        df2 = df2.divide(df2.sum(axis=1), axis=0)
+        df2 = df2.melt(ignore_index=False, value_name='Probability', var_name='Dialect')
+        df2.reset_index(inplace=True, names='Date')
+        df2['Algorithm'] = 'DialectId' if alg == 0 else 'DialectId (Orig. Dist.)'
+        dataframe = pd.concat((dataframe, df2))
+    _ = sns.relplot(dataframe, kind='line', x='Date', col='Algorithm', col_wrap=2,
+                    hue_order=hue_order, style_order=hue_order,
+                    col_order=['DialectId', 'DialectId (Orig. Dist.)'],
+                    palette=color,
+                    dashes=dashes, y='Probability',
+                    style='Dialect', hue='Dialect')
+    return _
+    # order = pd.DataFrame()
+    # for key in hue_order:
+    #     order = pd.concat((order, dataframe.loc[dataframe.Dialect == key]))    
+    # return px.line(order, x='Date', y='Probability',
+    #                color='Dialect', facet_col='Algorithm')
+
+
+def distribution_by_time(lang):
+    """Original distribution by time"""
+    df = pd.read_json(download(f'{lang}_info', return_path=True))
+    df.drop(columns=['ALL'], inplace=True)
+    color = [x for x in sns.color_palette('Set1')][:5]
+    todos = df.sum(axis=0).sort_values(ascending=False).index.tolist()
+    superior = todos[:19]
+    columns_desc = coco.convert(superior, to='name_short')
+    inferior = todos[19:]
+    if len(inferior):
+        df['Rest'] = df[inferior].sum(axis=1)
+        superior.append('Rest')
+        columns_desc.append('Rest')
+    hue_order = columns_desc
+    df = df[superior]
+    df.columns = columns_desc
+    dashes = []    
+    for dash in ['', (1, 10), (5, 5), (1, 1)]:
+        dashes.extend([dash] * len(color))
+    dashes = (dashes * int(1 + len(hue_order) / len(dashes)))[:len(hue_order)]
+    color = (color * int(1 + len(hue_order) / len(color)))[:len(hue_order)]
+    df2 = df.rolling(window=7).mean()
+    df2.dropna(inplace=True)
+    # df2 = df2.divide(df2.sum(axis=1), axis=0)
+    df2 = df2.melt(ignore_index=False, value_name='Number of tweets',
+                   var_name='Country')
+    df2.reset_index(inplace=True, names='Date')
+    fig = sns.relplot(df2, kind='line', x='Date',
+                      hue_order=hue_order, style_order=hue_order,
+                      palette=color,
+                      dashes=dashes, y='Number of tweets',
+                      style='Country', hue='Country')
+    return fig
+    # return sns.move_legend(fig, "upper right", ncol=3, frameon=True)
+
+
+def hypothesis(lang, alg=0,
+               countries=None):
+    """Hypothesis"""
+    columns = None
+    data = []
+    for country in countries:
+        fname = f'countries/{lang}_{country}_{alg}.json.gz'
+        df2 = pd.read_json(fname)
+        df2 = df2.rolling(window=7 * 12).sum()
+        df2.dropna(inplace=True)
+        df2 = df2.divide(df2.sum(axis=1), axis=0)
+        if columns is None:
+            columns = sorted(df2.columns)
+        data.append(df2)
+
+    index = data[0].index
+    for d in data[1:]:
+        index = index.intersection(d.index)
+
+    P = cp.Parameter((len(columns), len(countries)))
+    T = cp.Variable((len(countries), len(columns)))
+    # obj = cp.Maximize(cp.min(cp.diag(T @ P)))
+    obj = cp.Maximize(cp.sum(cp.diag(T @ P)))
+    constraints = [T.sum(axis=0) == 1, T >= 0]
+    prob = cp.Problem(obj, constraints)
+
+    sol = []
+    for value in index:
+        P.value = np.array([d.loc[value][columns].values for d in data]).T
+        prob.solve()
+        sol.append(T.value)
+    sol = np.array(sol)
+
+    hipo = []
+    for idx in range(len(columns)):
+        cnt = Counter()
+        cnt.update(countries[sol[:, :, idx].argmax(axis=1)].tolist())
+        hipo.append(dict(cnt))    
+    columns_desc = coco.convert(columns, to='name_short')
+    hipo = pd.DataFrame(hipo, index=columns_desc)
+    hipo.fillna(0, inplace=True)
+    return hipo.divide(hipo.sum(axis=1), axis=0)
+
+
+def correlation():
+    """Correlation table"""
+    lang = 'es'
+    table = []
+    langs = ['es', 'en', 'ar', 'de', 'fr', 'nl',
+             'pt', 'ru', 'tr', 'zh']
+    for lang in langs:
+        test_values = hprob_test(lang)
+        prior_train = sorted([(k, v) for k, v in prior_test(lang).items()
+                              if k in test_values], key=lambda x: x[0])
+        row = {}
+        for func, name, origin in zip([hprob_test,
+                                       orig_dist_hprob_test,
+                                       bias_hprob_test],
+                                      ['Test set', 'Test set', 'Test set'],
+                                      ['DialectId',
+                                       'DialectId (Orig. Dist.)',
+                                       'DialectId (Bias)']):
+            _info = func(lang)
+            if _info is None:
+                continue
+            corr = pearsonr([v for k, v in prior_train],
+                            [_info.get(k, 0) for k, _ in prior_train])
+            row[origin] = corr.statistic
+        table.append(row)
+    df = pd.DataFrame(table, index=langs)
+    return df
+
+
+def performance_length():
+    table = []
+    langs = ['es', 'en', 'ar', 'de', 'fr', 'nl',
+             'pt', 'ru', 'tr', 'zh']
+    for lang in langs:
+        row = dict()
+        for dir, name in zip(['', '2', '3', '4'], ['Original', 'K=2', 'K=3', 'K=4']):
+            if len(dir):
+                dir = f'-{dir}'
+            gold = next(tweet_iterator(f'dialectid-datasets/predictions/{lang}{dir}/y.json'))['y']
+            hy = next(tweet_iterator(f'dialectid-datasets/predictions/{lang}{dir}/DialectId[19].json'))
+            score = recall_score(gold, hy, average='macro')
+            row[name] = score
+        table.append(row)
+    df = pd.DataFrame(table, index=langs)
+    return df
+```
 
 # Introduction
 
 ## Column 
 
 ::: {.card title='Introduction' .flow}  
-`dialectid` aims to develop a set of algorithms to detect the dialect of a given text. For example, given a text written in Spanish, `dialectid` predicts the Spanish-speaking country where the text comes from. 
+`DialectId` aims to develop a set of algorithms that detect the dialect of a given text. For example, given a text in Spanish, DialectId predicts the Spanish-speaking country from which the text comes. 
 
-`dialectid` is available for Arabic (ar), German (de), English (en), Spanish (es), French (fr), Dutch (nl), Portuguese (pt), Russian (ru), Turkish (tr), and Chinese (zh).
+`DialectId` is available for Arabic (ar), German (de), English (en), Spanish (es), French (fr), Dutch (nl), Portuguese (pt), Russian (ru), Turkish (tr), and Chinese (zh).
 :::
 
 ::: {.card title='Installing using conda' .flow}
 
-`dialectid` can be install using the conda package manager with the following instruction.
+`DialectId` can be install using the conda package manager with the following instruction.
 
 ```{sh} 
 conda install --channel conda-forge dialectid
@@ -108,27 +416,16 @@ conda install --channel conda-forge dialectid
 ::: 
 
 ::: {.card title='Installing using pip' .flow} 
-A more general approach to installing `dialectid` is through the use of the command pip, as illustrated in the following instruction.
+A more general approach to installing `DialectId` is through the use of the command pip, as illustrated in the following instruction.
 
 ```{sh} 
 pip install dialectid
 ```
 ::: 
 
-::: {.card title='Countries' .flow}
-```{python}
-#| echo: true
-#| label: countries
-
-from dialectid import DialectId
-detect = DialectId(lang='es')
-detect.countries
-```
-:::
-
-## Column 
-
 ::: {.card title='Dialect Identification' .flow}
+`DialectId` can be used to predict the dialect of a list of texts using the method `predict` as seen in the following lines. The first line imports the `DialectId` class, the second instantiates the class in the Spanish language, and finally, the third line predicts two utterances. The first corresponds to an expression that would be common in Mexico, and the second is an expression that could be associated with Argentina, Uruguay, Chile, and other South American countries. 
+
 ```{python} 
 #| echo: true
 #| label: Identification
@@ -140,7 +437,24 @@ detect.predict(['comiendo unos tacos',
 ```
 :::
 
+## Column
+
+::: {.card title='Countries' .flow}
+The available dialects for each language can be identified in the attribute `countries`, as seen in the following snippet for Spanish.
+
+```{python}
+#| echo: true
+#| label: countries
+
+from dialectid import DialectId
+detect = DialectId(lang='es')
+detect.countries
+```
+:::
+
 ::: {.card title='Decision Function' .flow}
+One might be interested in all the countries from which the speaker could come. To facilitate this, one can use the `decision_function` method. DialectId uses linear Support Vector Machines (SVM) as classifiers; consequently, the positive values in the `decision_function` are interpreted as belonging to the positive class, i.e., a particular country. The following code exemplifies this idea: the first two lines import and instantiate the `DialectId` class in Spanish. The third line computes the decision-function values; it returns a two-dimensional array where the first dimension corresponds to the number of texts. In this case, it keeps only the decision-function values, where the positive values indicate the presence of the particular country. The fourth line sorts the values where the highest value is the first element. The fifth line retrieves the country and its associated decision-function values, considering only those countries with positive values. 
+
 ```{python} 
 #| echo: true
 #| label: Distance
@@ -155,6 +469,8 @@ index = df.argsort()[::-1]
 :::
 
 ::: {.card title='Probability' .flow}
+In some situations, one is interested in the probability instead of the decision-function values of a linear SVM. The probability can be computed using the `predict_proba` method. The following code exemplifies this idea: the first line imports the `DialectId` class as in previous examples. The second line differs from the last example in that the parameter `probability` is set to true. The rest of the lines are almost equivalent to the previous example. 
+
 ```{python} 
 #| echo: true
 #| label: Probability
@@ -172,8 +488,15 @@ index = prob.argsort()[::-1]
 
 ## Column {.tabset} 
 
-
 ::: {.card title='Arabic (ar)'}
+```{python}
+#| echo: false
+#| label: fig-arabic
+#| fig-cap: Number of tweets in the collection for the Arabic-speaking countries. 
+
+distribution_by_time('ar')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-arabic
@@ -186,6 +509,14 @@ Markdown(dataset_info('ar').to_markdown(index=False))
 ::: {.card title='German (de)'}
 ```{python}
 #| echo: false
+#| label: fig-german
+#| fig-cap: Number of tweets in the collection for the German-speaking countries. 
+
+distribution_by_time('de')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-german
 #| tbl-cap: Number of tweets in the training and test sets for the German-speaking countries.
 
@@ -194,6 +525,14 @@ Markdown(dataset_info('de').to_markdown(index=False))
 :::
 
 ::: {.card title='English (en)'}
+```{python}
+#| echo: false
+#| label: fig-english
+#| fig-cap: Number of tweets in the collection for the English-speaking countries. 
+
+distribution_by_time('en')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-english
@@ -206,6 +545,14 @@ Markdown(dataset_info('en').to_markdown(index=False))
 ::: {.card title='Spanish (es)'}
 ```{python}
 #| echo: false
+#| label: fig-spanish
+#| fig-cap: Number of tweets in the collection for the Spanish-speaking countries. 
+
+distribution_by_time('es')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-spanish
 #| tbl-cap: Number of tweets in the training and test sets for the Spanish-speaking countries.
 
@@ -214,6 +561,14 @@ Markdown(dataset_info('es').to_markdown(index=False))
 :::
 
 ::: {.card title='French (fr)'}
+```{python}
+#| echo: false
+#| label: fig-french
+#| fig-cap: Number of tweets in the collection for the French-speaking countries. 
+
+distribution_by_time('fr')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-french
@@ -226,6 +581,14 @@ Markdown(dataset_info('fr').to_markdown(index=False))
 ::: {.card title='Dutch (nl)'}
 ```{python}
 #| echo: false
+#| label: fig-dutch
+#| fig-cap: Number of tweets in the collection for the Dutch-speaking countries. 
+
+distribution_by_time('nl')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-dutch
 #| tbl-cap: Number of tweets in the training and test sets for the Dutch-speaking countries.
 
@@ -234,6 +597,14 @@ Markdown(dataset_info('nl').to_markdown(index=False))
 :::
 
 ::: {.card title='Portuguese (pt)'}
+```{python}
+#| echo: false
+#| label: fig-portuguese
+#| fig-cap: Number of tweets in the collection for the Portuguese-speaking countries. 
+
+distribution_by_time('pt')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-portuguese
@@ -246,6 +617,14 @@ Markdown(dataset_info('pt').to_markdown(index=False))
 ::: {.card title='Russian (ru)'}
 ```{python}
 #| echo: false
+#| label: fig-russian
+#| fig-cap: Number of tweets in the collection for the Russian-speaking countries. 
+
+distribution_by_time('ru')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-russian
 #| tbl-cap: Number of tweets in the training and test sets for the Russian-speaking countries.
 
@@ -254,6 +633,14 @@ Markdown(dataset_info('ru').to_markdown(index=False))
 :::
 
 ::: {.card title='Turkish (tr)'}
+```{python}
+#| echo: false
+#| label: fig-turkish
+#| fig-cap: Number of tweets in the collection for the Turkish-speaking countries. 
+
+distribution_by_time('tr')
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-turkish
@@ -266,6 +653,14 @@ Markdown(dataset_info('tr').to_markdown(index=False))
 ::: {.card title='Chinese (zh)'}
 ```{python}
 #| echo: false
+#| label: fig-chinese
+#| fig-cap: Number of tweets in the collection for the Chinese-speaking countries. 
+
+distribution_by_time('zh')
+```
+
+```{python}
+#| echo: false
 #| label: tbl-chinese
 #| tbl-cap: Number of tweets in the training and test sets for the Chinese-speaking countries.
 
@@ -275,23 +670,117 @@ Markdown(dataset_info('zh').to_markdown(index=False))
 
 ## Column 
 
-::: {.card title="Description"}
-The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: retweets were removed; URLs and usernames were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were included in the final collection. 
+::: {.card title="Description" .flow}
+The dataset used to create the self-supervised problems is a collection of Tweets collected from the open stream for several years, i.e., the Spanish collection started on December 11, 2015; English on July 1, 2016; Arabic on January 25, 2017; Russian on October 16, 2018; and the rest of the languages on June 1, 2021. In all the cases, the last day collected was June 9, 2023. The collected Tweets were filtered with the following restrictions: retweets were removed; URLs and usernames were replaced by the tokens _url and _usr, respectively; and only tweets with at least 50 characters were included in the final collection. The column **Corpus** in @tbl-arabic and @fig-arabic show the number of tweets collected for the Arabic-speaking countries. The figure shows that there are days when more tweets are collected, and there is a tendency to collect fewer tweets in 2023 due to changes in the Twitter API. The data corresponding to German, English, Spanish, French, Dutch, Portuguese, Russian, Turkish, and Chinese are shown in @tbl-german, @tbl-english, @tbl-spanish, @tbl-french, @tbl-dutch, @tbl-portuguese, @tbl-russian, @tbl-turkish, and @tbl-chinese; and @fig-german, @fig-english, @fig-spanish, @fig-french, @fig-dutch, @fig-portuguese, @fig-russian, @fig-turkish, and @fig-chinese.
 
-The corpora are divided into two sets: the first set is used as a training set, i.e., to estimate the parameters, while the second set corresponds to the test set, which could be used to measure the model's performance. The basis for this division is a specific date, with tweets published before October 1, 2022, forming the first set. Those published on or after October 3, 2022, are being used to create the test set. 
+The corpora are used to create two pairs of training and test sets. The training sets are drawn from tweets published before October 1, 2022, and the test sets are taken from tweets published on or after October 3, 2022. The procedure for creating the set pairs consists of two stages. In the first stage, the tweets were organized by country and then selected to form a uniform distribution by day. Within each day, near duplicates were removed. Then, a three-day sliding window was used to remove near duplicates within the window. The final step was to shuffle the data to remove the ordering by date, respecting the limit between the training and test sets.
 
-The procedure has two stages. Two datasets were created for each country and language in the first stage. The first one contains $2^{23}$ (8 million) tweets, and the second has $2^{12}$ (4,096) tweets; the former will be used to create the training set, and the latter corresponds to the test set. These two sets were constructed using tweets with geographic information and filtered according to the language information provided by Twitter. Each set was meticulously crafted to follow, as closely as possible, a uniform distribution of the days. Within each day, near duplicates were removed. Then, a three-day sliding window was used to remove near duplicates within the window. The final step was to shuffle the data to remove the ordering by date. 
+The tweets of the first pair were selected to follow a uniform distribution by country as closely as possible. In this pair, the size of the training set is roughly 2 million tweets, whereas the test set size is $2^{12}$ (4,096) tweets per country. We also produce a smaller training set containing 262 thousand tweets. The procedure is equivalent to the previous one, aiming to have a uniform distribution of the countries. The column identified with the legend **train** in @tbl-arabic, @tbl-german, @tbl-english, @tbl-spanish, @tbl-french, @tbl-dutch, @tbl-portuguese, @tbl-russian, @tbl-turkish, and @tbl-chinese shows the size of the training set, and the column **test** indicates the size of the test set in the first pair of training and test sets. It is worth mentioning that we did not have enough information for all the countries and languages to follow an exactly uniform distribution. For example, @tbl-spanish (Spanish) notes that for Puerto Rico (pr), 1,487 tweets in the test set correspond to the total number of available tweets that meet the imposed restrictions. 
 
-In the second stage, training sets are created for each language. Each training set contains $2^{21}$ (2 million) tweets. The procedure used to develop the training consists of drawing tweets from the sets created in the first stage, which have a size of $2^{12}$. The sampling procedure aims to develop training sets that follow a uniform distribution by country. We also produce a smaller training set containing $2^{18}$ (262 thousand) tweets. The procedure is equivalent to the previous one; the aim is to have a uniform distribution of the countries. 
+The second pair of tweets was selected to follow the original distribution of the corpus; in this case, the training and test set has a maximum size of 2 million tweets. The process of selecting the tweets was set as a convex optimization problem where the objective is to maximize the number of tweets subject to a maximum of 2 million ($2^{21}$), and the availability of tweets for each country, and the distribution is given by all the tweets available. The column identified with the legend **train (orig. dist.)** in @tbl-arabic, @tbl-german, @tbl-english, @tbl-spanish, @tbl-french, @tbl-dutch, @tbl-portuguese, @tbl-russian, @tbl-turkish, and @tbl-chinese shows the size of the training set, and the column **test (orig. dist.)** indicates the size of the test set in the second pair of training and test sets. 
+:::
 
-It is worth mentioning that we did not have enough information for all the countries and languages to follow an exactly uniform distribution. For example, it can be observed in @tbl-spanish (Spanish) that for Puerto Rico (pr), there are only 12,407 tweets in the training set and 1,487 tweets in the test set, which correspond to the total number of available tweets that met the imposed restrictions.
+# DialectId
+
+## Column 
+
+`DialectId` is a text classifier based on a Bag of Words (BoW) representation with a linear Support Vector Machine (SVM) as the classifier.
+
+The normalization procedure used in the BoW corresponds to setting all characters to lowercase, removing diacritics, and replacing usernames and URLs with the tags "_usr" and "_url", respectively.
+
+The BoW representation weights the tokens with the term frequency and inverse document frequency (TF-IDF). The tokens correspond to words, bi-grams of words, and q-grams of characters (with q=4, 3, 2). The tokens and weights were estimated using each language's training dataset (2 million tweets). The tokens (vocabulary) with higher frequency in the training set were kept. We developed systems for different vocabulary sizes, i.e., $2^{17}$, $2^{18}$, and $2^{19}.$
+
+The BoW can be used by importing the `BoW` class, as seen in the following example, where the *good morning* text is transformed into a vector space. The first line imports the class, the second line instantiates the class, where the parameter `token_max_filter` indicates the vocabulary size, and the third line converts the text into a vector space.
+
+```{python}
+#| echo: true
+
+from dialectid import BoW
+bow = BoW(lang='en', token_max_filter=2**18)
+bow.transform(['good morning'])
+```
+
+Each text in the training set is represented in the vector space, and the associated country is retained for use in a linear SVM using the one-vs-all strategy. The approach creates as many binary classification problems as there are different classes. In the binary problems, each class corresponds to the positive class exactly once, and it is the negative class in the remaining cases. Traditionally, one uses all the information in the approach, which is the case for the reduced training set (262 thousand tweets). Nonetheless, in the full training set, the negative examples were limited to the maximum number of positive elements or $2^{14}$ tweets. In both cases, the examples are weighted inversely proportional to class frequencies to treat an imbalanced dataset.
+
+Complementing the previous example, the following code instantiates the `DialectId` in Spanish using a vocabulary size of $2^{18}$ indicated by the parameters `lang` and `token_max_filter`, respectively.
+
+::: {.flow}
+```{python}
+#| echo: true
+
+from dialectid import DialectId
+detect = DialectId(lang='es', token_max_filter=2**18)
+detect.predict(['comiendo unos tacos'])
+```
+::: 
+
+## Column 
+
+A drawback of using SVM is that it does not estimate the classification probability. For some applications, it is more amenable to calculate the probability instead of the decision-function value. Thus, the developed systems are calibrated to estimate the probability by training a logistic regression using the SVM's decision function as inputs. The calibration procedure involves predicting the SVM's decision function on the reduced training set using stratified k-fold cross-validation (k = 3). The decision functions predicted are the inputs of the logistic regression, and the classes are the ones in the reduced training set; the parameters that weight each example inversely proportional to class frequencies are used in this case. To invoke the model using probability, the parameter `probability` must be set to true, as shown in the following example.
+
+::: {.flow}
+```{python}
+#| echo: true
+
+from dialectid import DialectId
+detect = DialectId(lang='es', probability=True)
+detect.predict_proba(['comiendo unos tacos'])
+```
+:::
+
+As described previously, there are two training sets: one that follows a uniform distribution in the countries as closely as possible, and the second one that follows the distribution seen in the corpus, namely the original distribution (identified as orig. dist.). The parameter `uniform_distribution` indicates which training set is used to estimate the parameters. By default, the parameter is set to true to use the training sets with uniform distribution in the countries.
+
+::: {.flow}
+```{python}
+#| echo: true
+
+from dialectid import DialectId
+detect = DialectId(lang='es',
+                   uniform_distribution=False,
+                   probability=True)
+detect.predict_proba(['comiendo unos tacos'])
+```
 :::
 
 # Performance
 
-## Column {.tabset}
+## Column {.tabset .flow}
 
 ::: {.card title='Macro-recall'}
+```{python}
+#| echo: false
+#| tbl-cap: Performance of the different algorithms and languages.
+#| label: tbl-macro-recall
+
+if not isfile('perf/uniform_dist.json'):    
+    df = pd.DataFrame()
+    todos = []
+    index = []
+    for lang in ['es', 'en', 'ar',
+                'de', 'fr', 'nl',
+                'pt', 'ru', 'tr',
+                'zh']:
+        pred_dirname = f'dialectid-datasets/predictions/{lang}'
+        gold = np.array(next(tweet_iterator(join(pred_dirname, 'y.json')))['y'])
+        row = {}
+        for alg in ORDER:
+            fname_pred = join(pred_dirname, f'{alg}.json')
+            data = next(tweet_iterator(fname_pred))
+            key = basename(fname_pred).split('.json')[0]
+            if key == 'y':
+                continue
+            row[key] = recall_score(gold, np.array(data), average='macro')
+        todos.append(row)
+        index.append(lang)
+    df = pd.DataFrame(todos, index=['Spanish', 'English', 'Arabic',
+                                    'German', 'French', 'Dutch',
+                                    'Portuguese', 'Russian', 'Turkish', 'Chinese'])
+    df.to_json('perf/uniform_dist.json')
+else:
+    df = pd.read_json('perf/uniform_dist.json')
+Markdown(df.T.reset_index(names='Language').to_markdown(index=False, floatfmt=".4f"))
+```
+
 ```{python}
 #| echo: false
 #| fig-cap: Performance of the different algorithms and languages. 
@@ -299,7 +788,7 @@ It is worth mentioning that we did not have enough information for all the count
 
 df = pd.DataFrame()
 for lang in ['es', 'en', 'ar',
-             'de', 'fr', 'nl', 
+             'de', 'fr', 'nl',
              'pt', 'ru', 'tr',
              'zh']:
     pred_dirname = f'dialectid-datasets/predictions/{lang}'
@@ -320,103 +809,573 @@ f_grid = sns.catplot(df, x='macro-recall', y='Algorithm', col_wrap=3,
 ```
 :::
 
-::: {.card title='Arabic (recall)'}
 
+::: {.card title='Macro-recall (Orig. Dist.)' .flow}
 ```{python}
 #| echo: false
-#| label: Arabic-perf
+#| tbl-cap: Performance of the different algorithms and languages on the original distribution.
+#| label: tbl-macro-recall-orig-dist
 
-country_recall('ar')
+if not isfile('perf/orig_dist.json'):    
+    df = pd.DataFrame()
+    order = [x for x in ORDER if '262k' not in x]
+    todos = []
+    index = []
+    for lang in ['es', 'en', 'ar',
+                'de', 'fr', 'nl',
+                'pt', 'ru', 'tr',
+                'zh']:
+        pred_dirname = f'dialectid-datasets/predictions/dist-{lang}'
+        gold = np.array(next(tweet_iterator(join(pred_dirname, 'y.json.gz')))['y'])
+        row = {}
+        for alg in order:
+            fname_pred = join(pred_dirname, f'{alg}.json.gz')
+            data = next(tweet_iterator(fname_pred))
+            key = basename(fname_pred).split('.json')[0]
+            if key == 'y':
+                continue
+            row[key] = recall_score(gold, np.array(data), average='macro')
+        todos.append(row)
+        index.append(lang)
+    df = pd.DataFrame(todos, index=['Spanish', 'English', 'Arabic',
+                                    'German', 'French', 'Dutch',
+                                    'Portuguese', 'Russian', 'Turkish', 'Chinese'])
+    df.to_json('perf/orig_dist.json')
+else:
+    df = pd.read_json('perf/orig_dist.json')
+Markdown(df.T.reset_index(names='Language').to_markdown(index=False, floatfmt=".4f"))
 ```
-::: 
+:::
 
-::: {.card title='German (recall)'}
+::: {.card title='Arabic' .flow}
 ```{python}
 #| echo: false
-#| label: German-perf
+#| label: fig-arabic-dist
+#| fig-cap: Distributions of Arabic-speaking countries.
 
-country_recall('de', col_wrap=None)
+dist_lang('ar')
 ```
-::: 
+:::
 
-::: {.card title='English (recall)'}
+::: {.card title='German' .flow}
 ```{python}
 #| echo: false
-#| label: English-perf
+#| label: fig-german-dist
+#| fig-cap: Distributions of German-speaking countries. 
 
-country_recall('en', col_wrap=7)
+dist_lang('de')
 ```
-::: 
+:::
 
-::: {.card title='Spanish (recall)'}
+::: {.card title='English' .flow}
 ```{python}
 #| echo: false
-#| label: Spanish-perf
+#| label: fig-english-dist
+#| fig-cap: Distributions of English-speaking countries.
 
-country_recall('es')
+dist_lang('en')
 ```
-::: 
+:::
 
-::: {.card title='French (recall)'}
+::: {.card title='Spanish' .flow}
 ```{python}
 #| echo: false
-#| label: French-perf
+#| label: fig-spanish-dist
+#| fig-cap: Distributions of Spanish-speaking countries.
 
-country_recall('fr')
+dist_lang('es')
 ```
-::: 
+:::
 
-::: {.card title='Dutch (recall)'}
+::: {.card title='French' .flow}
 ```{python}
 #| echo: false
-#| label: Dutch-perf
+#| label: fig-french-dist
+#| fig-cap: Distributions of French-speaking countries.
 
-country_recall('nl', col_wrap=None)
+dist_lang('fr')
 ```
-::: 
+:::
 
-::: {.card title='Portuguese (recall)'}
+::: {.card title='Dutch' .flow}
 ```{python}
 #| echo: false
-#| label: Portuguese-perf
+#| label: fig-dutch-dist
+#| fig-cap: Distributions of Dutch-speaking countries.
 
-country_recall('pt', col_wrap=3)
+dist_lang('nl')
 ```
-::: 
+:::
 
-::: {.card title='Russian (recall)'}
+::: {.card title='Portuguese' .flow}
 ```{python}
 #| echo: false
-#| label: Russian-perf
+#| label: fig-portuguese-dist
+#| fig-cap: Distributions of Portuguese-speaking countries.
 
-country_recall('ru', col_wrap=2)
+dist_lang('pt')
 ```
-::: 
+:::
 
-::: {.card title='Turkish (recall)'}
+::: {.card title='Russian' .flow}
 ```{python}
 #| echo: false
-#| label: Turkish-perf
+#| label: fig-russian-dist
+#| fig-cap: Distributions of Russian-speaking countries.
 
-country_recall('tr', col_wrap=None)
+dist_lang('ru')
 ```
-::: 
+:::
 
-::: {.card title='Chinese (recall)'}
+::: {.card title='Turkish' .flow}
 ```{python}
 #| echo: false
-#| label: Chinese-perf
+#| label: fig-turkish-dist
+#| fig-cap: Distributions of Turkish-speaking countries.
 
-country_recall('zh', col_wrap=2)
+dist_lang('tr')
 ```
-::: 
+:::
 
+::: {.card title='Chinese' .flow}
+```{python}
+#| echo: false
+#| label: fig-chinese-dist
+#| fig-cap: Distributions of Chinese-speaking countries.
+
+dist_lang('zh')
+```
+:::
 
 ## Column 
 
 ::: {.card title='Performance'}
+The performance, using macro-recall, of `DialectId` with different parameters and `StackBoW` (@GRAFF2025100154, @EvoMSA), used as baseline, is presented in @tbl-macro-recall and @tbl-macro-recall-orig-dist. @tbl-macro-recall shows the performance on the test set that has at most 2048 in all countries, and @tbl-macro-recall-orig-dist presents the performance on the test set that follows the original distribution across countries. 
 
-The performance of different algorithms is presented in @fig-macro-recall using macro-recall. The best-performing system in almost all cases is DialectId, which is trained on 2 million tweets and has a vocabulary of 500,000 tokens. The exception are Turkish and Dutch, where the best systems is StackBoW trained with only 262k tweets.
+The notation used is as follows: the number in brackets indicates the vocabulary size, the systems with the number 626k in parentheses show the performance of the systems trained with the small training set. The system identified with the label **Orig. Dist.** indicates that it is trained on the training set that follows the original distribution; the rest of the systems are trained with the training set that has a uniform distribution across countries.
 
-The remaining figures provide details on macro-recall by presenting the system's recall in each country. 
+It can be observed in @tbl-macro-recall that `DialectId` outperforms the baseline (`StackBoW`) in almost all languages except in Dutch and Turkish. It is essential to note that the training set size of these languages is less than 600k tweets. `DialectId` trained with the uniform distribution training set outperformed the system trained with the original distribution training set; this behaviour is expected because the original distribution training set provides fewer examples in the minority classes; however, macro-recall gives the same weight to all classes. `DialectId` with a vocabulary size of $2^{19}$ obtained the best performance in Spanish, English, Arabic, French, Portuguese, Russian, and Chinese. `DialectId` using a vocabulary size of $2^{18}$ obtained the best performance in German; this could be the result that the training set size is 94k tweets, which might not be enough to train a greater vocabulary size. The other language with fewer examples is Chinese; in this case, the difference in performance of `DialectId` with $2^{18}$ and $2^{19}$ is not statistically significant, as can be seen in @fig-macro-recall.
+
+`DialectId` aims to estimate the likelihood of origin of a text; one of its applications could be to calculate the distribution of dialects of a set of texts. The performance has been presented using macro-recall; however, this measure does not provide information about the closeness of the distribution computed with `DialectId.` To provide information, @tbl-pearsonr presents the Pearson correlation coefficient in the test set, which follows the original distribution of the `DialectId` with a vocabulary size of $2^{19}$ trained with the two training sets. It can be observed that in all the countries, the correlation is above 0.9. The lowest value is in Spanish, where the system trained with the uniform distribution achieved 0.9063, while the other system achieved 0.9824. `DialectId` trained with the original distribution has correlation coefficients above 0.98 in all the cases; however, it is the system with the lowest macro-recall in all the cases. The table includes the system `DialectId`(Bias), which is equivalent to `DialectId` trained on the uniform distribution, with the difference that the probabilities are weighted by the proportion of each country measured in the training set of the original distribution. It can be observed that in all the cases, `DialectId`(Bias) has a correlation greater than 0.97.
+
+To complement the information presented in @tbl-pearsonr, @fig-arabic-dist, @fig-german-dist, @fig-english-dist, @fig-spanish-dist, @fig-french-dist, @fig-dutch-dist, @fig-portuguese-dist, @fig-russian-dist, @fig-turkish-dist, and @fig-chinese-dist present these distributions for Arabic, German, English, Spanish, French, Dutch, Portuguese, Russian, Turkish, and Chinese; all the figures follow an equivalent notation. For example, @fig-spanish-dist shows in the blue line the distribution measured in the test set, the broad orange line presents the distribution obtained with the prediction made by `DialectId` trained in the uniform distribution, and the wide green line presents the distribution obtained with the `DialectId` (trained with the original distribution) predictions. 
+
+The figure also includes, in thin lines, estimated distributions, with the two versions of `DialectId,` from a dataset where there is no geographic information, so it is impossible to measure the actual distribution. The dataset comes from the same period as the test set, and it follows a treatment equivalent to the test set, such as the near duplicates are removed among other constraints. It can be observed that the thin lines follow the wide lines in almost all countries, except in the Dominican Republic. These later distributions (i.e., thin lines) show one of the applications of DialectId, which is to estimate the dialect of texts from a collection where the information is not available.  
 ::: 
+
+```{python}
+#| echo: false
+#| tbl-cap: Pearson correlation coefficient of the different algorithms and languages.
+#| label: tbl-pearsonr
+
+df = correlation()
+Markdown(df.reset_index(names='Language').to_markdown(index=False, floatfmt='0.4f'))
+```
+
+# Spanish
+
+## Column {.tabset .flow} 
+
+::: {.card title='United States'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion United States. 
+#| label: fig-es-us
+
+country_dist('us')
+```
+:::
+
+::: {.card title='Brazil'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Brazil. 
+#| label: fig-es-br
+
+country_dist('br')
+```
+:::
+
+::: {.card title='Great Britain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain. 
+#| label: fig-es-gb
+
+country_dist('gb')
+```
+:::
+
+::: {.card title='Italy'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy. 
+#| label: fig-es-it
+
+country_dist('it')
+```
+:::
+
+::: {.card title='France'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion France. 
+#| label: fig-es-fr
+
+country_dist('fr')
+```
+:::
+
+::: {.card title='Canada'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Canada. 
+#| label: fig-es-ca
+
+country_dist('ca')
+```
+:::
+
+::: {.card title='Germany'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Germany. 
+#| label: fig-es-de
+
+country_dist('de')
+```
+:::
+
+::: {.card title='Portugal'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Portugal. 
+#| label: fig-es-pt
+
+country_dist('pt')
+```
+:::
+
+## Column 
+
+::: {.card title="Description"}
+
+```{python}
+#| echo: false
+#| label: tbl-spanish-dest
+#| tbl-cap: Probability of the origin of Tweets in different non-Spanish-speaking countries. 
+
+countries = np.array(['us', 'br', 'gb', 'it', 'fr', 'ca', 'de', 'pt'])
+df = hypothesis('es', countries=countries)
+df = df[countries]
+df.columns = coco.convert(df.columns, to='name_short')
+Markdown(df.reset_index(names=['Country']).to_markdown(index=False, floatfmt=".3f"))
+```
+:::
+
+# English
+
+## Column {.tabset} 
+
+::: {.card title='Malaysia'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Malaysia. 
+#| label: fig-en-my
+
+country_dist('my', lang='en')
+```
+:::
+
+::: {.card title='Indonesia'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Indonesia. 
+#| label: fig-en-id
+
+country_dist('id', lang='en')
+```
+:::
+
+
+::: {.card title='Brasil'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Brasil. 
+#| label: fig-en-br
+
+country_dist('br', lang='en')
+```
+:::
+
+::: {.card title='Germany'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Germany. 
+#| label: fig-en-de
+
+country_dist('de', lang='en')
+```
+:::
+
+::: {.card title='Spain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Spain. 
+#| label: fig-en-es
+
+country_dist('es', lang='en')
+```
+:::
+
+::: {.card title='France'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion France. 
+#| label: fig-en-fr
+
+country_dist('fr', lang='en')
+```
+:::
+
+::: {.card title='Italy'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy. 
+#| label: fig-en-it
+
+country_dist('it', lang='en')
+```
+:::
+
+::: {.card title='United Arab Emirates'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion United Arab Emirates. 
+#| label: fig-en-ae
+
+country_dist('ae', lang='en')
+```
+:::
+
+
+## Column 
+
+::: {.card title="Description"}
+
+```{python}
+#| echo: false
+#| label: tbl-english-dest
+#| tbl-cap: Probability of the origin of Tweets in different non-English-speaking countries. 
+
+countries = np.array(['my', 'id', 'br', 'de', 'es', 'fr', 'it', 'ae'])
+df = hypothesis('en', countries=countries)
+df = df[countries]
+df.columns = coco.convert(df.columns, to='name_short')
+Markdown(df.reset_index(names=['Country']).to_markdown(index=False, floatfmt=".3f"))
+```
+:::
+
+
+# Arabic
+
+## Column {.tabset} 
+
+::: {.card title='United States'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion United States. 
+#| label: fig-ar-us
+
+country_dist('us', lang='ar')
+```
+:::
+
+::: {.card title='Great Britain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain. 
+#| label: fig-ar-gb
+
+country_dist('gb', lang='ar')
+```
+:::
+
+::: {.card title='Turkey'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Turkey. 
+#| label: fig-ar-tr
+
+country_dist('tr', lang='ar')
+```
+:::
+
+::: {.card title='Germany'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Germany. 
+#| label: fig-ar-de
+
+country_dist('de', lang='ar')
+```
+:::
+
+::: {.card title='France'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion France. 
+#| label: fig-ar-fr
+
+country_dist('fr', lang='ar')
+```
+:::
+
+::: {.card title='Canada'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Canada. 
+#| label: fig-ar-ca
+
+country_dist('ca', lang='ar')
+```
+:::
+
+::: {.card title='Australia'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Australia. 
+#| label: fig-ar-au
+
+country_dist('au', lang='ar')
+```
+:::
+
+::: {.card title='Italy'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy. 
+#| label: fig-ar-it
+
+country_dist('it', lang='ar')
+```
+:::
+
+## Column 
+
+::: {.card title="Description"}
+
+```{python}
+#| echo: false
+#| label: tbl-arabic-dest
+#| tbl-cap: Probability of the origin of Tweets in different non-Arabic-speaking countries. 
+
+countries = np.array(['us', 'gb', 'tr', 'de', 'fr', 'ca', 'au', 'it'])
+df = hypothesis('ar', countries=countries)
+df = df[countries]
+df.columns = coco.convert(df.columns, to='name_short')
+Markdown(df.reset_index(names=['Country']).to_markdown(index=False, floatfmt=".3f"))
+```
+:::
+
+
+# French
+
+## Column {.tabset} 
+
+::: {.card title='United States'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion United States. 
+#| label: fig-fr-us
+
+country_dist('us', lang='fr')
+```
+:::
+
+::: {.card title='Moroco'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Moroco. 
+#| label: fig-fr-ma
+
+country_dist('ma', lang='fr')
+```
+:::
+
+::: {.card title='Spain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Spain. 
+#| label: fig-fr-es
+
+country_dist('es', lang='fr')
+```
+:::
+
+::: {.card title='Guadeloupe'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Guadeloupe. 
+#| label: fig-fr-gp
+
+country_dist('gp', lang='fr')
+```
+:::
+
+::: {.card title='Great Britain'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Great Britain. 
+#| label: fig-fr-gb
+
+country_dist('gb', lang='fr')
+```
+:::
+
+::: {.card title='Italy'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Italy. 
+#| label: fig-fr-it
+
+country_dist('it', lang='fr')
+```
+:::
+
+::: {.card title='Algeria'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Algeria. 
+#| label: fig-fr-dz
+
+country_dist('dz', lang='fr')
+```
+:::
+
+::: {.card title='Tanzania'}
+```{python}
+#| echo: false
+#| fig-cap: Distribution estimated with DialectId on the Tweets having as geographic informacion Tanzania. 
+#| label: fig-fr-tz
+
+country_dist('tz', lang='fr')
+```
+:::
+
+## Column 
+
+::: {.card title="Description"}
+
+```{python}
+#| echo: false
+#| label: tbl-french-dest
+#| tbl-cap: Probability of the origin of Tweets in different non-French-speaking countries. 
+
+countries = np.array(['us', 'ma', 'es', 'gp', 'gb', 'it', 'dz', 'tz'])
+df = hypothesis('fr', countries=countries)
+df = df[countries]
+df.columns = coco.convert(df.columns, to='name_short')
+Markdown(df.reset_index(names=['Country']).to_markdown(index=False, floatfmt=".3f"))
+```
+:::

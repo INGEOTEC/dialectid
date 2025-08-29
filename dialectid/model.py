@@ -79,10 +79,8 @@ class DialectId(EncExpT):
     def seqTM(self, value):
         self._seqTM = value
 
-    def predict_proba(self, texts: list):
-        """Predict proba"""
-        assert self.probability
-        X = self.transform(texts)
+    def _predict_proba(self, X: np.ndarray):
+        """Predict probability helper function"""
         norm = Normalizer()
         X = norm.transform(X)
         coef, intercept = self.proba_coefs
@@ -91,6 +89,12 @@ class DialectId(EncExpT):
             expit(res, out=res)
             return np.c_[1 - res, res]
         return softmax(res)
+
+    def predict_proba(self, texts: list):
+        """Predict proba"""
+        assert self.probability
+        X = self.transform(texts)
+        return self._predict_proba(X)
     
     def decision_function(self, texts: list):
         """Decision function"""
@@ -98,6 +102,23 @@ class DialectId(EncExpT):
         if X.shape[1] == 1:
             X = np.c_[-X[:, 0], X[:, 0]]
         return X
+    
+    def positive(self, texts: list):
+        """Positive classes"""
+        X = self.transform(texts)
+        X_df = X
+        if X_df.shape[1] == 1:
+            X_df = np.c_[-X_df[:, 0], X_df[:, 0]]
+        if self.probability:
+            X = self._predict_proba(X)
+        else:
+            X = X_df
+        output = []
+        labels = self.countries
+        for mask, value in zip(X_df > 0, X):
+            _ = {str(k): v for k, v in zip(labels[mask], value[mask])}
+            output.append(_)
+        return output
 
     def predict(self, texts: list):
         """predict"""
