@@ -138,3 +138,17 @@ def test_DialectId_model():
     dial = DialectId(lang='es')
     assert len(dial.countries) == 21
     dial.predict(['comiendo unos tacos'])
+
+
+def test_DialectId_positive():
+    """Test DialectID"""
+
+    dial = DialectId(lang='es')
+    output1 = dial.positive(['comiendo unos tacos'])
+    assert 'mx' in output1[0] and 'gt' in output1[0]
+    dial.probability = True
+    output2 = dial.positive(['comiendo unos tacos'])
+    assert len(output2) == len(output1)
+    for probability in [True, False]:
+        dial = DialectId(lang='tr', probability=probability)
+        dial.positive(['comiendo unos tacos'])
