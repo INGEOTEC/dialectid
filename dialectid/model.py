@@ -103,7 +103,8 @@ class DialectId(EncExpT):
             X = np.c_[-X[:, 0], X[:, 0]]
         return X
     
-    def positive(self, texts: list):
+    def positive(self, texts: list,
+                 margin: float=0):
         """Positive classes"""
         X = self.transform(texts)
         X_df = X
@@ -115,7 +116,7 @@ class DialectId(EncExpT):
             X = X_df
         output = []
         labels = self.countries
-        for mask, value in zip(X_df > 0, X):
+        for mask, value in zip(X_df > margin, X):
             _ = {str(k): v for k, v in zip(labels[mask], value[mask])}
             output.append(_)
         return output

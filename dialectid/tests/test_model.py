@@ -146,6 +146,8 @@ def test_DialectId_positive():
     dial = DialectId(lang='es')
     output1 = dial.positive(['comiendo unos tacos'])
     assert 'mx' in output1[0] and 'gt' in output1[0]
+    output2 = dial.positive(['comiendo unos tacos'], margin=1)
+    assert len(output1[0]) > len(output2[0])
     dial.probability = True
     output2 = dial.positive(['comiendo unos tacos'])
     assert len(output2) == len(output1)
