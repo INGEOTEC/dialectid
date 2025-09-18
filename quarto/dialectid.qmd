@@ -30,7 +30,7 @@ import seaborn as sns
 from CompStats import metrics
 from CompStats import measurements
 import cvxpy as cp
-from sklearn.metrics import recall_score
+from sklearn.metrics import recall_score, precision_score
 from encexp.download import download
 from encexp.utils import DialectID_URL
 from microtc.utils import tweet_iterator
@@ -134,6 +134,15 @@ def hprob_test(lang):
     return  {k: v / norm for k, v in data.items()}
 
 
+def prob_hprob_test(lang):
+    fname = f'dialectid-datasets/predictions/dist-{lang}/DialectId[19] (prob).json.gz'
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update(_)
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}    
+
+
 def orig_dist_hprob_test(lang):
     fname = f'dialectid-datasets/predictions/dist-{lang}/DialectId[19] (Orig. Dist.).json.gz'
     if not isfile(fname):
@@ -153,7 +162,40 @@ def bias_hprob_test(lang):
     data = Counter()
     data.update(_)
     norm = sum(data.values())
-    return  {k: v / norm for k, v in data.items()} 
+    return  {k: v / norm for k, v in data.items()}
+
+
+def one_hprob_test(lang):
+    fname = f'dialectid-datasets/predictions/positive-{lang}/DialectId[19] (One).json.gz'
+    if not isfile(fname):
+        return None
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update([x[0] for x in _ if len(x) and x[1] == 1])
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def pos_hprob_test(lang):
+    fname = f'dialectid-datasets/predictions/positive-{lang}/DialectId[19] (Pos.).json.gz'
+    if not isfile(fname):
+        return None
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update([x[0] for x in _ if len(x) and x[1] == 1])
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}
+
+
+def mixed_hprob_test(lang):
+    fname = f'dialectid-datasets/predictions/positive-{lang}/DialectId[19] (Mixed).json.gz'
+    if not isfile(fname):
+        return None
+    _ = next(tweet_iterator(fname))
+    data = Counter()
+    data.update([x[0] for x in _ if len(x) and x[1] ==1])
+    norm = sum(data.values())
+    return  {k: v / norm for k, v in data.items()}    
 
 
 def prior_test(lang):
@@ -195,13 +237,21 @@ def dist_lang(lang):
     df = df.sort_values(by='Prob.', ascending=False)[:21]
     countries = set(df.Country)
     for func, name, origin in zip([hprob_test,
-                                   orig_dist_hprob_test, dist_all,
+                                   orig_dist_hprob_test,
+                                   bias_hprob_test,
+                                   pos_hprob_test,
+                                   one_hprob_test,
+                                   dist_all,
                                    dist_all_origin_dist],
-                                  ['Test set', 'Test set',
+                                  ['Test set', 'Test set', 'Test set',
+                                   'Test set', 'Test set',
                                    'w/o Geo. Inf.',
                                    'w/o Geo. Inf.'],
                                   ['DialectId',
                                    'DialectId (Orig. Dist.)',
+                                   'DialectId (Bias)',
+                                   'DialectId (Pos.)',
+                                   'DialectId (One)',
                                    'DialectId', 'DialectId (Orig. Dist.)']):
         _info = func(lang)
         if _info is None:
@@ -228,12 +278,12 @@ def country_dist(country, lang='es', drop=None):
     dataframe = pd.DataFrame()
     inferior = None
     superior = None
-    for alg in [0, 1]:
+    for alg in ['One', 'Default']:
         df = pd.read_json(f'countries/{lang}_{country}_{alg}.json.gz')
         if drop is not None:
             df.drop(columns=drop, inplace=True)
         df.columns = coco.convert(df.columns, to='name_short')
-        if alg == 0:
+        if alg == 'One':
             hue_order = df.sum(axis=0).sort_values(ascending=False).index.tolist()
             if len(hue_order) >= 19:
                 superior = hue_order[:19]
@@ -253,11 +303,11 @@ def country_dist(country, lang='es', drop=None):
         df2 = df2.divide(df2.sum(axis=1), axis=0)
         df2 = df2.melt(ignore_index=False, value_name='Probability', var_name='Dialect')
         df2.reset_index(inplace=True, names='Date')
-        df2['Algorithm'] = 'DialectId' if alg == 0 else 'DialectId (Orig. Dist.)'
+        df2['Algorithm'] = 'DialectId (One)' if alg == 'One' else 'DialectId'
         dataframe = pd.concat((dataframe, df2))
     _ = sns.relplot(dataframe, kind='line', x='Date', col='Algorithm', col_wrap=2,
                     hue_order=hue_order, style_order=hue_order,
-                    col_order=['DialectId', 'DialectId (Orig. Dist.)'],
+                    col_order=['DialectId (One)', 'DialectId'],
                     palette=color,
                     dashes=dashes, y='Probability',
                     style='Dialect', hue='Dialect')
@@ -305,10 +355,11 @@ def distribution_by_time(lang):
     # return sns.move_legend(fig, "upper right", ncol=3, frameon=True)
 
 
-def hypothesis(lang, alg=0,
+def hypothesis(lang, alg='One',
                countries=None):
     """Hypothesis"""
-    columns = None
+    
+    columns = DialectId(lang=lang).countries.tolist()
     data = []
     for country in countries:
         fname = f'countries/{lang}_{country}_{alg}.json.gz'
@@ -316,10 +367,9 @@ def hypothesis(lang, alg=0,
         df2 = df2.rolling(window=7 * 12).sum()
         df2.dropna(inplace=True)
         df2 = df2.divide(df2.sum(axis=1), axis=0)
-        if columns is None:
-            columns = sorted(df2.columns)
+        for mis in set(columns) - set(df2.columns):
+            df2[mis] = 0
         data.append(df2)
-
     index = data[0].index
     for d in data[1:]:
         index = index.intersection(d.index)
@@ -353,20 +403,31 @@ def correlation():
     """Correlation table"""
     lang = 'es'
     table = []
-    langs = ['es', 'en', 'ar', 'de', 'fr', 'nl',
-             'pt', 'ru', 'tr', 'zh']
+    langs = ['es',
+             'en', 'ar', 'de', 'fr', 'nl',
+             'pt', 'ru', 'tr', 'zh'
+            ]
     for lang in langs:
         test_values = hprob_test(lang)
         prior_train = sorted([(k, v) for k, v in prior_test(lang).items()
                               if k in test_values], key=lambda x: x[0])
         row = {}
         for func, name, origin in zip([hprob_test,
+                                       prob_hprob_test,
                                        orig_dist_hprob_test,
-                                       bias_hprob_test],
-                                      ['Test set', 'Test set', 'Test set'],
-                                      ['DialectId',
+                                       bias_hprob_test,
+                                       pos_hprob_test,
+                                       one_hprob_test,
+                                       mixed_hprob_test],
+                                      ['Test set', 'Test set', 'Test set',
+                                       'Test set', 'Test set',
+                                       'Test set', 'Test set'],
+                                      ['DialectId', 'DialectId (prob)',
                                        'DialectId (Orig. Dist.)',
-                                       'DialectId (Bias)']):
+                                       'DialectId (Bias)',
+                                       'DialectId (Pos.)',
+                                       'DialectId (One)',
+                                       'DialectId (Mixed)']):
             _info = func(lang)
             if _info is None:
                 continue
@@ -374,8 +435,11 @@ def correlation():
                             [_info.get(k, 0) for k, _ in prior_train])
             row[origin] = corr.statistic
         table.append(row)
-    df = pd.DataFrame(table, index=langs)
-    return df
+    df = pd.DataFrame(table, index=['Spanish', 'English', 'Arabic',
+                                    'German', 'French', 'Dutch',
+                                    'Portuguese', 'Russian', 'Turkish',
+                                    'Chinese'])
+    return df.T
 
 
 def performance_length():
@@ -394,6 +458,86 @@ def performance_length():
         table.append(row)
     df = pd.DataFrame(table, index=langs)
     return df
+
+
+def correlation_positive(lang):
+    output_fname = f'data/{lang}-correlation.json'
+    if isfile(output_fname):
+        return next(tweet_iterator(output_fname))
+    prior = prior_test(lang)
+    fname = f'dialectid-datasets/predictions/positive-{lang}/DialectId[19].json.gz'
+    hys = next(tweet_iterator(fname))
+    detect = DialectId(lang=lang)
+    data = []
+    for cnt in range(1, len(detect.countries)+1):
+        freq = Counter()
+        _ = [hy_k[0] for hy_k in hys if len(hy_k) and hy_k[1] <= cnt and hy_k[-1]]
+        freq.update(_)
+        tot = sum(freq.values())
+        cntrs = list(prior.keys())
+        corr = pearsonr([prior[cntr] for cntr in cntrs],
+                        [freq[cntr] / tot for cntr in cntrs])
+        data.append(float(corr.statistic))
+    with open(output_fname, 'w') as fpt:
+        fpt.write(json.dumps(data))    
+    return data
+
+
+def precision_positive(lang):
+    def country(data):
+        lst = sorted(data.items(), key=lambda x: x[1])
+        if len(lst):
+            return lst[-1][0]
+        return ''
+
+    def filter(pr, k):
+        max_zero = {a: b for a, b in pr.items() if b >= 0}
+        max_one = {a: b for a, b in max_zero.items() if b >= 1}
+        if len(max_one) and len(max_one) <= k:
+            return max_one
+        if len(max_zero) and len(max_zero) <= k:
+            return max_zero
+        return {}
+
+    output_fname = f'data/{lang}-precision.json'
+    if isfile(output_fname):
+        return next(tweet_iterator(output_fname))
+    D = list(tweet_iterator(f'dialectid-datasets/datasets/dialectid_{lang.capitalize()}_test.json.gz'))        
+    detect = DialectId(lang=lang)
+    hy = detect.positive(D)
+    data = []
+    for cnt in range(1, len(detect.countries)+1):
+        prec = defaultdict(list)
+        for y, _hy in zip(D, [filter(x, k=cnt) for x in hy]):
+            if len(_hy) == 0:
+                continue
+            prec[y['klass']].append(y['klass'] == country(_hy))
+        _ = np.mean([np.mean(x) for x in prec.values()])
+        data.append(dict(size=sum([len(x) for x in prec.values()]) / len(D),
+                         precision=_))
+    with open(output_fname, 'w') as fpt:
+        fpt.write(json.dumps(data))
+    return data
+
+
+def positive_plot(lang):
+    color=sns.color_palette()
+    data = precision_positive(lang)[:21]
+    num_pos = np.arange(1, len(data) + 1)
+    fig = sns.lineplot(x=num_pos,
+                    y=[x['precision'] for x in data],
+                    color=color[0], marker='1')
+    fig.set_xticks(num_pos, [f'{i+1} ({v["size"]:0.2f})' for i, v in enumerate(data)])
+    fig.tick_params(axis='x', rotation=45)
+    ax2 = fig.twinx()
+    sns.lineplot(x=num_pos,
+                 y=correlation_positive(lang)[:21],
+                 ax=ax2, color=color[1], marker='1')    
+    ax2.set_ylabel('Pearson correlation',
+                   color=color[1])
+    fig.set_ylabel('Macro-precision', color=color[0])
+    fig.set_xlabel('Top positive (Percentage of the dataset predicted)')
+    return fig
 ```
 
 # Introduction
@@ -836,31 +980,41 @@ f_grid = sns.catplot(df, x='macro-recall', y='Algorithm', col_wrap=3,
 :::
 
 
-::: {.card title='Macro-recall (Orig. Dist.)' .flow}
+::: {.card title='Macro-precision (Orig. Dist.)' .flow}
 ```{python}
 #| echo: false
 #| tbl-cap: Performance of the different algorithms and languages on the original distribution.
-#| label: tbl-macro-recall-orig-dist
+#| label: tbl-macro-precision
 
 if not isfile('perf/orig_dist.json'):    
     df = pd.DataFrame()
-    order = [x for x in ORDER if '262k' not in x]
+    order = ['DialectId[19]', 'DialectId[19] (prob)',
+             'DialectId[19] (Orig. Dist.)', 'DialectId[19] (Bias)']
     todos = []
     index = []
     for lang in ['es', 'en', 'ar',
-                'de', 'fr', 'nl',
-                'pt', 'ru', 'tr',
-                'zh']:
+                 'de', 'fr', 'nl',
+                 'pt', 'ru', 'tr',
+                 'zh']:
         pred_dirname = f'dialectid-datasets/predictions/dist-{lang}'
         gold = np.array(next(tweet_iterator(join(pred_dirname, 'y.json.gz')))['y'])
         row = {}
         for alg in order:
             fname_pred = join(pred_dirname, f'{alg}.json.gz')
             data = next(tweet_iterator(fname_pred))
-            key = basename(fname_pred).split('.json')[0]
-            if key == 'y':
-                continue
-            row[key] = recall_score(gold, np.array(data), average='macro')
+            row[alg] = f'{precision_score(gold, np.array(data), average='macro'):0.3f} (1.0)'
+        pred_dirname = f'dialectid-datasets/predictions/positive-{lang}'
+        for alg in ['DialectId[19] (Pos.)',
+                    'DialectId[19] (One)',
+                    'DialectId[19] (Mixed)']:
+            fname_pred = join(pred_dirname, f'{alg}.json.gz')
+            data = next(tweet_iterator(fname_pred))
+            prec = defaultdict(list) 
+            for y, hy in zip(gold, data):
+                if len(hy) and hy[-1] == 1:
+                    prec[y].append(y == hy[0])
+            prop = sum(map(len,prec.values())) / gold.shape[0]
+            row[alg] = f'{np.mean([np.mean(x) for x in prec.values()]):0.3f} ({prop:0.2f})'
         todos.append(row)
         index.append(lang)
     df = pd.DataFrame(todos, index=['Spanish', 'English', 'Arabic',
@@ -976,7 +1130,7 @@ dist_lang('zh')
 ## Column 
 
 ::: {.card title='Performance'}
-The performance, using macro-recall, of `DialectId` with different parameters and `StackBoW` (@GRAFF2025100154, @EvoMSA), used as baseline, is presented in @tbl-macro-recall and @tbl-macro-recall-orig-dist. @tbl-macro-recall shows the performance on the test set that has at most 2048 in all countries, and @tbl-macro-recall-orig-dist presents the performance on the test set that follows the original distribution across countries. 
+The performance, using macro-recall, of `DialectId` with different parameters and `StackBoW` (@GRAFF2025100154, @EvoMSA), used as baseline, is presented in @tbl-macro-recall and @tbl-macro-precision. @tbl-macro-recall shows the performance on the test set that has at most 2048 in all countries, and @tbl-macro-precision presents the performance on the test set that follows the original distribution across countries. 
 
 The notation used is as follows: the number in brackets indicates the vocabulary size, the systems with the number 626k in parentheses show the performance of the systems trained with the small training set. The system identified with the label **Orig. Dist.** indicates that it is trained on the training set that follows the original distribution; the rest of the systems are trained with the training set that has a uniform distribution across countries.
 
