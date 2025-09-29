@@ -56,6 +56,7 @@ class DialectId(EncExpT):
     with_intercept: bool=True
     probability: bool=False
     uniform_distribution: bool=True
+    max_pos: int=False
 
     def identifier_filter(self, key, value):
         """Test default parameters"""
