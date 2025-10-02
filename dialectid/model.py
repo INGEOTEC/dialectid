@@ -51,12 +51,12 @@ class BoW(TextModel):
 @dataclass
 class DialectId(EncExpT):
     """DialectId"""
-    token_max_filter: int=int(2**19)
+    token_max_filter: int=2**19
     del_diac: bool=True
     with_intercept: bool=True
     probability: bool=False
     uniform_distribution: bool=True
-    max_pos: int=False
+    max_pos: int=2**19
 
     def identifier_filter(self, key, value):
         """Test default parameters"""

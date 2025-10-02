@@ -70,7 +70,7 @@ def test_DialectId_predict_2cl():
 
 def test_DialectId_download():
     """Test DialectId download"""
-    dialectid = DialectId(lang='es', token_max_filter=2**17)
+    dialectid = DialectId(lang='es')
     dialectid.weights
     assert len(dialectid.names) == 21
 
@@ -92,8 +92,8 @@ def test_DialectId_probability():
     _ = enc._lr.predict_proba(X)
     assert_almost_equal(_, hy)
     enc2 = DialectId(lang='es',
-                    pretrained=False,
-                    probability=True)
+                     pretrained=False,
+                     probability=True)
     enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
     assert_almost_equal(enc._lr[1].coef_.T, enc2.proba_coefs[0])
     assert_almost_equal(enc._lr[1].intercept_, enc2.proba_coefs[1])
@@ -121,8 +121,8 @@ def test_DialectId_probability_2cl():
     assert_almost_equal(_, hy)    
     assert_almost_equal(hy[0].sum(), 1)
     enc2 = DialectId(lang='es',
-                    pretrained=False,
-                    probability=True)
+                     pretrained=False,
+                     probability=True)
     enc2.set_weights(tweet_iterator('tailored_intercept2.json.gz'))
     assert_almost_equal(enc._lr[1].coef_[0], enc2.proba_coefs[0])
     assert_almost_equal(enc._lr[1].intercept_, enc2.proba_coefs[1])
