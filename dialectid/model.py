@@ -176,10 +176,12 @@ class DialectId(EncExpT):
                  tsv_filename: str=None, min_pos: int=32,
                  max_pos: int=int(2**21), n_jobs: int=-1,
                  self_supervised: bool=False, ds: object=None,
-                 train: object=None, Dprob: list=None):
+                 train: object=None, min_neg: int=int(2**14),
+                 Dprob: list=None):
         kwargs = dict(filename=filename, tsv_filename=tsv_filename,
-                      min_pos=min_pos, max_pos=max_pos, n_jobs=n_jobs,
-                      self_supervised=self_supervised, ds=ds, train=train)
+                      min_pos=min_pos, max_pos=max_pos, min_neg=min_neg,
+                      n_jobs=n_jobs, self_supervised=self_supervised,
+                      ds=ds, train=train)
         if filename is not None:
             filename = filename.split('.json.gz')[0]
         else:
