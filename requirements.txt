@@ -1,0 +1,10 @@
+pytest
+numpy
+scikit-learn
+seaborn
+pandas
+jupyter
+pyyaml
+microtc
+CompStats
+encexp
